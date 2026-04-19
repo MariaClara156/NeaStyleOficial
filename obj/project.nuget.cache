@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pphEH5z0CGM=",
+  "dgSpecHash": "Snfzphz1JnU=",
   "success": true,
-  "projectFilePath": "C:\\c#\\pim\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj",
+  "projectFilePath": "C:\\c#\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maria\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\maria\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",

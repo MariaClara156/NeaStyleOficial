@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\c#\\pim\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj": {}
+    "C:\\c#\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj": {}
   },
   "projects": {
-    "C:\\c#\\pim\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj": {
+    "C:\\c#\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\c#\\pim\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj",
+        "projectUniqueName": "C:\\c#\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj",
         "projectName": "NeaStyleOficial",
-        "projectPath": "C:\\c#\\pim\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj",
+        "projectPath": "C:\\c#\\NeaStyleOficial\\NeaStyleOficial\\NeaStyleOficial.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\c#\\pim\\NeaStyleOficial\\NeaStyleOficial\\obj\\",
+        "outputPath": "C:\\c#\\NeaStyleOficial\\NeaStyleOficial\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

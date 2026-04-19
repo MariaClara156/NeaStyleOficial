@@ -8,10 +8,10 @@ namespace NeaStyleOficial.Repositories
 {
     public class PedidoRepository
     {
+        private readonly NeaStyleContext context;
         // CREATE - adiciona novo pedido no banco
         public void Criar(Pedido pedido)
         {
-            using (var context = new NeaStyleContext())
             {
                 context.Pedidos.Add(pedido);
                 context.SaveChanges(); // confirma a operação no banco
@@ -21,7 +21,6 @@ namespace NeaStyleOficial.Repositories
         // READ - busca todos os pedidos ja feitos
         public List<Pedido> BuscarTodos()
         {
-            using (var context = new NeaStyleContext())
             {
                 return context.Pedidos.ToList();
             }
@@ -30,23 +29,20 @@ namespace NeaStyleOficial.Repositories
         // READ - busca pedido por ID
         public Pedido BuscarPorId(long id)
         {
-            using (var context = new NeaStyleContext())
             {
                 return context.Pedidos.Find(id);
             }
         }
 
-        public List<Pedido> BuscarPorClienteID(long ClienteID)
+        public List<Pedido> BuscarPorClienteID(long clienteId)
         {
-            using (var context = new NeaStyleContext())
             {
-                return context.Pedidos.Where(p => p.ClienteID == ClienteID).ToList();
+                return context.Pedidos.Where(p => p.ClienteId == clienteId).ToList();
             }
         }
 
         public void AtualizarStatusPedido(long pedidoId, StatusPedido novoStatus)
         {
-            using (var context = new NeaStyleContext())
             {
                 var pedido = context.Pedidos.Find(pedidoId); // minúsculo!
                 if (pedido != null)
@@ -59,7 +55,6 @@ namespace NeaStyleOficial.Repositories
 
         public void CancelarPedido(long pedidoId)
         {
-            using (var context = new NeaStyleContext())
             {
                 var pedido = context.Pedidos.Find(pedidoId); 
                 if (pedido != null)

@@ -5,7 +5,7 @@ namespace NeaStyleOficial.Models.Catalog
 {
     public class Produto
     {
-        public long ProdutoID { get; set; }
+        public long ProdutoId { get; set; }
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public decimal PrecoCusto { get; set; }

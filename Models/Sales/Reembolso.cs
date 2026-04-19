@@ -6,8 +6,8 @@ namespace NeaStyleOficial.Models.Sales
 {
     public class Reembolso
     {
-        public long ReembolsoID { get; set; }
-        public long PedidoID { get; set; }
+        public long ReembolsoId { get; set; }
+        public long PedidoId { get; set; }
         public Pedido Pedido { get; set; }
         public string Motivo { get; set; }
         public DateTime DataSolicitacao { get; set; }
@@ -15,9 +15,9 @@ namespace NeaStyleOficial.Models.Sales
         public StatusReembolso Status { get; set; }
 
         public Reembolso() { }
-        public Reembolso(long pedidoID, string motivo, DateTime dataSolicitacao, decimal valorReembolso, StatusReembolso status)
+        public Reembolso(long pedidoId, string motivo, DateTime dataSolicitacao, decimal valorReembolso, StatusReembolso status)
         {
-            PedidoID = pedidoID;
+            PedidoId = pedidoId;
             Motivo = motivo;
             DataSolicitacao = dataSolicitacao;
             ValorReembolso = valorReembolso;

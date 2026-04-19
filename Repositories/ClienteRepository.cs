@@ -6,10 +6,10 @@ namespace NeaStyleOficial.Repositories
 {
     public class ClienteRepository
     {
+        private readonly NeaStyleContext context;
         // CREATE - adiciona novo cliente no banco
         public void Criar(Cliente cliente)
         {
-            using (var context = new NeaStyleContext())
             {
                 context.Clientes.Add(cliente);
                 context.SaveChanges(); // confirma a operação no banco
@@ -19,7 +19,6 @@ namespace NeaStyleOficial.Repositories
         // READ - busca todos os clientes
         public List<Cliente> BuscarTodos()
         {
-            using (var context = new NeaStyleContext())
             {
                 return context.Clientes.ToList();
             }
@@ -28,7 +27,6 @@ namespace NeaStyleOficial.Repositories
         // READ - busca cliente por ID
         public Cliente BuscarPorId(long id)
         {
-            using (var context = new NeaStyleContext())
             {
                 return context.Clientes.Find(id);
             }
@@ -37,7 +35,6 @@ namespace NeaStyleOficial.Repositories
         // UPDATE - atualiza dados do cliente
         public void Atualizar(Cliente cliente)
         {
-            using (var context = new NeaStyleContext())
             {
                 context.Clientes.Update(cliente);
                 context.SaveChanges();
@@ -47,7 +44,6 @@ namespace NeaStyleOficial.Repositories
         // DELETE - remove cliente do banco
         public void Deletar(long id)
         {
-            using (var context = new NeaStyleContext())
             {
                 // Primeiro busca o cliente, depois remove
                 var cliente = context.Clientes.Find(id);

@@ -5,10 +5,10 @@ namespace NeaStyleOficial.Repositories
 {
     public class ProdutoRepository
     {
+        private readonly NeaStyleContext context;
         // CREATE
         public void Criar(Produto produto)
         {
-            using (var context = new NeaStyleContext())
             {
                 context.Produtos.Add(produto);
                 context.SaveChanges();
@@ -18,7 +18,6 @@ namespace NeaStyleOficial.Repositories
         // READ - busca todos
         public List<Produto> BuscarTodos()
         {
-            using (var context = new NeaStyleContext())
             {
                 return context.Produtos.ToList();
             }
@@ -27,7 +26,6 @@ namespace NeaStyleOficial.Repositories
         // READ - busca por categoria
         public List<Produto> BuscarPorCategoria(Produto.CategoriaProduto categoria)
         {
-            using (var context = new NeaStyleContext())
             {
                 // Filtra os produtos pela categoria (Masculino, Feminino, Infantil)
                 return context.Produtos
@@ -38,7 +36,6 @@ namespace NeaStyleOficial.Repositories
 
         public Produto BuscarPorId(long id)
         {
-            using (var context = new NeaStyleContext())
             {
                 return context.Produtos.Find(id);
             }
@@ -47,7 +44,6 @@ namespace NeaStyleOficial.Repositories
         // UPDATE
         public void Atualizar(Produto produto)
         {
-            using (var context = new NeaStyleContext())
             {
                 context.Produtos.Update(produto);
                 context.SaveChanges();
@@ -57,7 +53,6 @@ namespace NeaStyleOficial.Repositories
         // DELETE
         public void Deletar(long id)
         {
-            using (var context = new NeaStyleContext())
             {
                 var produto = context.Produtos.Find(id);
                 if (produto != null)

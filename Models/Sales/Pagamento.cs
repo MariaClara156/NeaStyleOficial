@@ -6,19 +6,17 @@ namespace NeaStyleOficial.Models.Sales
 {
     public class Pagamento
     {
-        public long PagamentoID { get; set; }   
-        public long PedidoID { get; set; }
+        public long PagamentoId { get; set; }   
+        public long PedidoId { get; set; }
         public Pedido Pedido { get; set; }
         public MetodoPagamento MetodoPagamento { get; set; }
         public StatusPagamento StatusPagamento { get; set; }
-        public MetodoPagamento Metodo { get; set; }
-        public StatusPagamento Status { get; set; }
         public decimal ValorPago { get; set; }
 
         public Pagamento() { }
-        public Pagamento(long pedidoID, MetodoPagamento metodoPagamento, StatusPagamento statusPagamento, decimal valorPago)
+        public Pagamento(long pedidoId, MetodoPagamento metodoPagamento, StatusPagamento statusPagamento, decimal valorPago)
         {
-            PedidoID = pedidoID;
+            PedidoId = pedidoId;
             MetodoPagamento = metodoPagamento;
             StatusPagamento = statusPagamento;
             ValorPago = valorPago;

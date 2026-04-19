@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NeaStyleOficial")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be5bf288eb70d6328f31e0808b9dd0c13396ef0f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff88b647617b23a5f3810e3b589a3c547ee86847")]
 [assembly: System.Reflection.AssemblyProductAttribute("NeaStyleOficial")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NeaStyleOficial")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

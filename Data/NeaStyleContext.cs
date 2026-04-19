@@ -21,6 +21,7 @@ namespace NeaStyleOficial.Data
         //Uma tabela para carrinho de compras e favoritos, usando TPC pra herança
         public DbSet<Carrinho> Carrinhos { get; set; }
         public DbSet<Favorito> Favoritos { get; set; }
+        
 
         public DbSet<ItemConjunto> ItensConjunto { get; set; }
         //Uma tabela pra pagamentos
@@ -53,7 +54,7 @@ namespace NeaStyleOficial.Data
             modelBuilder.Entity<ItemConjunto>()
                 .HasOne(i => i.Produto)
                 .WithMany()
-                .HasForeignKey(i => i.ProdutoID);
+                .HasForeignKey(i => i.ProdutoId);
 
             // Relacionamento ItemConjunto → ConjuntoProduto
             modelBuilder.Entity<ItemConjunto>()

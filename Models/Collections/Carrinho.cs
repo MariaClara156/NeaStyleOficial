@@ -8,7 +8,7 @@ namespace NeaStyleOficial.Models.Collections
         public bool Finalizado { get; set; } // Para saber se virou pedido
         
         public Carrinho() { }
-        public Carrinho(long clienteID) : base(clienteID)
+        public Carrinho(long clienteId) : base(clienteId)
         {
             
         }

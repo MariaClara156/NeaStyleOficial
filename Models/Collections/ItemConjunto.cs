@@ -5,7 +5,7 @@ namespace NeaStyleOficial.Models.Collections
     public class ItemConjunto
     {
         public long ItemConjuntoId { get; set; }
-        public long ProdutoID { get; set; }
+        public long ProdutoId { get; set; }
         public Produto Produto { get; set; }  // ← Relacionamento com Produto
         public int Quantidade { get; set; }
         

@@ -2,7 +2,7 @@
 {
     public abstract class Usuario
     {
-        public long UsuarioID { get; set; }
+        public long UsuarioId { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }

@@ -7,7 +7,7 @@ namespace NeaStyleOficial.Models.Collections
     {
         
         public Favorito() { }
-        public Favorito(long clienteID) : base(clienteID)
+        public Favorito(long clienteId) : base(clienteId)
         {
             
         }

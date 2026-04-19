@@ -1,5 +1,6 @@
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Users;
+using NeaStyleOficial.Models.Collections;
 
 namespace NeaStyleOficial.Models.Collections
 {
@@ -13,9 +14,9 @@ namespace NeaStyleOficial.Models.Collections
         public List<ItemConjunto> Itens { get; set; } = new();
         
         public ConjuntoProduto() { }
-        public ConjuntoProduto(long clienteID)
+        public ConjuntoProduto(long clienteId)
         {
-            ClienteId = clienteID;
+            ClienteId = clienteId;
         }
     }
 }

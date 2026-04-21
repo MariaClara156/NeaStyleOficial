@@ -10,7 +10,14 @@ namespace NeaStyleOficial.Models.Collections
         public int Quantidade { get; set; }
         
         // Chave estrangeira para Carrinho ou Favorito
-        public long ConjuntoId { get; set; }
+        public long ConjuntoProdutoId { get; set; }
         public ConjuntoProduto Conjunto { get; set; }  // ← Relacionamento com ConjuntoProduto  
+
+        public ItemConjunto() { }
+        public ItemConjunto(long produtoId, int quantidade)
+        {
+            ProdutoId = produtoId;
+            Quantidade = quantidade;
+        }
     }
 }

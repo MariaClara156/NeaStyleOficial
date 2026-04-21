@@ -1,5 +1,4 @@
 using NeaStyleOficial.Models.Sales;
-using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Data;
 
 namespace NeaStyleOficial.Repositories
@@ -30,10 +29,17 @@ namespace NeaStyleOficial.Repositories
         }
 
         // READ - busca reembolso por pedido Id
-        public Reembolso BuscarPorPedidoId(long pedidoId)
+        public Reembolso BuscarPorId(long PedidoId)
         {
             
-                return _context.Reembolsos.FirstOrDefault(r => r.PedidoId == pedidoId);
+                return _context.Reembolsos.FirstOrDefault(r => r.PedidoId == PedidoId);   
+        }
+
+        public void Atualizar(Reembolso reembolso)
+        {
+            
+                _context.Reembolsos.Update(reembolso);
+                _context.SaveChanges();
             
         }
     }

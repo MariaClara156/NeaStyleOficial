@@ -6,7 +6,12 @@ namespace NeaStyleOficial.Services
 {
     public class ProdutoService
     {
-        private ProdutoRepository _repo = new ProdutoRepository();
+        private readonly ProdutoRepository _repo;
+
+        public ProdutoService(ProdutoRepository repo)
+        {
+            _repo = repo;
+        }
 
         public void CadastrarProduto(Produto produto)
         {
@@ -19,22 +24,19 @@ namespace NeaStyleOficial.Services
 
         public List<Produto> BuscarTodos() => _repo.BuscarTodos();
 
-        public List<Produto> BuscarPorCategoria(Produto.CategoriaProduto categoria)
-            => _repo.BuscarPorCategoria(categoria);
+        public List<Produto> BuscarPorCategoria(CategoriaProduto categoria)=> _repo.BuscarPorCategoria(categoria);
 
-        public Produto BuscarPorId(long id) 
+        public Produto BuscarPorId(long ProdutoId) 
         {
-            using (var context = new NeaStyleContext())
-            {
-                var produto = context.Produtos.Find(id);
-                if (produto == null)
-                    throw new Exception("Produto não encontrado!");
-                return produto;
-            }
+            var produto = _repo.BuscarPorId(ProdutoId);
+            if (produto == null)
+                throw new Exception("Produto não encontrado!");
+            return produto;
+            
         }
 
         public void Atualizar(Produto produto) => _repo.Atualizar(produto);
 
-        public void Deletar(long id) => _repo.Deletar(id);
+        public void Deletar(long ProdutoId) => _repo.Deletar(ProdutoId);
     }
 }

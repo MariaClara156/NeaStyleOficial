@@ -8,47 +8,47 @@ namespace NeaStyleOficial.Repositories
 {
     public class PedidoRepository
     {
-        private readonly NeaStyleContext context;
+        private readonly NeaStyleContext _context;
+        
+        public PedidoRepository(NeaStyleContext context)
+        {
+            _context = context;
+        }
+
         // CREATE - adiciona novo pedido no banco
         public void Criar(Pedido pedido)
         {
-            {
-                context.Pedidos.Add(pedido);
-                context.SaveChanges(); // confirma a operação no banco
-            }
+                _context.Pedidos.Add(pedido);
+                _context.SaveChanges();
         }
 
         // READ - busca todos os pedidos ja feitos
         public List<Pedido> BuscarTodos()
         {
-            {
-                return context.Pedidos.ToList();
-            }
+                return _context.Pedidos.ToList();
         }
 
         // READ - busca pedido por ID
-        public Pedido BuscarPorId(long id)
+        public Pedido BuscarPorId(long pedidoId)
+        {
+                return _context.Pedidos.Find(pedidoId);
+        }
+
+        public List<Pedido> BuscarPorClienteId(long clienteId)
         {
             {
-                return context.Pedidos.Find(id);
+                return _context.Pedidos.Where(p => p.ClienteId == clienteId).ToList();
             }
         }
 
-        public List<Pedido> BuscarPorClienteID(long clienteId)
+        public void Atualizar(long pedidoId, StatusPedido novoStatus)
         {
             {
-                return context.Pedidos.Where(p => p.ClienteId == clienteId).ToList();
-            }
-        }
-
-        public void AtualizarStatusPedido(long pedidoId, StatusPedido novoStatus)
-        {
-            {
-                var pedido = context.Pedidos.Find(pedidoId); // minúsculo!
+                var pedido = _context.Pedidos.Find(pedidoId); // minúsculo!
                 if (pedido != null)
                 {
                     pedido.Status = novoStatus;
-                    context.SaveChanges();
+                    _context.SaveChanges();
                 }
             }
         }
@@ -56,11 +56,11 @@ namespace NeaStyleOficial.Repositories
         public void CancelarPedido(long pedidoId)
         {
             {
-                var pedido = context.Pedidos.Find(pedidoId); 
+                var pedido = _context.Pedidos.Find(pedidoId); 
                 if (pedido != null)
                 {
                     pedido.Status = StatusPedido.Cancelado;
-                    context.SaveChanges();
+                    _context.SaveChanges();
                 }
             }
         }

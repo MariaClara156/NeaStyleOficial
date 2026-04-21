@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NeaStyleOficial.Data;
-using NeaStyleOficial.Models.Collections; // Verifique se a pasta é esta mesma
+using NeaStyleOficial.Models.Collections;
 
 namespace NeaStyleOficial.Repositories
 {
@@ -20,7 +20,7 @@ namespace NeaStyleOficial.Repositories
             _context.SaveChanges();
         }
 
-        public Favorito BuscarPorClienteId(int clienteId)
+        public Favorito BuscarPorClienteId(long clienteId)
         {
             return _context.Favoritos
                 .Include(f => f.Itens)
@@ -28,7 +28,7 @@ namespace NeaStyleOficial.Repositories
                 .FirstOrDefault(f => f.ClienteId == clienteId);
         }
 
-        public void RemoverItem(int favoritoId, int produtoId)
+        public void RemoverItem(long favoritoId, long produtoId)
         {
             // Buscamos o conjunto de favoritos
             var favorito = _context.Favoritos
@@ -46,6 +46,12 @@ namespace NeaStyleOficial.Repositories
                     _context.SaveChanges();
                 }
             }
+        }
+
+        public void Atualizar(Favorito favorito)
+        {
+            _context.Favoritos.Update(favorito);
+            _context.SaveChanges();
         }
     }
 }

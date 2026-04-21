@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NeaStyleOficial.Data;
-using NeaStyleOficial.Models.Collections; // Verifique se a pasta é esta mesma
+using NeaStyleOficial.Models.Collections;
 
 namespace NeaStyleOficial.Repositories
 {
@@ -20,15 +20,15 @@ namespace NeaStyleOficial.Repositories
             _context.SaveChanges();
         }
 
-        public Carrinho BuscarPorClienteId(int clienteId)
+        public Carrinho BuscarPorClienteId(long clienteId)
         {
             return _context.Carrinhos
                 .Include(f => f.Itens)
-                    .ThenInclude(i => i.Produto) // Dica: Inclua o produto para ver nome/preço na tela!
+                    .ThenInclude(i => i.Produto)
                 .FirstOrDefault(f => f.ClienteId == clienteId);
         }
 
-        public void FinalizarCompra(int carrinhoId)
+        public void FinalizarCompra(long carrinhoId)
         {
             var carrinho = _context.Carrinhos
                 .Include(f => f.Itens)
@@ -36,9 +36,26 @@ namespace NeaStyleOficial.Repositories
 
             if (carrinho != null)
             {
-                // Aqui você pode implementar a lógica para criar um pedido, processar pagamento, etc.
-                // Depois de finalizar, você pode limpar o carrinho ou marcar como finalizado.
-                carrinho.Finalizado = true; // Supondo que você tenha essa propriedade para marcar o carrinho como finalizado
+                carrinho.Finalizado = true;
+                _context.SaveChanges();
+            }
+        }
+
+        public void Atualizar(Carrinho carrinho)
+        {
+            _context.Carrinhos.Update(carrinho);
+            _context.SaveChanges();
+        }
+
+        public void Limpar(long carrinhoId)
+        {
+            var carrinho = _context.Carrinhos
+                .Include(f => f.Itens)
+                .FirstOrDefault(f => f.ConjuntoProdutoId == carrinhoId);
+
+            if (carrinho != null)
+            {
+                carrinho.Itens.Clear();
                 _context.SaveChanges();
             }
         }

@@ -1,6 +1,5 @@
 ﻿using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Collections;
-using NeaStyleOficial.Models.Users;
 
 namespace NeaStyleOficial.Models.Sales
 {
@@ -9,17 +8,19 @@ namespace NeaStyleOficial.Models.Sales
         public long PagamentoId { get; set; }   
         public long PedidoId { get; set; }
         public Pedido Pedido { get; set; }
+        public decimal ValorPago { get; set; }
+        public int Parcelas { get; set; }
         public MetodoPagamento MetodoPagamento { get; set; }
         public StatusPagamento StatusPagamento { get; set; }
-        public decimal ValorPago { get; set; }
 
         public Pagamento() { }
-        public Pagamento(long pedidoId, MetodoPagamento metodoPagamento, StatusPagamento statusPagamento, decimal valorPago)
+        public Pagamento(long pedidoId, decimal valorPago, int parcelas, MetodoPagamento metodoPagamento, StatusPagamento statusPagamento)
         {
             PedidoId = pedidoId;
+            ValorPago = valorPago;
+            Parcelas = parcelas;
             MetodoPagamento = metodoPagamento;
             StatusPagamento = statusPagamento;
-            ValorPago = valorPago;
         }
     }
 }

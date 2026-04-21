@@ -24,11 +24,11 @@ namespace NeaStyleOficial.Repositories
             }
         }
 
-        // READ - busca cliente por ID
-        public Cliente BuscarPorId(long id)
-        {
+        // READ - busca cliente por ID (herdado de Usuario)
+        public Cliente BuscarPorId(long usuarioId)
+        {   
             {
-                return context.Clientes.Find(id);
+                return context.Clientes.Find(usuarioId);
             }
         }
 
@@ -42,11 +42,11 @@ namespace NeaStyleOficial.Repositories
         }
 
         // DELETE - remove cliente do banco
-        public void Deletar(long id)
+        public void Deletar(long UsuarioId)
         {
             {
                 // Primeiro busca o cliente, depois remove
-                var cliente = context.Clientes.Find(id);
+                var cliente = context.Clientes.Find(UsuarioId);
                 if (cliente != null)
                 {
                     context.Clientes.Remove(cliente);

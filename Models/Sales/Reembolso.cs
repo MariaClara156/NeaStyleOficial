@@ -1,6 +1,5 @@
 ﻿using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Collections;
-using NeaStyleOficial.Models.Users;
 
 namespace NeaStyleOficial.Models.Sales
 {

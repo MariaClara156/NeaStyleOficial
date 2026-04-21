@@ -5,8 +5,12 @@ namespace NeaStyleOficial.Services
 {
     public class ClienteService
     {
-        // Instancia o Repository — Service nunca fala direto com o banco
-        private ClienteRepository _repo = new ClienteRepository();
+        private readonly ClienteRepository _clienteRepo;
+
+        public ClienteService(ClienteRepository repo)
+        {
+            _clienteRepo = repo;
+        }
 
         public void CadastrarCliente(Cliente cliente)
         {
@@ -18,15 +22,15 @@ namespace NeaStyleOficial.Services
             if (cliente.Senha.Length < 6)
                 throw new Exception("Senha deve ter no mínimo 6 caracteres!");
 
-            _repo.Criar(cliente);
+            _clienteRepo.Criar(cliente);
         }
 
-        public List<Cliente> BuscarTodos() => _repo.BuscarTodos();
+        public List<Cliente> BuscarTodos() => _clienteRepo.BuscarTodos();
 
-        public Cliente BuscarPorId(long id) => _repo.BuscarPorId(id);
+        public Cliente BuscarPorId(long UsuarioId) => _clienteRepo.BuscarPorId(UsuarioId);
 
-        public void Atualizar(Cliente cliente) => _repo.Atualizar(cliente);
+        public void Atualizar(Cliente cliente) => _clienteRepo.Atualizar(cliente);
 
-        public void Deletar(long id) => _repo.Deletar(id);
+        public void Deletar(long UsuarioId) => _clienteRepo.Deletar(UsuarioId);
     }
 }

@@ -10,7 +10,7 @@ namespace NeaStyleOficial.Models.Sales
         public long ClienteId { get; set; }
         public Cliente Cliente { get; set; }
         public DateTime DataPedido { get; set; }
-        public decimal ValorTotal { get; set; } // decimal é melhor que double pra dinheiro!
+        public decimal ValorTotal { get; set; }
         public StatusPedido Status { get; set; }
         
         // Lista de itens do pedido

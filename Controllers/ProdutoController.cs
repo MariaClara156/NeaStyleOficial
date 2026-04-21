@@ -6,7 +6,13 @@ namespace NeaStyleOficial.Controllers
 {
     public class ProdutoController : Controller
     {
-        private ProdutoService _service = new ProdutoService();
+        private readonly ProdutoService _service;
+
+        // ASP.NET injeta o service automaticamente
+        public ProdutoController(ProdutoService service)
+        {
+            _service = service;
+        }
 
         public IActionResult Index()
         {
@@ -33,9 +39,9 @@ namespace NeaStyleOficial.Controllers
             }
         }
 
-        public IActionResult Editar(long id)
+        public IActionResult Editar(long ProdutoId)
         {
-            var produto = _service.BuscarPorId(id);
+            var produto = _service.BuscarPorId(ProdutoId);
             return View(produto);
         }
 
@@ -53,9 +59,9 @@ namespace NeaStyleOficial.Controllers
             }
         }
 
-        public IActionResult Deletar(long id)
+        public IActionResult Deletar(long ProdutoId)
         {
-            _service.Deletar(id);
+            _service.Deletar(ProdutoId);
             return RedirectToAction("Index");
         }
     }

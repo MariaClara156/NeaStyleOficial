@@ -60,7 +60,7 @@ namespace NeaStyleOficial.Data
             modelBuilder.Entity<ItemConjunto>()
                 .HasOne(i => i.Conjunto)
                 .WithMany(c => c.Itens)
-                .HasForeignKey(i => i.ConjuntoId);
+                .HasForeignKey(i => i.ConjuntoProdutoId);
             
             modelBuilder.Entity<Produto>().ToTable("Produtos");
             modelBuilder.Entity<Pedido>().ToTable("Pedidos");

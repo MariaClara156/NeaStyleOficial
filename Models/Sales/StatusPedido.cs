@@ -6,6 +6,7 @@ namespace NeaStyleOficial.Models.Sales
         Processando,
         Enviado,
         Entregue,
-        Cancelado
+        Cancelado,
+        Estornado
     }
 }

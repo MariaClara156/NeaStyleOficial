@@ -14,7 +14,5 @@
             Email = email;
             Senha = senha;
         }
-
-        
     }
 }

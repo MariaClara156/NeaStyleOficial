@@ -24,20 +24,20 @@ namespace NeaStyleOficial.Repositories
         }
 
         // READ - busca por categoria
-        public List<Produto> BuscarPorCategoria(Produto.CategoriaProduto categoria)
+        public List<Produto> BuscarPorCategoria(CategoriaProduto categoria)
         {
             {
                 // Filtra os produtos pela categoria (Masculino, Feminino, Infantil)
                 return context.Produtos
-                    .Where(p => p.Categoria == categoria)
+                    .Where(p => p.CategoriaProduto == categoria)
                     .ToList();
             }
         }
 
-        public Produto BuscarPorId(long id)
+        public Produto BuscarPorId(long ProdutoId)
         {
             {
-                return context.Produtos.Find(id);
+                return context.Produtos.Find(ProdutoId);
             }
         }
 
@@ -51,10 +51,10 @@ namespace NeaStyleOficial.Repositories
         }
 
         // DELETE
-        public void Deletar(long id)
+        public void Deletar(long ProdutoId)
         {
             {
-                var produto = context.Produtos.Find(id);
+                var produto = context.Produtos.Find(ProdutoId);
                 if (produto != null)
                 {
                     context.Produtos.Remove(produto);

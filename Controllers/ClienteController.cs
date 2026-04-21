@@ -7,7 +7,13 @@ namespace NeaStyleOficial.Controllers
     public class ClienteController : Controller
     {
         // Controller conversa só com o Service
-        private ClienteService _service = new ClienteService();
+        private readonly ClienteService _service;
+
+        // ASP.NET injeta o service automaticamente
+        public ClienteController(ClienteService service)
+        {
+            _service = service;
+        }
 
         // READ - exibe lista de clientes
         // Rota: /Cliente/Index
@@ -45,9 +51,9 @@ namespace NeaStyleOficial.Controllers
 
         // UPDATE - exibe formulário preenchido pra editar
         // Rota: /Cliente/Editar/1
-        public IActionResult Editar(long id)
+        public IActionResult Editar(long UsuarioId)
         {
-            var cliente = _service.BuscarPorId(id);
+            var cliente = _service.BuscarPorId(UsuarioId);
             return View(cliente);
         }
 
@@ -70,9 +76,9 @@ namespace NeaStyleOficial.Controllers
 
         // DELETE - remove cliente
         // Rota: /Cliente/Deletar/1
-        public IActionResult Deletar(long id)
+        public IActionResult Deletar(long UsuarioId)
         {
-            _service.Deletar(id);
+            _service.Deletar(UsuarioId);
             return RedirectToAction("Index");
         }
     }

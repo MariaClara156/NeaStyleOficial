@@ -5,7 +5,6 @@ namespace NeaStyleOficial.Models.Sales
         Solicitado,
         EmAnalise,
         Aprovado,
-        Recusado,
-        Concluido
+        Recusado
     }
 }

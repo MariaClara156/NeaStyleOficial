@@ -79,5 +79,19 @@ namespace NeaStyleOficial.Services
             // Aqui multiplicamos o preço do produto pela quantidade de cada item
             return carrinho.Itens.Sum(i => i.Produto.Preco * i.Quantidade);
         }
+
+        public List<ItemConjunto> ObterItens(long clienteId)
+        {
+            var carrinho = _carrinhoRepo.BuscarPorClienteId(clienteId);
+            if (carrinho == null) return new List<ItemConjunto>();
+            return carrinho.Itens;
+        }
+        public void LimparCarrinho(long clienteId)
+        {
+            var carrinho = _carrinhoRepo.BuscarPorClienteId(clienteId);
+            if (carrinho == null) throw new Exception("Carrinho não encontrado!");
+            carrinho.Itens.Clear();
+            _carrinhoRepo.Atualizar(carrinho);
+        }
     }
 }

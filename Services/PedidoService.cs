@@ -42,6 +42,10 @@ namespace NeaStyleOficial.Services
             return _pedidoRepo.BuscarPorClienteId(clienteId);
         }
         
+        public List<Pedido> VerTodosPedidos()
+        {
+            return _pedidoRepo.BuscarTodos();
+        }
 
         public Pedido VerDetalhesPedido(long PedidoId)
         {

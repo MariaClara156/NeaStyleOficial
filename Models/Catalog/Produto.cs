@@ -16,6 +16,7 @@ namespace NeaStyleOficial.Models.Catalog
         public List<ItemConjunto> ItensFavorito { get; set; } = new();
         public List<Pedido> Pedidos { get; set; } = new();
 
+        public Produto() { }
         public Produto(string nome, decimal precoCusto,decimal preco,  TamanhoProduto tamanho, CategoriaProduto categoria, TipoProduto tipo)
         {
             Nome = nome;

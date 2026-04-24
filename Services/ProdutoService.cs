@@ -26,9 +26,9 @@ namespace NeaStyleOficial.Services
 
         public List<Produto> BuscarPorCategoria(CategoriaProduto categoria)=> _repo.BuscarPorCategoria(categoria);
 
-        public Produto BuscarPorId(long ProdutoId) 
+        public Produto BuscarPorId(long produtoId) 
         {
-            var produto = _repo.BuscarPorId(ProdutoId);
+            var produto = _repo.BuscarPorId(produtoId);
             if (produto == null)
                 throw new Exception("Produto não encontrado!");
             return produto;

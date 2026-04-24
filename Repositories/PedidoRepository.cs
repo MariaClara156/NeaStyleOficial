@@ -35,34 +35,28 @@ namespace NeaStyleOficial.Repositories
         }
 
         public List<Pedido> BuscarPorClienteId(long clienteId)
-        {
-            {
+        {    
                 return _context.Pedidos.Where(p => p.ClienteId == clienteId).ToList();
-            }
         }
 
         public void Atualizar(long pedidoId, StatusPedido novoStatus)
         {
-            {
                 var pedido = _context.Pedidos.Find(pedidoId); // minúsculo!
                 if (pedido != null)
                 {
                     pedido.Status = novoStatus;
                     _context.SaveChanges();
                 }
-            }
         }
 
         public void CancelarPedido(long pedidoId)
         {
-            {
                 var pedido = _context.Pedidos.Find(pedidoId); 
                 if (pedido != null)
                 {
                     pedido.Status = StatusPedido.Cancelado;
                     _context.SaveChanges();
                 }
-            }
         }
     }
 }

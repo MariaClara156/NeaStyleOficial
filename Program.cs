@@ -14,6 +14,7 @@ builder.Services.AddDbContext<NeaStyleContext>();
 
 // Registra os Repositories
 builder.Services.AddScoped<ClienteRepository>();
+builder.Services.AddScoped<AdministradorRepository>();
 builder.Services.AddScoped<ProdutoRepository>();
 builder.Services.AddScoped<PedidoRepository>();
 builder.Services.AddScoped<CarrinhoRepository>();
@@ -23,6 +24,7 @@ builder.Services.AddScoped<ReembolsoRepository>();
 
 // Registra os Services
 builder.Services.AddScoped<ClienteService>();
+builder.Services.AddScoped<AdministradorService>();
 builder.Services.AddScoped<ProdutoService>();
 builder.Services.AddScoped<PedidoService>();
 builder.Services.AddScoped<CarrinhoService>();
@@ -30,7 +32,7 @@ builder.Services.AddScoped<FavoritoService>();
 builder.Services.AddScoped<PagamentoService>();
 builder.Services.AddScoped<ReembolsoService>();
 
-// resto continua igual...
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -60,7 +62,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Login}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.Run();

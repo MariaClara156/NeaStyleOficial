@@ -13,7 +13,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NeaStyleOficial</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Produto" asp-action="Index">NeaStyleOficial</a>
+                <!-- Botão para colapsar o menu em telas pequenas -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,7 +22,27 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Produto" asp-action="Index">Inicio</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Produtos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-controller="Produto" asp-action="Index">Todos os Produtos</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Produto" asp-action="Masculino">Masculino</a></li>
+                                <li><a class="dropdown-item" asp-controller="Produto" asp-action="Feminino">Feminino</a></li>
+                                <li><a class="dropdown-item" asp-controller="Produto" asp-action="Infantil">Infantil</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Carrinho" asp-action="Index">Carrinho</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedido" asp-action="Index">Pedidos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -37,11 +58,51 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - NeaStyleOficial - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<footer class="border-top footer text-muted">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <h6>Sobre</h6>
+            <p class="text-justify">
+                NeaStyle é uma marca de moda que se dedica a oferecer roupas e acessórios de alta qualidade para homens, mulheres e crianças. Com um compromisso com a sustentabilidade e o estilo, a NeaStyle busca inspirar seus clientes a expressarem sua individualidade através da moda, promovendo a confiança e a autenticidade em cada peça que criamos.
+            </p>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <h6>Quick Links</h6>
+            <ul class="footer-links">
+              <li><a href="index.htmlcs">Inicio</a></li>
+              <li><a href="todosProdutos.htmlcs">Mais Vendidos</a></li>
+              <li><a href="inspiracaof.htmlcs">Produtos Femininos</a></li>
+              <li><a href="inspiracaom.htmlcs">Produtos Masculino</a></li>
+              <li><a href="inspiracaoi.htmlcs">Produtos Infantil</a></li>
+              <li><a href="carrinho.htmlcs">Carrinho</a></li>
+              <li><a href="contato.htmlcs">Contato</a></li>
+            </ul>
+          </div>
         </div>
-    </footer>
+        <hr>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-6 col-12">
+            <p class="copyright-text">Copyright &copy; 2026 All Rights Reserved by 
+         <a href="#">NeaStyle</a>.
+            </p>
+          </div>
+
+          <div class="col-md-4 col-6 col-12">
+            <ul class="social-icons">
+
+              <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></i></a></li>
+              <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
+              <li><a class="github" href="https://github.com/MariaClara156"><i class="fab fa-github"></i></a></li>
+              <li><a class="linkedin" href="https://www.linkedin.com/in/maria-clara-torres-de-ara%C3%BAjo-370546315/"><i class="fab fa-linkedin-in"></i></a></li>   
+            </ul>
+          </div>
+        </div>
+      </div>
+</footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

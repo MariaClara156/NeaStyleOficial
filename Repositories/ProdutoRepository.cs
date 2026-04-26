@@ -18,9 +18,7 @@ namespace NeaStyleOficial.Repositories
         // READ - busca todos
         public List<Produto> BuscarTodos()
         {
-            {
                 return context.Produtos.ToList();
-            }
         }
 
         // READ - busca por categoria

@@ -9,6 +9,8 @@ namespace NeaStyleOficial.Models.Users
         public string Endereco { get; set; }
         public string Telefone { get; set; }
         public DateTime DataNascimento { get; set; }
+        public string CPF { get; set; }
+        public string FotoUrl { get; set; }
         public List<Carrinho> Carrinhos { get; set; } = new();
         public List<Favorito> Favoritos { get; set; } = new();
         public List<Pedido> Pedidos { get; set; } = new();

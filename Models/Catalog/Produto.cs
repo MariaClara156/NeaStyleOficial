@@ -9,6 +9,7 @@ namespace NeaStyleOficial.Models.Catalog
         public string Nome { get; set; }
         public decimal PrecoCusto { get; set; }
         public decimal Preco { get; set; }
+        public string ImagemUrl { get; set; }
         public TamanhoProduto TamanhoProduto { get; set; }
         public CategoriaProduto CategoriaProduto { get; set; }
         public TipoProduto TipoProduto { get; set; }

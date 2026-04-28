@@ -1,0 +1,69 @@
+@model List<NeaStyleOficial.Models.Catalog.Produto>
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<!-- Navbar simples -->
+<nav class="navbar navbar-dark bg-dark px-4">
+    <a class="navbar-brand" href="/">NeaStyle</a>
+    <div>
+        <a href="/Produto/Index" class="text-white me-3">Todos</a>
+        <a href="/Produto/Masculino" class="text-white me-3">Masculino</a>
+        <a href="/Produto/Feminino" class="text-white me-3">Feminino</a>
+        <a href="/Carrinho/Index" class="text-white me-3">Carrinho</a>
+        <a href="/Login/Index" class="text-white">Entrar</a>
+    </div>
+</nav>
+
+<!-- Busca -->
+<div class="container mt-4">
+    <form method="get" action="/Produto/Index">
+        <div class="input-group mb-4">
+            <input type="text" name="busca" class="form-control" placeholder="Buscar produto..." />
+            <button class="btn btn-dark" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <!-- Aqui começa o grid -->
+    <div class="row">
+
+        @* Foreach dentro do grid — cada produto vira uma coluna *@
+        @foreach (var produto in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    
+                    @* Imagem do produto *@
+                    <img src="@produto.ImagemUrl" 
+                         class="card-img-top" 
+                         style="height: 250px; object-fit: cover;"
+                         onerror="this.src='/images/sem-imagem.png'" />
+                    
+                    <div class="card-body d-flex flex-column">
+                        
+                        @* Nome e preço *@
+                        <h5 class="card-title">@produto.Nome</h5>
+                        <p class="text-muted">@produto.Tipo — @produto.Tamanho</p>
+                        <p class="fw-bold">R$ @produto.Preco.ToString("F2")</p>
+
+                        @* Botão no final do card *@
+                        <a href="/Carrinho/Adicionar/@produto.ProdutoId" 
+                           class="btn btn-dark mt-auto">
+                            Adicionar ao Carrinho
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @* Se não tiver produtos *@
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">Nenhum produto encontrado.</p>
+            </div>
+        }
+
+    </div>
+</div>

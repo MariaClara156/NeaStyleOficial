@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NeaStyleOficial.Data;
+﻿using NeaStyleOficial.Data;
 using NeaStyleOficial.Models.Users;
 
 namespace NeaStyleOficial.Repositories
@@ -16,26 +15,20 @@ namespace NeaStyleOficial.Repositories
         // CREATE - adiciona novo cliente no banco
         public void Criar(Cliente cliente)
         {
-            {
                 _context.Clientes.Add(cliente);
                 _context.SaveChanges(); // confirma a operação no banco
-            }
         }
 
         // READ - busca todos os clientes
         public List<Cliente> BuscarTodos()
         {
-            {
                 return _context.Clientes.ToList();
-            }
         }
 
         // READ - busca cliente por ID (herdado de Usuario)
         public Cliente BuscarPorId(long usuarioId)
         {   
-            {
                 return _context.Clientes.Find(usuarioId);
-            }
         }
         public Cliente BuscarPorEmail(string email)
         {
@@ -46,16 +39,13 @@ namespace NeaStyleOficial.Repositories
         // UPDATE - atualiza dados do cliente
         public void Atualizar(Cliente cliente)
         {
-            {
                 _context.Clientes.Update(cliente);
                 _context.SaveChanges();
-            }
         }
 
         // DELETE - remove cliente do banco
         public void Deletar(long usuarioId)
         {
-            {
                 // Primeiro busca o cliente, depois remove
                 var cliente = _context.Clientes.Find(usuarioId);
                 if (cliente != null)
@@ -63,7 +53,6 @@ namespace NeaStyleOficial.Repositories
                     _context.Clientes.Remove(cliente);
                     _context.SaveChanges();
                 }
-            }
         }
     }
 }

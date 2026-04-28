@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using NeaStyleOficial.Data;
 using NeaStyleOficial.Services;
 using NeaStyleOficial.Repositories;
+using NeaStyleOficial.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,10 +32,6 @@ builder.Services.AddScoped<FavoritoService>();
 builder.Services.AddScoped<PagamentoService>();
 builder.Services.AddScoped<ReembolsoService>();
 
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -52,11 +48,25 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<NeaStyleContext>();
+    if (!context.Produtos.Any())
+    {
+        context.Produtos.AddRange(
+            new Produto { Nome = "Camiseta Gótica", Preco = 89.90m, CategoriaProduto.Feminino, TipoProduto.Camiseta, Tamanho.Produto.M, Cor = "Preto", EstoqueAtual = 10 },
+            new Produto { Nome = "Calça Skate", Preco = 129.90m, CategoriaProduto.Masculino, TipoProduto.Calca, Tamanho.Produto.G, Cor = "Cinza", EstoqueAtual = 5 },
+            new Produto { Nome = "Moletom Hip Hop", Preco = 159.90m, CategoriaProduto.Masculino, TipoProduto.Moletom, Tamanho.Produto.GG, Cor = "Preto", EstoqueAtual = 8 }
+        );
+        context.SaveChanges();
+    }
+}
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapStaticAssets();
 

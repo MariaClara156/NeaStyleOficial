@@ -1,6 +1,5 @@
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
 a.navbar-brand[b-ftrt6paxby] {
   white-space: normal;
   text-align: center;
@@ -39,7 +38,7 @@ button.accept-policy[b-ftrt6paxby] {
   line-height: inherit;
 }
 
-
+/* Regras para o rodapé */
 .border-top footer text-muted[b-ftrt6paxby]
 {
   background-color:#1c1c1c;

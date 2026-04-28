@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using NeaStyleOficial.Data;
+﻿using Microsoft.AspNetCore.Identity;
 using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Repositories;
 
@@ -44,7 +42,7 @@ namespace NeaStyleOficial.Services
         public bool VerificarSenha(string senhaDigitada, string hashNoBanco)
         {
             var hasher = new PasswordHasher<Cliente>();
-            var resultado = hasher.VerifyHashedPassword(null, hashNoBanco, senhaDigitada);
+            var resultado = hasher.VerifyHashedPassword(new Cliente(), hashNoBanco, senhaDigitada);
             return resultado == PasswordVerificationResult.Success;
         }
 
@@ -55,6 +53,9 @@ namespace NeaStyleOficial.Services
             // Verifica se a senha antiga está correta antes de trocar
             if (!VerificarSenha(senhaAntiga, cliente.Senha))
                 throw new Exception("Senha atual incorreta!");
+
+            if (string.IsNullOrEmpty(novaSenha) || novaSenha.Length < 6)
+            throw new Exception("Nova senha deve ter no mínimo 6 caracteres!");
 
             var hasher = new PasswordHasher<Cliente>();
             cliente.Senha = hasher.HashPassword(cliente, novaSenha);

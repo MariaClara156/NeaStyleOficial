@@ -9,6 +9,9 @@ namespace NeaStyleOficial.Models.Catalog
         public string Nome { get; set; }
         public decimal PrecoCusto { get; set; }
         public decimal Preco { get; set; }
+        public string Descricao { get; set; }
+        public string Cor { get; set; }
+        public int EstoqueAtual { get; set; }
         public string ImagemUrl { get; set; }
         public TamanhoProduto TamanhoProduto { get; set; }
         public CategoriaProduto CategoriaProduto { get; set; }
@@ -18,11 +21,15 @@ namespace NeaStyleOficial.Models.Catalog
         public List<Pedido> Pedidos { get; set; } = new();
 
         public Produto() { }
-        public Produto(string nome, decimal precoCusto,decimal preco,  TamanhoProduto tamanho, CategoriaProduto categoria, TipoProduto tipo)
+        public Produto(string nome, decimal precoCusto,decimal preco, string Descricao, string Cor, int EstoqueAtual, string ImagemUrl,  TamanhoProduto tamanho, CategoriaProduto categoria, TipoProduto tipo)
         {
             Nome = nome;
             PrecoCusto = precoCusto;
             Preco = preco;
+            Descricao = Descricao;
+            Cor = Cor;
+            EstoqueAtual = EstoqueAtual;
+            ImagemUrl = ImagemUrl;
             TamanhoProduto = tamanho;
             CategoriaProduto = categoria;
             TipoProduto = tipo;

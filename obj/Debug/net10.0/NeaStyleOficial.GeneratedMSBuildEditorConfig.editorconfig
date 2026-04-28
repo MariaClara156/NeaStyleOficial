@@ -74,8 +74,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Produto/Feminino.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1xGZW1pbmluby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Produto/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Produto/Masculino.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1xNYXNjdWxpbm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Shared/Error.cshtml]

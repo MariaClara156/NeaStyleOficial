@@ -14,7 +14,7 @@ namespace NeaStyleOficial.Controllers
             _service = service;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string busca = null)
         {
             var produtos = _service.BuscarTodos();
             return View(produtos);

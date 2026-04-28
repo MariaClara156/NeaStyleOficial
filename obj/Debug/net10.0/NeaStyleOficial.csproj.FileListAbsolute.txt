@@ -446,5 +446,5 @@ C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\NeaStyle.4657E2E8.Up2Dat
 C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\NeaStyleOficial.genruntimeconfig.cache
 C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\ref\NeaStyleOficial.dll
 C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\compressed\fh5pbj2w6w-{0}-cotlct0oi8-cotlct0oi8.gz
-C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\compressed\y871kzi3ue-{0}-k0ku5lwu84-k0ku5lwu84.gz
-C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\compressed\ijwzhc5n9r-{0}-k0ku5lwu84-k0ku5lwu84.gz
+C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\compressed\y871kzi3ue-{0}-z30j6iam54-z30j6iam54.gz
+C:\c#\NeaStyleOficial\NeaStyleOficial\obj\Debug\net10.0\compressed\ijwzhc5n9r-{0}-z30j6iam54-z30j6iam54.gz

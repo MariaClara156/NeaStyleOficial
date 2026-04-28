@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Services;
-using NeaStyleOficial.Data;
 
 namespace NeaStyleOficial.Controllers
 {
@@ -27,23 +25,28 @@ namespace NeaStyleOficial.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string email, string senha)
         {
-            // 1. Verifica se é Administrador
-            var adm = _administradorService.BuscarPorEmail(email);
-            if (adm != null && _administradorService.VerificarSenha(senha, adm.Senha))
+            try
             {
-                await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
-                return RedirectToAction("Index", "Administrador");
+                var adm = _administradorService.BuscarPorEmail(email);
+                if (adm != null && _administradorService.VerificarSenha(senha, adm.Senha))
+                {
+                    await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
+                    return RedirectToAction("Index", "Administrador");
+                }
+
+                var cliente = _clienteService.BuscarPorEmail(email);
+                if (cliente != null && _clienteService.VerificarSenha(senha, cliente.Senha))
+                {
+                    await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Ocorreu um erro ao tentar fazer login.");
+                return View();
             }
 
-            // 2. Verifica se é Cliente
-            var cliente = _clienteService.BuscarPorEmail(email);
-            if (cliente != null && _clienteService.VerificarSenha(senha, cliente.Senha))
-            {
-                await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
-                return RedirectToAction("Index", "Home");
-            }
-
-            // 3. Nenhum encontrado
             ModelState.AddModelError("", "Email ou senha incorretos!");
             return View();
         }

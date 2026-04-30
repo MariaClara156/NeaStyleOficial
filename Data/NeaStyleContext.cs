@@ -63,6 +63,52 @@ namespace NeaStyleOficial.Data
                 .HasForeignKey(i => i.ConjuntoProdutoId);
             
             modelBuilder.Entity<Produto>().ToTable("Produtos");
+
+            // SEEDING: Inserindo produtos de teste
+            modelBuilder.Entity<Produto>().HasData(
+                new Produto 
+                { 
+                    ProdutoId = 1, // Importante definir o ID manualmente no HasData
+                    Nome = "Vestido Chique", 
+                    PrecoCusto = 150.00m,
+                    Preco = 299.90m, 
+                    Descricao = "Vestido para formaturas e eventos.",
+                    Cor = "Vermelho",
+                    EstoqueAtual = 20,
+                    ImagemUrl = "https://example.com/vestido-chique.jpg",
+                    TamanhoProduto = TamanhoProduto.M,
+                    TipoProduto = TipoProduto.Vestido,
+                    CategoriaProduto = CategoriaProduto.Feminino
+                },
+                new Produto 
+                { 
+                    ProdutoId = 2,
+                    Nome = "Calça Cargo", 
+                    PrecoCusto = 160.00m,
+                    Preco = 299.90m, 
+                    Descricao = "Calça para o dia a dia.",
+                    Cor = "Azul",
+                    EstoqueAtual = 15,
+                    ImagemUrl = "https://example.com/calca-cargo.jpg",
+                    TamanhoProduto = TamanhoProduto.G,
+                    TipoProduto = TipoProduto.Calca,
+                    CategoriaProduto = CategoriaProduto.Masculino
+                },
+                new Produto 
+                { 
+                    ProdutoId = 3,
+                    Nome = "Saia Jeans", 
+                    PrecoCusto = 90.00m,
+                    Preco = 120.00m, 
+                    Descricao = "Saia estilosa e versátil.",
+                    Cor = "Preto",
+                    EstoqueAtual = 25,
+                    ImagemUrl = "https://example.com/saia-jeans.jpg",
+                    TamanhoProduto = TamanhoProduto.P,
+                    TipoProduto = TipoProduto.Saia,
+                    CategoriaProduto = CategoriaProduto.Feminino
+                }
+            );
             modelBuilder.Entity<Pedido>().ToTable("Pedidos");
             modelBuilder.Entity<ItemConjunto>().ToTable("ItensConjunto");
             modelBuilder.Entity<Pagamento>().ToTable("Pagamentos");

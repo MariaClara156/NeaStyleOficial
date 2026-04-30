@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Registra o banco
-builder.Services.AddDbContext<NeaStyleContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<NeaStyleContext>(options =>
+    options.UseSqlServer(connectionString));
 
 // Registra os Repositories
 builder.Services.AddScoped<ClienteRepository>();
@@ -46,20 +49,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<NeaStyleContext>();
-    if (!context.Produtos.Any())
-    {
-        context.Produtos.AddRange(
-            new Produto { Nome = "Camiseta Gótica", Preco = 89.90m, CategoriaProduto.Feminino, TipoProduto.Camiseta, Tamanho.Produto.M, Cor = "Preto", EstoqueAtual = 10 },
-            new Produto { Nome = "Calça Skate", Preco = 129.90m, CategoriaProduto.Masculino, TipoProduto.Calca, Tamanho.Produto.G, Cor = "Cinza", EstoqueAtual = 5 },
-            new Produto { Nome = "Moletom Hip Hop", Preco = 159.90m, CategoriaProduto.Masculino, TipoProduto.Moletom, Tamanho.Produto.GG, Cor = "Preto", EstoqueAtual = 8 }
-        );
-        context.SaveChanges();
-    }
 }
 
 app.UseHttpsRedirection();

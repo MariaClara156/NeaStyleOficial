@@ -3,14 +3,14 @@ namespace NeaStyleOficial.Models.Catalog
     public enum TipoProduto
     {
         Camiseta,
-        Calça,
+        Calca,
         Vestido,
         Saia,
         Blusa,
         Jaqueta,
         Casaco,
         Shorts,
-        Macacão,
+        Macacao,
         Conjunto
     }
 }

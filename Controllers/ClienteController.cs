@@ -17,23 +17,23 @@ namespace NeaStyleOficial.Controllers
 
         // READ - exibe lista de clientes
         // Rota: /Cliente/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var clientes = _service.BuscarTodos();
             return View(clientes); // manda os dados pra View exibir
         }
 
         // READ - exibe formulário de cadastro
-        // Rota: /Cliente/Criar
-        public IActionResult Criar()
+        // Rota: /Cliente/CadastrarCliente
+        public IActionResult CadastrarCliente()
         {
             return View(); // só abre a página vazia
         }
 
         // CREATE - recebe os dados do formulário e salva
-        // Rota: POST /Cliente/Criar
+        // Rota: POST /Cliente/CadastrarCliente
         [HttpPost]
-        public IActionResult Criar(Cliente cliente)
+        public IActionResult CadastrarCliente(Cliente cliente)
         {
             try
             {

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using NeaStyleOficial.Data;
 using NeaStyleOficial.Services;
 using NeaStyleOficial.Repositories;
@@ -12,8 +13,7 @@ builder.Services.AddControllersWithViews();
 // Registra o banco
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<NeaStyleContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<NeaStyleContext>(options => options.UseSqlServer(connectionString));
 
 // Registra os Repositories
 builder.Services.AddScoped<ClienteRepository>();
@@ -35,24 +35,13 @@ builder.Services.AddScoped<FavoritoService>();
 builder.Services.AddScoped<PagamentoService>();
 builder.Services.AddScoped<ReembolsoService>();
 
+// 1. Configura como o sistema vai guardar o login (Cookies)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Index";
-        options.AccessDeniedPath = "/Login/Index";
+    .AddCookie(options => {
+        options.LoginPath = "/Login"; // Onde manda o usuário se ele não estiver logado
     });
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();

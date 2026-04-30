@@ -1,0 +1,60 @@
+@model NeaStyleOficial.Models.Users.Cliente
+
+@{
+    ViewData["Title"] = "Cadastro Cliente";
+}
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow" style="width: 400px;">
+            
+            <h2 class="text-center mb-4">NeaStyle</h2>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var erro in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@erro.ErrorMessage</p>
+                    }
+                </div>
+            }
+
+            <form asp-action="CadastrarCliente" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Nome Completo</label>
+                    <input type="text" name="nome" asp-controller="Cliente" asp-for="Nome" class="form-control"  method="post" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">CPF</label>
+                    <input type="text" name="cpf" asp-controller="Cliente" asp-for="CPF" class="form-control" method="post" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" asp-controller="Cliente" asp-for="Email" class="form-control" method="post" required />
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Endereço</label>
+                    <input type="text" name="endereco" asp-controller="Cliente" asp-for="Endereco" class="form-control" method="post" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Telefone</label>
+                    <input type="text" name="telefone" asp-controller="Cliente" asp-for="Telefone" class="form-control" method="post" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Data Nascimento</label>
+                    <input type="date" name="dataNascimento" asp-controller="Cliente" asp-for="DataNascimento" class="form-control" method="post" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <input type="password" name="senha" asp-controller="Cliente" asp-for="Senha" class="form-control" method="post" required />
+                </div>
+                
+                <button type="submit" class="btn btn-dark w-100">Cadastrar</button>
+                
+            </form>
+        </div>
+    </div>

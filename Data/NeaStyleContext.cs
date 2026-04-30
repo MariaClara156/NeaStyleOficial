@@ -33,9 +33,10 @@ namespace NeaStyleOficial.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;
-            Initial Catalog=NeaStyleDB;Integrated Security=True;
-            Trust Server Certificate=True;");
+        }
+
+        public NeaStyleContext(DbContextOptions<NeaStyleContext> options) : base(options)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +45,9 @@ namespace NeaStyleOficial.Data
             modelBuilder.Entity<Usuario>().UseTpcMappingStrategy();
             // Mapeia cada filha pra sua própria tabela
             modelBuilder.Entity<Cliente>().ToTable("Clientes");
+
             modelBuilder.Entity<Administrador>().ToTable("Administradores");
+            
 
             modelBuilder.Entity<ConjuntoProduto>().UseTpcMappingStrategy();
             modelBuilder.Entity<Carrinho>().ToTable("Carrinhos");
@@ -107,6 +110,16 @@ namespace NeaStyleOficial.Data
                     TamanhoProduto = TamanhoProduto.P,
                     TipoProduto = TipoProduto.Saia,
                     CategoriaProduto = CategoriaProduto.Feminino
+                }
+            );
+            modelBuilder.Entity<Administrador>().HasData(
+                new Administrador
+                {
+                    UsuarioId = 1,
+                    Nome = "Admin Master",
+                    Email = "mariaclara4290@gmail.com",
+                    Senha = "admin123",
+                    Cargo = "Gerente"
                 }
             );
             modelBuilder.Entity<Pedido>().ToTable("Pedidos");

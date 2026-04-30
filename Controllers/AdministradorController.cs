@@ -3,9 +3,11 @@ using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Models.Sales;
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NeaStyleOficial.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class AdministradorController : Controller
     {
         private readonly ProdutoService _produtoService;

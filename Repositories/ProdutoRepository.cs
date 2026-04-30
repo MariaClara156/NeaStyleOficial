@@ -5,59 +5,61 @@ namespace NeaStyleOficial.Repositories
 {
     public class ProdutoRepository
     {
-        private readonly NeaStyleContext context;
+        private readonly NeaStyleContext _context;
+        public ProdutoRepository(NeaStyleContext context)
+        {
+            _context = context;
+        }
         // CREATE
         public void Criar(Produto produto)
         {
-            {
-                context.Produtos.Add(produto);
-                context.SaveChanges();
-            }
+            
+                _context.Produtos.Add(produto);
+                _context.SaveChanges();
+            
         }
 
         // READ - busca todos
         public List<Produto> BuscarTodos()
         {
-                return context.Produtos.ToList();
+            return _context.Produtos.ToList();
         }
 
         // READ - busca por categoria
         public List<Produto> BuscarPorCategoria(CategoriaProduto categoria)
         {
-            {
+            
                 // Filtra os produtos pela categoria (Masculino, Feminino, Infantil)
-                return context.Produtos
+                return _context.Produtos
                     .Where(p => p.CategoriaProduto == categoria)
                     .ToList();
-            }
+            
         }
 
         public Produto BuscarPorId(long ProdutoId)
         {
-            {
-                return context.Produtos.Find(ProdutoId);
-            }
+            
+                return _context.Produtos.Find(ProdutoId);
+            
         }
 
         // UPDATE
         public void Atualizar(Produto produto)
         {
-            {
-                context.Produtos.Update(produto);
-                context.SaveChanges();
-            }
+            
+                _context.Produtos.Update(produto);
+                _context.SaveChanges();
+            
         }
 
         // DELETE
         public void Deletar(long ProdutoId)
         {
-            {
-                var produto = context.Produtos.Find(ProdutoId);
+                var produto = _context.Produtos.Find(ProdutoId);
                 if (produto != null)
                 {
-                    context.Produtos.Remove(produto);
-                    context.SaveChanges();
-                }
+                    _context.Produtos.Remove(produto);
+                    _context.SaveChanges();   
             }
         }
     }

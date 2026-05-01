@@ -32,21 +32,35 @@ namespace NeaStyleOficial.Controllers
         }
         /* POST */
         [HttpPost]
-        public IActionResult AdicionarAoCarrinho(Produto produto, int quantidade)
+        public IActionResult AdicionarAoCarrinho(long produtoVariacaoId, int quantidade)
         {
             try
             {
-                // Simulando clienteId fixo para teste
-                long clienteId = 1; 
-                _carrinhoService.AdicionarProduto(clienteId, produto, quantidade);
-                return RedirectToAction("GerenciarCarrinho", new { clienteId });
+                // TODO: substituir pelo clienteId do usuário logado
+                long clienteId = 1;
+
+                // Busca a variação do produto pelo ID
+                var variacao = _produtoService.BuscarVariacaoPorId(produtoVariacaoId);
+
+                // Chama o Service corretamente
+                _carrinhoService.AdicionarProduto(clienteId, variacao, quantidade);
+
+                return RedirectToAction("Index", "Carrinho");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(produto);
+                return RedirectToAction("Index", "Produto");
             }
         }
+
+        public IActionResult DetalheProduto(long id)
+        {
+            var produto = _produtoService.BuscarPorId(id);
+            if (produto == null) return NotFound();
+            return View(produto); // passa um produto, não uma lista!
+        }
+
         [HttpPost]
         public IActionResult RemoverProduto(long clienteId, long produtoId)
         {

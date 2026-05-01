@@ -15,9 +15,9 @@ namespace NeaStyleOficial.Services
         }
 
         // Método para adicionar um produto ao carrinho de um cliente
-        public void AdicionarProduto(long clienteId, Produto produto, int quantidade)
+        public void AdicionarProduto(long clienteId, ProdutoVariacao produtoVariacao, int quantidade, string tamanho = null, string cor = null)
         {
-            if (produto == null) throw new Exception("Produto inválido!");
+            if (produtoVariacao == null) throw new Exception("Produto inválido!");
 
             // 1. Busca o carrinho atual do cliente no banco
             var carrinho = _carrinhoRepo.BuscarPorClienteId(clienteId);
@@ -34,14 +34,15 @@ namespace NeaStyleOficial.Services
                 throw new Exception("Limite de 50 itens no carrinho atingido!");
 
             // 3. Verifica se o produto já existe no carrinho para apenas somar a quantidade
-            var itemExistente = carrinho.Itens.FirstOrDefault(i => i.ProdutoId == produto.ProdutoId);
+            var itemExistente = carrinho.Itens.FirstOrDefault(i => i.ProdutoVariacaoId == produtoVariacao.ProdutoVariacaoId);
 
             if (itemExistente != null) {
                 itemExistente.Quantidade += quantidade;
             } else {
                 carrinho.Itens.Add(new ItemConjunto { 
-                    ProdutoId = produto.ProdutoId, 
-                    Quantidade = quantidade 
+                    ProdutoId = produtoVariacao.ProdutoId,
+                    Quantidade = quantidade,
+                    ProdutoVariacaoId = produtoVariacao.ProdutoVariacaoId
                 });
             }
 

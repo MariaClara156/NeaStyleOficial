@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Sales;
 using NeaStyleOficial.Models.Users;
@@ -14,6 +15,7 @@ namespace NeaStyleOficial.Data
 
         // Uma tabela pra produtos
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<ProdutoVariacao> ProdutoVariacoes { get; set; }
 
         //Uma tabela pra pedidos
         public DbSet<Pedido> Pedidos { get; set; }
@@ -53,11 +55,12 @@ namespace NeaStyleOficial.Data
             modelBuilder.Entity<Carrinho>().ToTable("Carrinhos");
             modelBuilder.Entity<Favorito>().ToTable("Favoritos");
 
-            // Relacionamento ItemConjunto → Produto
+            // Relacionamento ItemConjunto → ProdutoVariacao
             modelBuilder.Entity<ItemConjunto>()
-                .HasOne(i => i.Produto)
+                .HasOne(i => i.ProdutoVariacao)
                 .WithMany()
-                .HasForeignKey(i => i.ProdutoId);
+                .HasForeignKey(i => i.ProdutoVariacaoId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Relacionamento ItemConjunto → ConjuntoProduto
             modelBuilder.Entity<ItemConjunto>()
@@ -66,52 +69,8 @@ namespace NeaStyleOficial.Data
                 .HasForeignKey(i => i.ConjuntoProdutoId);
             
             modelBuilder.Entity<Produto>().ToTable("Produtos");
+            modelBuilder.Entity<ProdutoVariacao>().ToTable("ProdutoVariacoes");
 
-            // SEEDING: Inserindo produtos de teste
-            modelBuilder.Entity<Produto>().HasData(
-                new Produto 
-                { 
-                    ProdutoId = 1, // Importante definir o ID manualmente no HasData
-                    Nome = "Vestido Chique", 
-                    PrecoCusto = 150.00m,
-                    Preco = 299.90m, 
-                    Descricao = "Vestido para formaturas e eventos.",
-                    Cor = "Vermelho",
-                    EstoqueAtual = 20,
-                    ImagemUrl = "https://example.com/vestido-chique.jpg",
-                    TamanhoProduto = TamanhoProduto.M,
-                    TipoProduto = TipoProduto.Vestido,
-                    CategoriaProduto = CategoriaProduto.Feminino
-                },
-                new Produto 
-                { 
-                    ProdutoId = 2,
-                    Nome = "Calça Cargo", 
-                    PrecoCusto = 160.00m,
-                    Preco = 299.90m, 
-                    Descricao = "Calça para o dia a dia.",
-                    Cor = "Azul",
-                    EstoqueAtual = 15,
-                    ImagemUrl = "https://example.com/calca-cargo.jpg",
-                    TamanhoProduto = TamanhoProduto.G,
-                    TipoProduto = TipoProduto.Calca,
-                    CategoriaProduto = CategoriaProduto.Masculino
-                },
-                new Produto 
-                { 
-                    ProdutoId = 3,
-                    Nome = "Saia Jeans", 
-                    PrecoCusto = 90.00m,
-                    Preco = 120.00m, 
-                    Descricao = "Saia estilosa e versátil.",
-                    Cor = "Preto",
-                    EstoqueAtual = 25,
-                    ImagemUrl = "https://example.com/saia-jeans.jpg",
-                    TamanhoProduto = TamanhoProduto.P,
-                    TipoProduto = TipoProduto.Saia,
-                    CategoriaProduto = CategoriaProduto.Feminino
-                }
-            );
             modelBuilder.Entity<Administrador>().HasData(
                 new Administrador
                 {

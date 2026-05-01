@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using NeaStyleOficial.Models.Users;
@@ -36,12 +37,21 @@ namespace NeaStyleOficial.Controllers
 
         // 2. Se não achou adm, tenta buscar um Cliente
         var cliente = _context.Clientes
-            .FirstOrDefault(c => c.Email == email && c.Senha == senha);
-
+            .FirstOrDefault(c => c.Email == email);
         if (cliente != null)
         {
-            await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
-            return RedirectToAction("Index", "Home");
+            // 2. Instancia o verificador (troque 'Cliente' pelo nome da sua classe de usuário)
+        var hasher = new PasswordHasher<Cliente>();
+
+        // 3. Verifica se a senha digitada gera o mesmo código que está no banco
+        var resultado = hasher.VerifyHashedPassword(cliente, cliente.Senha, senha);
+
+        if (resultado == PasswordVerificationResult.Success)
+        {
+            // SENHA CORRETA! 
+            // Aqui você cria a Session ou o Cookie de autenticação
+            return RedirectToAction("Index", "Produto");
+        }
         }
         }
         

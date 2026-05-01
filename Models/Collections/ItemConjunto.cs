@@ -1,5 +1,6 @@
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Users;
+
 namespace NeaStyleOficial.Models.Collections
 {
     public class ItemConjunto
@@ -8,16 +9,20 @@ namespace NeaStyleOficial.Models.Collections
         public long ProdutoId { get; set; }
         public Produto Produto { get; set; }  // ← Relacionamento com Produto
         public int Quantidade { get; set; }
+
+        public long ProdutoVariacaoId { get; set; }
+        public ProdutoVariacao ProdutoVariacao { get; set; } // ← Relacionamento com ProdutoVariacao
         
         // Chave estrangeira para Carrinho ou Favorito
         public long ConjuntoProdutoId { get; set; }
         public ConjuntoProduto Conjunto { get; set; }  // ← Relacionamento com ConjuntoProduto  
 
         public ItemConjunto() { }
-        public ItemConjunto(long produtoId, int quantidade)
+        public ItemConjunto(long produtoId, int quantidade, long produtoVariacaoId)
         {
             ProdutoId = produtoId;
             Quantidade = quantidade;
+            ProdutoVariacaoId = produtoVariacaoId;
         }
     }
 }

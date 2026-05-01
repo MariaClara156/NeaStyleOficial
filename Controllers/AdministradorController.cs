@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Models.Sales;
 using NeaStyleOficial.Models.Catalog;
@@ -27,30 +28,89 @@ namespace NeaStyleOficial.Controllers
             return View();
         }
         /* CRUD Produtos */
-        public IActionResult GerenciarProdutos()
+        public IActionResult ListarProdutos()
         {
             var produtos = _produtoService.BuscarTodos();
             return View(produtos);
         }   
-        // CORRETO - GET abre formulário vazio, POST recebe os dados
-        public IActionResult CadastrarProduto()
+        
+        public IActionResult GerenciarProdutos()
         {
-            return View(); // só abre a página vazia
+            ViewBag.Categoria = Enum.GetValues(typeof(CategoriaProduto))
+                .Cast<CategoriaProduto>()
+                .Select(e => new SelectListItem { 
+                    Value = ((int)e).ToString(), 
+                    Text = e.ToString() 
+                }).ToList();
+            
+            ViewBag.Tipo = Enum.GetValues(typeof(TipoProduto))
+                .Cast<TipoProduto>()
+                .Select(e => new SelectListItem { 
+                    Value = ((int)e).ToString(), 
+                    Text = e.ToString() 
+                }).ToList();
+
+            ViewBag.Tamanho = Enum.GetValues(typeof(TamanhoProduto))
+                .Cast<TamanhoProduto>()
+                .Select(e => new SelectListItem { 
+                    Value = ((int)e).ToString(), 
+                    Text = e.ToString() 
+                }).ToList();
+            return View();
         }
 
         [HttpPost]
-        public IActionResult CadastrarProduto(Produto produto)
+        // 1. Adicionado async Task para permitir o upload de arquivo
+        public async Task<IActionResult> GerenciarProdutos(Produto produto, IFormFile fotoArquivo) 
         {
             try
             {
+                if (fotoArquivo != null && fotoArquivo.Length > 0)
+                {
+                    string nomeArquivo = Guid.NewGuid().ToString() + "_" + fotoArquivo.FileName;
+                    
+                    // Directory.GetCurrentDirectory() pega a raiz do projeto
+                    string caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "produtos");
+                    
+                    // Garante que a pasta existe, se não existir, o C# cria
+                    if (!Directory.Exists(caminhoPasta)) Directory.CreateDirectory(caminhoPasta);
+
+                    string caminhoCompleto = Path.Combine(caminhoPasta, nomeArquivo);
+
+                    using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                    {
+                        // Aqui o 'await' precisa do 'async' lá em cima na assinatura do método
+                        await fotoArquivo.CopyToAsync(stream);
+                    }
+
+                    produto.ImagemUrl = nomeArquivo;
+                }
+
                 _produtoService.CadastrarProduto(produto);
-                return RedirectToAction("GerenciarProdutos");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
+                // Se der erro, precisamos recarregar os Enums para a View não quebrar
+                CarregarEnumsNoViewBag();
                 ModelState.AddModelError("", ex.Message);
                 return View(produto);
             }
+        }
+
+        // Método auxiliar para não repetir código de Enums
+        private void CarregarEnumsNoViewBag()
+        {
+            ViewBag.Categorias = Enum.GetValues(typeof(CategoriaProduto))
+                                    .Cast<CategoriaProduto>()
+                                    .Select(e => new SelectListItem { Value = e.ToString(), Text = e.ToString() });
+            ViewBag.Tipo = Enum.GetValues(typeof(TipoProduto))
+                                    .Cast<TipoProduto>()
+                                    .Select(e => new SelectListItem { Value = e.ToString(), Text = e.ToString() });
+            ViewBag.Tamanho = Enum.GetValues(typeof(TamanhoProduto))
+                                   .Cast<TamanhoProduto>()
+                                   .Select(e => new SelectListItem { Value = e.ToString(), Text = e.ToString() });
+
         }
 
         public IActionResult EditarProduto(long UsuarioId)
@@ -64,7 +124,7 @@ namespace NeaStyleOficial.Controllers
         public IActionResult EditarProduto(Produto produto)
         {
             _produtoService.Atualizar(produto);
-            return RedirectToAction("GerenciarProdutos");
+            return RedirectToAction("Index");
         }
 
         public IActionResult DeletarProduto(long ProdutoId)
@@ -73,7 +133,7 @@ namespace NeaStyleOficial.Controllers
             if (produto == null)
                 return NotFound();
             _produtoService.Deletar(ProdutoId);
-            return RedirectToAction("GerenciarProdutos");
+            return RedirectToAction("Index");
         }
 
         /* Read Pedidos */

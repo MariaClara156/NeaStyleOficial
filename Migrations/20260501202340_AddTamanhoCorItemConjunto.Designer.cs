@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeaStyleOficial.Data;
 
@@ -11,9 +12,11 @@ using NeaStyleOficial.Data;
 namespace NeaStyleOficial.Migrations
 {
     [DbContext(typeof(NeaStyleContext))]
-    partial class NeaStyleContextModelSnapshot : ModelSnapshot
+    [Migration("20260501202340_AddTamanhoCorItemConjunto")]
+    partial class AddTamanhoCorItemConjunto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +40,16 @@ namespace NeaStyleOficial.Migrations
                     b.Property<int>("CategoriaProduto")
                         .HasColumnType("int");
 
+                    b.Property<string>("Cor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EstoqueAtual")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagemUrl")
                         .IsRequired()
@@ -55,39 +65,59 @@ namespace NeaStyleOficial.Migrations
                     b.Property<decimal>("PrecoCusto")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TamanhoProduto")
+                        .HasColumnType("int");
+
                     b.Property<int>("TipoProduto")
                         .HasColumnType("int");
 
                     b.HasKey("ProdutoId");
 
                     b.ToTable("Produtos", (string)null);
-                });
 
-            modelBuilder.Entity("NeaStyleOficial.Models.Catalog.ProdutoVariacao", b =>
-                {
-                    b.Property<long>("ProdutoVariacaoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ProdutoVariacaoId"));
-
-                    b.Property<int>("CorProduto")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Estoque")
-                        .HasColumnType("int");
-
-                    b.Property<long>("ProdutoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("TamanhoProduto")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProdutoVariacaoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("ProdutoVariacoes", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            ProdutoId = 1L,
+                            CategoriaProduto = 1,
+                            Cor = "Vermelho",
+                            Descricao = "Vestido para formaturas e eventos.",
+                            EstoqueAtual = 20,
+                            ImagemUrl = "https://example.com/vestido-chique.jpg",
+                            Nome = "Vestido Chique",
+                            Preco = 299.90m,
+                            PrecoCusto = 150.00m,
+                            TamanhoProduto = 1,
+                            TipoProduto = 2
+                        },
+                        new
+                        {
+                            ProdutoId = 2L,
+                            CategoriaProduto = 0,
+                            Cor = "Azul",
+                            Descricao = "Calça para o dia a dia.",
+                            EstoqueAtual = 15,
+                            ImagemUrl = "https://example.com/calca-cargo.jpg",
+                            Nome = "Calça Cargo",
+                            Preco = 299.90m,
+                            PrecoCusto = 160.00m,
+                            TamanhoProduto = 2,
+                            TipoProduto = 1
+                        },
+                        new
+                        {
+                            ProdutoId = 3L,
+                            CategoriaProduto = 1,
+                            Cor = "Preto",
+                            Descricao = "Saia estilosa e versátil.",
+                            EstoqueAtual = 25,
+                            ImagemUrl = "https://example.com/saia-jeans.jpg",
+                            Nome = "Saia Jeans",
+                            Preco = 120.00m,
+                            PrecoCusto = 90.00m,
+                            TamanhoProduto = 0,
+                            TipoProduto = 3
+                        });
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Collections.ConjuntoProduto", b =>
@@ -120,26 +150,28 @@ namespace NeaStyleOficial.Migrations
                     b.Property<long>("ConjuntoProdutoId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Cor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long?>("PedidoId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProdutoId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ProdutoVariacaoId")
+                    b.Property<long?>("ProdutoId1")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ProdutoVariacaoId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProdutoVariacaoId2")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProdutoVariacaoId3")
+                    b.Property<long?>("ProdutoId2")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
+
+                    b.Property<string>("Tamanho")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ItemConjuntoId");
 
@@ -149,13 +181,9 @@ namespace NeaStyleOficial.Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.HasIndex("ProdutoVariacaoId");
+                    b.HasIndex("ProdutoId1");
 
-                    b.HasIndex("ProdutoVariacaoId1");
-
-                    b.HasIndex("ProdutoVariacaoId2");
-
-                    b.HasIndex("ProdutoVariacaoId3");
+                    b.HasIndex("ProdutoId2");
 
                     b.ToTable("ItensConjunto", (string)null);
                 });
@@ -345,17 +373,6 @@ namespace NeaStyleOficial.Migrations
                     b.ToTable("Clientes", (string)null);
                 });
 
-            modelBuilder.Entity("NeaStyleOficial.Models.Catalog.ProdutoVariacao", b =>
-                {
-                    b.HasOne("NeaStyleOficial.Models.Catalog.Produto", "Produto")
-                        .WithMany("Variacoes")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
-                });
-
             modelBuilder.Entity("NeaStyleOficial.Models.Collections.ItemConjunto", b =>
                 {
                     b.HasOne("NeaStyleOficial.Models.Collections.ConjuntoProduto", "Conjunto")
@@ -374,29 +391,17 @@ namespace NeaStyleOficial.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", "ProdutoVariacao")
-                        .WithMany()
-                        .HasForeignKey("ProdutoVariacaoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", null)
-                        .WithMany("ItensCarrinho")
-                        .HasForeignKey("ProdutoVariacaoId1");
-
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", null)
+                    b.HasOne("NeaStyleOficial.Models.Catalog.Produto", null)
                         .WithMany("ItensConjunto")
-                        .HasForeignKey("ProdutoVariacaoId2");
+                        .HasForeignKey("ProdutoId1");
 
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", null)
+                    b.HasOne("NeaStyleOficial.Models.Catalog.Produto", null)
                         .WithMany("ItensFavorito")
-                        .HasForeignKey("ProdutoVariacaoId3");
+                        .HasForeignKey("ProdutoId2");
 
                     b.Navigation("Conjunto");
 
                     b.Navigation("Produto");
-
-                    b.Navigation("ProdutoVariacao");
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Sales.Pagamento", b =>
@@ -460,18 +465,11 @@ namespace NeaStyleOficial.Migrations
 
             modelBuilder.Entity("NeaStyleOficial.Models.Catalog.Produto", b =>
                 {
-                    b.Navigation("Pedidos");
-
-                    b.Navigation("Variacoes");
-                });
-
-            modelBuilder.Entity("NeaStyleOficial.Models.Catalog.ProdutoVariacao", b =>
-                {
-                    b.Navigation("ItensCarrinho");
-
                     b.Navigation("ItensConjunto");
 
                     b.Navigation("ItensFavorito");
+
+                    b.Navigation("Pedidos");
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Collections.ConjuntoProduto", b =>

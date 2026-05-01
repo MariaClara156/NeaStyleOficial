@@ -26,6 +26,14 @@ namespace NeaStyleOficial.Services
 
         public List<Produto> BuscarPorCategoria(CategoriaProduto categoria)=> _repo.BuscarPorCategoria(categoria);
 
+        public ProdutoVariacao BuscarVariacaoPorId(long produtoVariacaoId)
+        {
+            var variacao = _repo.BuscarVariacaoPorId(produtoVariacaoId);
+            if (variacao == null)
+                throw new Exception("Variação de produto não encontrada!");
+            return variacao;
+        }
+
         public Produto BuscarPorId(long produtoId) 
         {
             var produto = _repo.BuscarPorId(produtoId);

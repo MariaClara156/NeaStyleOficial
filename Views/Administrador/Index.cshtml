@@ -1,0 +1,12 @@
+@model IEnumerable<NeaStyleOficial.Models.Catalog.Produto>
+@{
+    ViewData["Title"] = "Tela do Administrador";
+}
+<div class="container mt-5">
+    <h1 class="mb-4">Bem-vindo, Administrador!</h1>
+    <div class="d-flex flex-column gap-3">
+        <button class="btn btn-dark" onclick="location.href='/Administrador/GerenciarClientes'">Gerenciar Clientes</button>
+        <button class="btn btn-dark" onclick="location.href='/Administrador/GerenciarProdutos'">Gerenciar Produtos</button>
+        <button class="btn btn-dark" onclick="location.href='/Administrador/ListarProdutos'">Listar Produtos</button>
+    </div>
+</div>

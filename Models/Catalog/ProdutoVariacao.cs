@@ -1,14 +1,13 @@
 using NeaStyleOficial.Models.Collections;
+using NeaStyleOficial.Models.Catalog;
 
 namespace NeaStyleOficial.Models.Catalog
 {
     public class ProdutoVariacao
     {
         public long ProdutoVariacaoId { get; set; }
-
-        public TamanhoProduto TamanhoProduto { get; set; }
-        public CorProduto CorProduto { get; set; }
-
+        public TamanhoProduto Tamanho { get; set; }
+        public CorProduto Cor { get; set; }
         public int Estoque { get; set; }
 
         // FK
@@ -22,8 +21,8 @@ namespace NeaStyleOficial.Models.Catalog
         public ProdutoVariacao() { }
         public ProdutoVariacao(TamanhoProduto tamanho, CorProduto cor, int estoque)
         {
-            TamanhoProduto = tamanho;
-            CorProduto = cor;
+            Tamanho = tamanho;
+            Cor = cor;
             Estoque = estoque;
         }
     }

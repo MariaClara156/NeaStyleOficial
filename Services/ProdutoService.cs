@@ -21,11 +21,17 @@ namespace NeaStyleOficial.Services
 
             _repo.Criar(produto);
         }
+        public void CadastrarVariacao(ProdutoVariacao variacao, long produtoId)
+        {
+            // Regra: estoque não pode ser negativo
+            if (variacao.Estoque < 0)
+                throw new Exception("Estoque não pode ser negativo!");
 
+            _repo.CriarVariacao(variacao);
+        }
+        // -------------------BUSCAS-------------------//
         public List<Produto> BuscarTodos() => _repo.BuscarTodos();
-
-        public List<Produto> BuscarPorCategoria(CategoriaProduto categoria)=> _repo.BuscarPorCategoria(categoria);
-
+        public List<Produto> BuscarPorNome(string nome) => _repo.BuscarPorNome(nome);
         public ProdutoVariacao BuscarVariacaoPorId(long produtoVariacaoId)
         {
             var variacao = _repo.BuscarVariacaoPorId(produtoVariacaoId);
@@ -33,18 +39,25 @@ namespace NeaStyleOficial.Services
                 throw new Exception("Variação de produto não encontrada!");
             return variacao;
         }
-
         public Produto BuscarPorId(long produtoId) 
         {
             var produto = _repo.BuscarPorId(produtoId);
             if (produto == null)
                 throw new Exception("Produto não encontrado!");
             return produto;
-            
         }
 
-        public void Atualizar(Produto produto) => _repo.Atualizar(produto);
+        public int CalcularEstoqueTotal(long produtoId)
+        {
+            var produto = _repo.BuscarPorId(produtoId);
+            if (produto == null)
+                throw new Exception("Produto não encontrado!");
+            return produto.Variacoes.Sum(v => v.Estoque);
+        }
+        // -------------------FILTRAR-------------------//
+        public List<Produto> Filtrar(string? nome, TamanhoProduto? tamanho, CorProduto? cor, TipoProduto? tipo, CategoriaProduto? categoria) => _repo.Filtrar(nome, tamanho, cor, tipo, categoria);
 
+        public void Atualizar(Produto produto) => _repo.Atualizar(produto);
         public void Deletar(long ProdutoId) => _repo.Deletar(ProdutoId);
     }
 }

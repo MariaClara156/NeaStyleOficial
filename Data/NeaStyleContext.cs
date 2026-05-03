@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Sales;
 using NeaStyleOficial.Models.Users;
@@ -22,16 +21,12 @@ namespace NeaStyleOficial.Data
 
         //Uma tabela para carrinho de compras e favoritos, usando TPC pra herança
         public DbSet<Carrinho> Carrinhos { get; set; }
-        public DbSet<Favorito> Favoritos { get; set; }
-        
-
+        public DbSet<Favorito> Favoritos { get; set; }        
         public DbSet<ItemConjunto> ItensConjunto { get; set; }
         //Uma tabela pra pagamentos
         public DbSet<Pagamento> Pagamentos { get; set; }
-
-        //Uma tabela para reembolsos
+        //Uma tabela para reembolsos        
         public DbSet<Reembolso> Reembolsos { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -47,10 +42,8 @@ namespace NeaStyleOficial.Data
             modelBuilder.Entity<Usuario>().UseTpcMappingStrategy();
             // Mapeia cada filha pra sua própria tabela
             modelBuilder.Entity<Cliente>().ToTable("Clientes");
-
             modelBuilder.Entity<Administrador>().ToTable("Administradores");
             
-
             modelBuilder.Entity<ConjuntoProduto>().UseTpcMappingStrategy();
             modelBuilder.Entity<Carrinho>().ToTable("Carrinhos");
             modelBuilder.Entity<Favorito>().ToTable("Favoritos");
@@ -67,6 +60,20 @@ namespace NeaStyleOficial.Data
                 .HasOne(i => i.Conjunto)
                 .WithMany(c => c.Itens)
                 .HasForeignKey(i => i.ConjuntoProdutoId);
+            
+            // Relacionamento Produto → ProdutoVariacao
+            modelBuilder.Entity<Produto>()
+                .HasMany(p => p.Variacoes)
+                .WithOne(v => v.Produto)
+                .HasForeignKey(v => v.ProdutoId);
+
+            modelBuilder.Entity<ProdutoVariacao>()
+                .Property(v => v.Cor)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<ProdutoVariacao>()
+                .Property(v => v.Tamanho)
+                .HasConversion<string>();
             
             modelBuilder.Entity<Produto>().ToTable("Produtos");
             modelBuilder.Entity<ProdutoVariacao>().ToTable("ProdutoVariacoes");

@@ -1,5 +1,6 @@
 ﻿using NeaStyleOficial.Models.Collections;
 using NeaStyleOficial.Models.Sales;
+using NeaStyleOficial.Models.Catalog;
 
 namespace NeaStyleOficial.Models.Catalog
 {
@@ -12,8 +13,9 @@ namespace NeaStyleOficial.Models.Catalog
         public decimal Preco { get; set; }
         public string Descricao { get; set; }
         public string ImagemUrl { get; set; }
-        public CategoriaProduto CategoriaProduto { get; set; }
-        public TipoProduto TipoProduto { get; set; }
+
+        public CategoriaProduto Categoria { get; set; }
+        public TipoProduto Tipo { get; set; }
         public List<ProdutoVariacao> Variacoes { get; set; } = new();
         public List<Pedido> Pedidos { get; set; } = new();
 
@@ -26,8 +28,8 @@ namespace NeaStyleOficial.Models.Catalog
             Preco = preco;
             Descricao = Descricao;
             ImagemUrl = ImagemUrl;
-            CategoriaProduto = categoria;
-            TipoProduto = tipo;
+            Categoria = categoria;
+            Tipo = tipo;
         }
     }
 }

@@ -6,29 +6,22 @@
             
             <h2 class="text-center mb-4">NeaStyle</h2>
 
-            @* Exibe erro se houver *@
-            @if (!ViewData.ModelState.IsValid)
-            {
-                <div class="alert alert-danger">
-                    @foreach (var erro in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <p>@erro.ErrorMessage</p>
-                    }
-                </div>
-            }
+            <div asp-validation-summary="All" class="text-danger"></div>
 
             @* Formulário de login *@
-            <form method="post" action="/Login/Index">
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" required />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Senha</label>
-                    <input type="password" name="senha" class="form-control" required />
-                </div>
-                <button type="submit" class="btn btn-dark w-100">Entrar</button>
-            </form>
+            <form asp-controller="Login" asp-action="Index" method="post">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required />   
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Senha</label>
+        <input type="password" name="senha" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-dark w-100">Entrar</button>
+</form>
 
             <hr>
             <p class="text-center">

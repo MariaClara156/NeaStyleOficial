@@ -12,6 +12,7 @@ namespace NeaStyleOficial.Controllers
     public class LoginController : Controller
     {
     private readonly NeaStyleContext _context;
+    private readonly PasswordHasher<Usuario> hasher = new PasswordHasher<Usuario>();
 
     public LoginController(NeaStyleContext context)
     {
@@ -27,22 +28,26 @@ namespace NeaStyleOficial.Controllers
         {
             // 1. Tenta buscar no banco se existe um Administrador com esse email e senha
             var adm = _context.Administradores
-                .FirstOrDefault(a => a.Email == email && a.Senha == senha);
-
+                .FirstOrDefault(a => a.Email == email);
         if (adm != null)
         {
             await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
             return RedirectToAction("Index", "Administrador");
-        }
+            var resultado = hasher.VerifyHashedPassword(adm, adm.Senha, senha);
+            if (resultado == PasswordVerificationResult.Success)
+            {
+                return RedirectToAction("Index", "Administrador");
+            }
 
+        }
         // 2. Se não achou adm, tenta buscar um Cliente
         var cliente = _context.Clientes
             .FirstOrDefault(c => c.Email == email);
         if (cliente != null)
         {
-            // 2. Instancia o verificador (troque 'Cliente' pelo nome da sua classe de usuário)
-        var hasher = new PasswordHasher<Cliente>();
-
+        await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
+        return RedirectToAction("Index", "Produto");
+        
         // 3. Verifica se a senha digitada gera o mesmo código que está no banco
         var resultado = hasher.VerifyHashedPassword(cliente, cliente.Senha, senha);
 

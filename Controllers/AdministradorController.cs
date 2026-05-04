@@ -71,10 +71,19 @@ namespace NeaStyleOficial.Controllers
                     await fotoArquivo.CopyToAsync(stream);
                     vm.ImagemUrl = nomeArquivo;
                 }
-
-                // Service só recebe o ViewModel já completo
-                _produtoService.CadastrarProduto(vm);
-                return RedirectToAction("ListarProdutos");
+                var produto = new Produto
+                {
+                    Nome = vm.Nome,
+                    Preco = vm.Preco,
+                    PrecoCusto = vm.PrecoCusto,
+                    Descricao = vm.Descricao,
+                    ImagemUrl = vm.ImagemUrl,
+                    Categoria = vm.Categoria, // ← propriedade se chama Categoria
+                    Tipo = vm.Tipo             // ← propriedade se chama Tipo
+                };
+                _produtoService.CadastrarProduto(produto); // Service continua recebendo Produto
+                // Redireciona pra tela de variação passando o ID do produto recém criado
+                return RedirectToAction("CadastrarVariacao", new { produtoId = produto.ProdutoId });
             }
             catch (Exception ex)
             {
@@ -83,7 +92,7 @@ namespace NeaStyleOficial.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> CadastrarVariacao(ProdutoVariacao variacao, long produtoId, IFormFile fotoArquivo)
+        public async Task<IActionResult> CadastrarVariacao(CadastrarVariacaoViewModel vm, IFormFile fotoArquivo)
         {
             try
             {
@@ -98,8 +107,15 @@ namespace NeaStyleOficial.Controllers
                     vm.ImagemUrl = nomeArquivo;
                 }
 
-                // Service só recebe o ViewModel já completo
-                _produtoService.CadastrarVariacao(vm);
+                var variacao = new ProdutoVariacao
+                {
+                    Tamanho = vm.Tamanho,
+                    Cor = vm.Cor,
+                    Estoque = vm.Estoque,
+                    ProdutoId = vm.ProdutoId
+                };
+
+                _produtoService.CadastrarVariacao(variacao);
                 return RedirectToAction("ListarProdutos");
             }
             catch (Exception ex)
@@ -109,9 +125,9 @@ namespace NeaStyleOficial.Controllers
             }
         }
 
-        public IActionResult EditarProduto(long UsuarioId)
+        public IActionResult EditarProduto(long produtoId)
         {
-            var produto = _produtoService.BuscarPorId(UsuarioId);
+            var produto = _produtoService.BuscarPorId(produtoId);
             if (produto == null)
                 return NotFound();
             return View(produto);
@@ -120,15 +136,15 @@ namespace NeaStyleOficial.Controllers
         public IActionResult EditarProduto(Produto produto)
         {
             _produtoService.Atualizar(produto);
-            return RedirectToAction("Index");
+            return RedirectToAction("ListarProdutos");
         }
 
-        public IActionResult DeletarProduto(long ProdutoId)
+        public IActionResult DeletarProduto(long produtoId)
         {
-            var produto = _produtoService.BuscarPorId(ProdutoId);
+            var produto = _produtoService.BuscarPorId(produtoId);
             if (produto == null)
                 return NotFound();
-            _produtoService.Deletar(ProdutoId);
+            _produtoService.Deletar(produtoId);
             return RedirectToAction("Index");
         }
         /* Read Pedidos */

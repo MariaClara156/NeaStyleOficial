@@ -75,6 +75,10 @@ namespace NeaStyleOficial.Data
                 .Property(v => v.Tamanho)
                 .HasConversion<string>();
             
+            modelBuilder.Entity<ProdutoVariacao>()
+                .Property(v => v.ImagemUrl)
+                .HasConversion<string>();
+            
             modelBuilder.Entity<Produto>().ToTable("Produtos");
             modelBuilder.Entity<ProdutoVariacao>().ToTable("ProdutoVariacoes");
 

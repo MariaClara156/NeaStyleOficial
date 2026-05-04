@@ -30,12 +30,32 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/GerenciarClientes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxHZXJlbmNpYXJDbGllbnRlcy5jc2h0bWw=
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/AtualizarProdutos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxBdHVhbGl6YXJQcm9kdXRvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/GerenciarProdutos.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxHZXJlbmNpYXJQcm9kdXRvcy5jc2h0bWw=
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/AtualizarVariacoes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxBdHVhbGl6YXJWYXJpYWNvZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/CadastrarProdutos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxDYWRhc3RyYXJQcm9kdXRvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/CadastrarVariacao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxDYWRhc3RyYXJWYXJpYWNhby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/ExcluirProduto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxFeGNsdWlyUHJvZHV0by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/ExcluirVariacao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxFeGNsdWlyVmFyaWFjYW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/GerenciarClientes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxHZXJlbmNpYXJDbGllbnRlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/Index.cshtml]

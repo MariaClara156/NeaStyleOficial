@@ -1,0 +1,48 @@
+@model NeaStyleOficial.ViewModels.CadastrarVariacaoViewModel
+
+@{
+    ViewData["Title"] = "Cadastro Variação";
+}
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow" style="width: 400px;">
+            
+            <h2 class="text-center mb-4">NeaStyle</h2>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var erro in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@erro.ErrorMessage</p>
+                    }
+                </div>
+            }
+
+            <form asp-action="CadastrarVariacao" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label asp-for="Estoque" class="form-label">Estoque</label>
+                    <input asp-for="Estoque" class="form-control" type="number" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Cor" class="form-label">Cor</label>
+                    <select asp-for="Cor" class="form-select"
+                            asp-items="Html.GetEnumSelectList<NeaStyleOficial.Models.Catalog.CorProduto>()">
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Tamanho" class="form-label">Tamanho da Variação</label>
+                    <select asp-for="Tamanho" class="form-select"
+                            asp-items="Html.GetEnumSelectList<NeaStyleOficial.Models.Catalog.TamanhoProduto>()">
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Imagem da Variação</label>
+                    <input type="file" name="fotoArquivo" class="form-control" />
+                </div>
+                <input type="hidden" asp-for="ProdutoId" />
+                <button type="submit" class="btn btn-primary w-100">Cadastrar Variação</button>
+            </form>
+        </div>
+    </div>

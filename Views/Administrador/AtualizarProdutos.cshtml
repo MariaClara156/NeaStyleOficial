@@ -1,0 +1,23 @@
+@model NeaStyleOficial.Models.Catalog.Produto
+
+@{
+    ViewData["Title"] = "Atualizar Produto";
+}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow" style="width: 400px;">
+
+        <h2 class="text-center mb-4">NeaStyle</h2>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var erro in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@erro.ErrorMessage</p>
+                    }
+                </div>
+            }
+
+            @
+        </div>
+    </div>

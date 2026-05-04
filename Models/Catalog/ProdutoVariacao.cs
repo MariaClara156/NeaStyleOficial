@@ -9,7 +9,7 @@ namespace NeaStyleOficial.Models.Catalog
         public TamanhoProduto Tamanho { get; set; }
         public CorProduto Cor { get; set; }
         public int Estoque { get; set; }
-
+        public string? ImagemUrl { get; set; }
         // FK
         public long ProdutoId { get; set; }
         public Produto Produto { get; set; }

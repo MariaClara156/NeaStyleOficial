@@ -21,7 +21,7 @@ namespace NeaStyleOficial.Services
 
             _repo.Criar(produto);
         }
-        public void CadastrarVariacao(ProdutoVariacao variacao, long produtoId)
+        public void CadastrarVariacao(ProdutoVariacao variacao)
         {
             // Regra: estoque não pode ser negativo
             if (variacao.Estoque < 0)
@@ -58,6 +58,6 @@ namespace NeaStyleOficial.Services
         public List<Produto> Filtrar(string? nome, TamanhoProduto? tamanho, CorProduto? cor, TipoProduto? tipo, CategoriaProduto? categoria) => _repo.Filtrar(nome, tamanho, cor, tipo, categoria);
 
         public void Atualizar(Produto produto) => _repo.Atualizar(produto);
-        public void Deletar(long ProdutoId) => _repo.Deletar(ProdutoId);
+        public void Deletar(long produtoId) => _repo.Deletar(produtoId);
     }
 }

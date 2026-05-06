@@ -7,8 +7,6 @@ namespace NeaStyleOficial.Repositories
     public class FavoritoRepository
     {
         private readonly NeaStyleContext _context;
-
-        // Construtor: O ASP.NET injeta o contexto aqui automaticamente
         public FavoritoRepository(NeaStyleContext context)
         {
             _context = context;
@@ -20,11 +18,12 @@ namespace NeaStyleOficial.Repositories
             _context.SaveChanges();
         }
 
-        public Favorito BuscarPorClienteId(long clienteId)
+        public Favorito? BuscarPorClienteId(long clienteId)
         {
             return _context.Favoritos
                 .Include(f => f.Itens)
-                    .ThenInclude(i => i.Produto) // Dica: Inclua o produto para ver nome/preço na tela!
+                    .ThenInclude(i => i.Produto)
+                    .ThenInclude(p => p.Variacoes)
                 .FirstOrDefault(f => f.ClienteId == clienteId);
         }
 
@@ -42,7 +41,8 @@ namespace NeaStyleOficial.Repositories
                 
                 if (itemToRemove != null)
                 {
-                    _context.ItensConjunto.Remove(itemToRemove); // Remove da tabela de ligação
+                    // Remove da tabela de ligação
+                    _context.ItensConjunto.Remove(itemToRemove);
                     _context.SaveChanges();
                 }
             }

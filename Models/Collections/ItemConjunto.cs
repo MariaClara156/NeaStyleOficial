@@ -1,28 +1,26 @@
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Models.Users;
-
+// ItemConjunto representa um item específico dentro de um conjunto (Carrinho, Favoritos ou Conjunto personalizado)
 namespace NeaStyleOficial.Models.Collections
 {
     public class ItemConjunto
     {
         public long ItemConjuntoId { get; set; }
-        public long ProdutoId { get; set; }
-        public Produto Produto { get; set; }  // ← Relacionamento com Produto
-        public int Quantidade { get; set; }
-
         public long ProdutoVariacaoId { get; set; }
-        public ProdutoVariacao ProdutoVariacao { get; set; } // ← Relacionamento com ProdutoVariacao
-        
+        public ProdutoVariacao ProdutoVariacao { get; set; }
+        public int Quantidade { get; set; }
         // Chave estrangeira para Carrinho ou Favorito
         public long ConjuntoProdutoId { get; set; }
-        public ConjuntoProduto Conjunto { get; set; }  // ← Relacionamento com ConjuntoProduto  
+        public ConjuntoProduto Conjunto { get; set; } 
 
-        public ItemConjunto() { }
-        public ItemConjunto(long produtoId, int quantidade, long produtoVariacaoId)
+        protected ItemConjunto() { }
+        public ItemConjunto(long produtoVariacaoId, int quantidade)
         {
-            ProdutoId = produtoId;
-            Quantidade = quantidade;
+            if (quantidade <= 0)
+            throw new ArgumentException("Quantidade inválida");
+
             ProdutoVariacaoId = produtoVariacaoId;
+            Quantidade = quantidade;
         }
     }
 }

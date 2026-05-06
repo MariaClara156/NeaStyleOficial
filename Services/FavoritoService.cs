@@ -7,16 +7,15 @@ namespace NeaStyleOficial.Services
     public class FavoritoService
     {
         private readonly FavoritoRepository _favoritoRepo;
-
         public FavoritoService(FavoritoRepository favoritoRepo)
         {
             _favoritoRepo = favoritoRepo;
         }
 
-        public void AdicionarFavorito(long clienteId, Produto produto)
+        public void AdicionarFavorito(long clienteId, ProdutoVariacao produtoVariacao)
         {
-            if (produto == null)
-                throw new Exception("Produto inválido!");
+            if (produtoVariacao == null)
+                throw new Exception("Variação inválido!");
 
             // Busca o conjunto de favoritos do cliente para validar
             var favoritos = _favoritoRepo.BuscarPorClienteId(clienteId);
@@ -30,14 +29,14 @@ namespace NeaStyleOficial.Services
                 throw new Exception("Limite de 100 produtos nos favoritos atingido!");
 
             // Verifica se já está favoritado para não duplicar
-            if (favoritos.Itens.Any(i => i.ProdutoId == produto.ProdutoId))
-                return; // Se já existe, não faz nada (ou avisa o usuário)
+            if (favoritos.Itens.Any(i => i.ProdutoVariacaoId == produtoVariacao.ProdutoVariacaoId))
+                return;
 
             favoritos.Itens.Add(new ItemConjunto { 
-                ProdutoId = produto.ProdutoId, 
-                Quantidade = 1 // Sempre 1 para favoritos
+                ProdutoVariacaoId = produtoVariacao.ProdutoVariacaoId, 
+                // Sempre 1 para favoritos
+                Quantidade = 1 
             });
-
             _favoritoRepo.Atualizar(favoritos);
         }
 
@@ -47,9 +46,9 @@ namespace NeaStyleOficial.Services
             return favoritos.Itens;
         }
 
-        public void RemoverFavorito(long clienteId, long produtoId)
+        public void RemoverFavorito(long clienteId, long produtoVariacaoId)
         {
-            _favoritoRepo.RemoverItem(clienteId, produtoId);
+            _favoritoRepo.RemoverItem(clienteId, produtoVariacaoId);
         }
     }
 }

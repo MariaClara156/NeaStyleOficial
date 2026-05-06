@@ -6,7 +6,7 @@ namespace NeaStyleOficial.Models.Users
     {
         public string Cargo { get; set; }
 
-        public Administrador() { }
+        protected Administrador() { }
         public Administrador(string nome, string email, string senha, string cargo)
             : base(nome, email, senha)
         {

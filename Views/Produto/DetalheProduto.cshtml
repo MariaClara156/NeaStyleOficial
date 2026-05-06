@@ -1,37 +1,30 @@
-@model NeaStyleOficial.Models.Catalog.Produto
+@model NeaStyleOficial.ViewModels.DetalheProdutoViewModel
 
-@{
-    ViewData["Title"] = "Detalhes do Produto";
-}
+@* Exibe info do produto *@
+<h1>@Model.Produto.Nome</h1>
+<h3>R$ @Model.Produto.Variacoes.FirstOrDefault()?.Preco.ToString("F2")</h3>
 
-<div class="container mt-5">
-    <div class="row">
-        <!-- Lado Esquerdo: Imagem -->
-        <div class="col-md-6">
-            <img src="~/images/produtos/@Model.ImagemUrl" class="img-fluid rounded shadow" alt="@Model.Nome">
-        </div>
-
-        <!-- Lado Direito: Opções -->
-        <div class="col-md-6">
-            <h1>@Model.Nome</h1>
-            <h3 class="text-primary">R$ @Model.Preco.ToString("F2")</h3>
-            <p class="text-muted">@Model.Descricao</p>
-
-            <form asp-action="AdicionarAoCarrinho" method="post" class="mt-4">
-                <input type="hidden" name="ProdutoId" value="@Model.ProdutoId" />
-
-
-                <!-- Quantidade -->
-                <div class="mb-3">
-                    <label class="form-label">Quantidade</label>
-                    <input type="number" name="quantidade" value="1" 
-                           min="1" max="10" class="form-control" />
-                </div>
-
-                <button type="submit" class="btn btn-success btn-lg w-100">
-                    <i class="bi bi-cart-check"></i> Confirmar e Adicionar
-                </button>
-            </form>
-        </div>
+<form asp-controller="Carrinho" asp-action="AdicionarAoCarrinho" method="post">
+    
+    @* Select de variações *@
+    <div class="mb-3">
+        <label class="form-label">Escolha a variação</label>
+        <select name="produtoVariacaoId" class="form-select">
+            @foreach (var variacao in Model.Variacoes)
+            {
+                <option value="@variacao.ProdutoVariacaoId">
+                    @variacao.Tamanho — @variacao.Cor (@variacao.Estoque disponíveis)
+                </option>
+            }
+        </select>
     </div>
-</div>
+
+    <div class="mb-3">
+        <label class="form-label">Quantidade</label>
+        <input type="number" name="quantidade" value="1" min="1" max="10" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg w-100">
+        Adicionar ao Carrinho
+    </button>
+</form>

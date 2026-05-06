@@ -7,7 +7,6 @@ namespace NeaStyleOficial.Repositories
     public class PagamentoRepository
     {
         private readonly NeaStyleContext _context;
-
         public PagamentoRepository(NeaStyleContext context)
         {
             _context = context;

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NeaStyleOficial")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+892fc76ece17e5197256f1e41f6954db30cf1fe3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8775115b7e61d5aabdd6bd78ccac7f2a9606549")]
 [assembly: System.Reflection.AssemblyProductAttribute("NeaStyleOficial")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NeaStyleOficial")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

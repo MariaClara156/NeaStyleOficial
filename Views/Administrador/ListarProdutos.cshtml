@@ -9,4 +9,12 @@
     {
         <p>Tamanho: @variacao.Tamanho — Cor: @variacao.Cor — Estoque: @variacao.Estoque</p>
     }
+        <a asp-controller="ProdutoVariacao" 
+        asp-action="Criar" 
+        asp-route-produtoId="@item.Produto.ProdutoId"
+        class="btn btn-primary">
+            Adicionar Variação
+        </a>
+        <button class="btn btn-sm btn-primary" onclick="">Editar</button>
+        <button class="btn btn-sm btn-danger" onclick="">Excluir</button>
 }

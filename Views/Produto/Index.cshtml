@@ -1,4 +1,4 @@
-@model List<NeaStyleOficial.Models.Catalog.Produto>
+@model List<NeaStyleOficial.ViewModels.DetalheProdutoViewModel>
 
 @{
     ViewData["Title"] = "Produtos";
@@ -93,22 +93,24 @@
         {
             <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
                 <div class="card h-100 shadow-sm">
-                    <img src="~/images/produtos/@produto.ImagemUrl" width="100" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
-                    
+                    <img src="~/images/produtos/@produto.Variacoes.FirstOrDefault()?.ImagemUrl" width="100" class="card-img-top" alt="@produto.Produto.Nome" style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@produto.Nome</h5>
-                        <p class="card-text text-muted small">@produto.Descricao</p>
-                        <h6 class="mt-auto text-primary">R$ @produto.Preco.ToString("F2")</h6>
-                        
+                        <h5 class="card-title">@produto.Produto.Nome</h5>
+                        <p class="card-text text-muted small">@produto.Produto.Descricao</p>
+                        <h6 class="mt-auto text-primary">R$ @produto.Variacoes.FirstOrDefault()?.Preco.ToString("F2")</h6>
+
                         <div class="d-grid gap-2 mt-3">
-                            <button class="btn btn-outline-danger btn-sm" asp-action="AdicionarFavorito" asp-route-id="@produto.ProdutoId" onclick="alert('Produto adicionado aos favoritos!')">
+                            <a asp-controller="Favorito" asp-action="AdicionarFavorito" 
+                              asp-route-produtoId="@produto.Produto.ProdutoId"
+                              class="btn btn-outline-danger btn-sm">
                                 <i class="bi bi-heart"></i> Favoritar
-                            </button>
-                            <a asp-action="AdicionarCarrinho" asp-route-id="@produto.ProdutoId" class="btn btn-success">
-                            <button class="btn btn-success" asp-action="AdicionarCarrinho" asp-route-id="@produto.ProdutoId">
-                                <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
-                            </button>
                             </a>
+
+                            <a asp-controller="Produto" asp-action="DetalheProduto" 
+                            asp-route-id="@produto.Produto.ProdutoId"
+                            class="btn btn-dark btn-sm">
+                              Ver e Comprar
+                          </a>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,6 @@ namespace NeaStyleOficial.Repositories
     public class PedidoRepository
     {
         private readonly NeaStyleContext _context;
-        
         public PedidoRepository(NeaStyleContext context)
         {
             _context = context;
@@ -41,7 +40,7 @@ namespace NeaStyleOficial.Repositories
 
         public void Atualizar(long pedidoId, StatusPedido novoStatus)
         {
-                var pedido = _context.Pedidos.Find(pedidoId); // minúsculo!
+                var pedido = _context.Pedidos.Find(pedidoId);
                 if (pedido != null)
                 {
                     pedido.Status = novoStatus;

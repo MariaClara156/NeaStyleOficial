@@ -1,0 +1,114 @@
+@model List<NeaStyleOficial.ViewModels.DetalheProdutoViewModel>
+
+@{
+    ViewData["Title"] = "Produtos Masculino";
+}
+<!-- Filtro de produtos-->
+<div class="shop-layout">
+  <aside class="filters">
+    <div class="filter-group">
+      <h3>Faixa de Preço</h3>
+      <div class="price-inputs">
+        <input type="number" placeholder="Min" value="0">
+        <input type="number" placeholder="Max" value="500">
+      </div>
+    </div>
+    <div class="filter-group">
+      <h3>Tipo de Roupas</h3>
+      <div class="filter-options">
+        <label class="filter-checkbox">
+        <input type="checkbox" checked> Camisetas
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Blusas
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Jaquetas
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Casacos
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Macacão
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Calças
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Vestidos
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Saias
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Shorts
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> Conjuntos
+        </label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <h3>Disponibilidade</h3>
+      <div class="filter-options">
+        <label class="filter-checkbox">
+        <input type="checkbox" checked> No estoque
+        </label>
+        <label class="filter-checkbox">
+        <input type="checkbox"> A venda
+        </label>
+      </div>
+    </div>
+    <button class="filter-button">Aplicar Filtros</button>
+  </aside>
+  <section class="products-section">
+    <div class="products-header">
+      <h2>Coleções NeaStyle</h2>
+      <div class="sort-options">
+        <select>
+          <option>Ordenar por: Recurso</option>
+          <option>Preço: Baixo para Alto</option>
+          <option>Preço: Alto para Baixo</option>
+          <option>Novidades</option>
+          <option>Bestselling</option>
+        </select>
+      </div>
+    </div>
+    <!--Fim do filtro--->
+
+    <!--Lógica com C# para exibir produtos do banco--->
+    <div class="row">
+        @foreach (var produto in Model)
+        {
+            <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="~/images/produtos/@produto.Variacoes.FirstOrDefault()?.ImagemUrl" width="100" class="card-img-top" alt="@produto.Produto.Nome" style="height: 200px; object-fit: cover;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@produto.Produto.Nome</h5>
+                        <p class="card-text text-muted small">@produto.Produto.Descricao</p>
+                        <h6 class="mt-auto text-primary">R$ @produto.Variacoes.FirstOrDefault()?.Preco.ToString("F2")</h6>
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-outline-danger btn-sm" asp-action="AdicionarFavorito" asp-route-id="@produto.Produto.ProdutoId" onclick="alert('Produto adicionado aos favoritos!')">
+                                <i class="bi bi-heart"></i> Favoritar
+                            </button>
+                            <a asp-action="AdicionarCarrinho" asp-route-id="@produto.Produto.ProdutoId" class="btn btn-success">
+                                <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!--Navegação de produtos dentro da página--->
+      <div class="pagination">
+        <button class="page-button active">1</button>
+        <button class="page-button">2</button>
+        <button class="page-button">3</button>
+        <button class="page-button">Próxima</button>
+      </div>
+  </section>
+</div>

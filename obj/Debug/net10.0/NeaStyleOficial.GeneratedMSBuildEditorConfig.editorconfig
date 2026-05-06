@@ -34,24 +34,12 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxBdHVhbGl6YXJQcm9kdXRvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/AtualizarVariacoes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxBdHVhbGl6YXJWYXJpYWNvZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/CadastrarProdutos.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxDYWRhc3RyYXJQcm9kdXRvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/CadastrarVariacao.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxDYWRhc3RyYXJWYXJpYWNhby5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/ExcluirProduto.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxFeGNsdWlyUHJvZHV0by5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/ExcluirVariacao.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvclxFeGNsdWlyVmFyaWFjYW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Administrador/GerenciarClientes.cshtml]
@@ -94,12 +82,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Pagamento/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnYW1lbnRvXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Pedido/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Pedido/Pagamento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXFBhZ2FtZW50by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Pedido/Reembolso.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXFJlZW1ib2xzby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/c\#/NeaStyleOficial/NeaStyleOficial/Views/Produto/DetalheProduto.cshtml]

@@ -9,6 +9,7 @@ namespace NeaStyleOficial.Controllers
     public class ProdutoController : Controller
     {
         private readonly ProdutoService _service;
+        
 
         // ASP.NET injeta o service automaticamente
         public ProdutoController(ProdutoService service)
@@ -20,26 +21,41 @@ namespace NeaStyleOficial.Controllers
             var produtos = _service.BuscarTodos();
             return View(produtos);
         }
-        public IActionResult Detalhes(long produtoId)
+        public IActionResult DetalheProduto(long id)
         {
-            var produto = _service.BuscarPorId(produtoId);
-            var variacoes = _service.BuscarVariacaoPorId(produtoId);
-            var estoque = _service.CalcularEstoqueTotal(produtoId);
-
-            var vm = new DetalheProdutoViewModel
+            var produto = _service.BuscarPorId(id);
+            if (produto == null) return NotFound();
+            
+            var viewModel = new DetalheProdutoViewModel
             {
                 Produto = produto,
                 Variacoes = produto.Variacoes,
-                EstoqueTotal = estoque
+                EstoqueTotal = produto.Variacoes.Sum(v => v.Estoque)
             };
-
-            return View(vm);
+            
+            return View(viewModel);
         }
         //FILTRAR//
         public IActionResult Filtrar(string? nome, TamanhoProduto? tamanho, CorProduto? cor, TipoProduto? tipo, CategoriaProduto? categoria)
         {
             var produtos = _service.Filtrar(nome, tamanho, cor, tipo, categoria);
             return View("Index", produtos);
+        }
+
+        public IActionResult Feminino()
+        {
+            var produtos = _service.Filtrar(null, null, null, null, CategoriaProduto.Feminino);
+            return View(produtos);
+        }
+        public IActionResult Masculino()
+        {
+            var produtos = _service.Filtrar(null, null, null, null, CategoriaProduto.Masculino);
+            return View(produtos);
+        }
+        public IActionResult Unissex()
+        {
+            var produtos = _service.Filtrar(null, null, null, null, CategoriaProduto.Unissex);
+            return View(produtos);
         }
     }
 }           

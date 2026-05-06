@@ -30,7 +30,7 @@ namespace NeaStyleOficial.Services
                     ClienteId = clienteId,
                     DataPedido = DateTime.Now,
                     Status = StatusPedido.Pendente,
-                    ValorTotal = carrinho.Itens.Sum(i => i.Produto.Preco * i.Quantidade)
+                    ValorTotal = carrinho.Itens.Sum(i => i.ProdutoVariacao.Preco * i.Quantidade)
                 };
 
                 // 3. Salva o pedido e limpa o carrinho
@@ -47,16 +47,16 @@ namespace NeaStyleOficial.Services
             return _pedidoRepo.BuscarTodos();
         }
 
-        public Pedido VerDetalhesPedido(long PedidoId)
+        public Pedido VerDetalhesPedido(long pedidoId)
         {
-            var pedido = _pedidoRepo.BuscarPorId(PedidoId);
+            var pedido = _pedidoRepo.BuscarPorId(pedidoId);
             if (pedido == null) throw new Exception("Pedido não encontrado!");
             return pedido;
         }
 
-        public void CancelarPedido(long PedidoId)
+        public void CancelarPedido(long pedidoId)
         {
-            var pedido = _pedidoRepo.BuscarPorId(PedidoId);
+            var pedido = _pedidoRepo.BuscarPorId(pedidoId);
             if (pedido == null) throw new Exception("Pedido não encontrado!");
             if (pedido.Status != StatusPedido.Pendente)
                 throw new Exception("Somente pedidos pendentes podem ser cancelados!");

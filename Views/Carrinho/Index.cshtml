@@ -1,0 +1,7 @@
+@model NeaStyleOficial.ViewModels.CarrinhoViewModel
+
+@foreach (var item in Model.Itens)
+{
+    <p>@item.NomeProduto — @item.Quantidade x @item.PrecoUnitario</p>
+}
+<p>Total: @Model.Total</p>

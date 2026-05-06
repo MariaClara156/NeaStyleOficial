@@ -23,12 +23,12 @@ namespace NeaStyleOficial.Controllers
             _pedidoService = pedidoService;
         }
 
-        // Dashboard
+        // GET
         public IActionResult Index()
         {
             return View();
         }
-        /* CRUD Produtos */
+        //-------------PRODUTOS------------
         public IActionResult ListarProdutos()
         {
             var produtos = _produtoService.BuscarTodos();
@@ -42,7 +42,6 @@ namespace NeaStyleOficial.Controllers
 
             return View(viewModel);
         }   
-        
         public IActionResult CadastrarProdutos()
         {
             return View();
@@ -55,7 +54,48 @@ namespace NeaStyleOficial.Controllers
             ViewBag.ProdutoId = produtoId;
             return View();
         }
+        
+        public IActionResult EditarProduto(long produtoId)
+        {
+            var produto = _produtoService.BuscarPorId(produtoId);
+            if (produto == null)
+                return NotFound();
+            return View(produto);
+        }
+        public IActionResult DeletarProduto(long produtoId)
+        {
+            var produto = _produtoService.BuscarPorId(produtoId);
+            if (produto == null)
+                return NotFound();
 
+            return View(produto);
+        }
+        //--------PEDIDOS----------------
+        public IActionResult GerenciarPedidos()
+        {
+            var pedidos = _pedidoService.VerTodosPedidos();
+            return View(pedidos);
+        }
+        public IActionResult Relatorio()
+        {
+            var pedidos = _pedidoService.VerTodosPedidos();
+            return View(pedidos);
+        }
+        //----------CLIENTES-------------
+        public IActionResult GerenciarClientes()
+        {
+            var clientes = _clienteService.BuscarTodos();
+            return View(clientes);
+        }
+        public IActionResult DeletarCliente(long usuarioId)
+        {
+            var cliente = _clienteService.BuscarPorId(usuarioId);
+            if (cliente == null)
+                return NotFound();
+
+            return View(cliente);
+        }
+        //----------------POST--------------
         [HttpPost]
         public async Task<IActionResult> CadastrarProdutos(CadastrarProdutoViewModel vm, IFormFile fotoArquivo)
         {
@@ -74,12 +114,9 @@ namespace NeaStyleOficial.Controllers
                 var produto = new Produto
                 {
                     Nome = vm.Nome,
-                    Preco = vm.Preco,
-                    PrecoCusto = vm.PrecoCusto,
                     Descricao = vm.Descricao,
-                    ImagemUrl = vm.ImagemUrl,
-                    Categoria = vm.Categoria, // ← propriedade se chama Categoria
-                    Tipo = vm.Tipo             // ← propriedade se chama Tipo
+                    Categoria = vm.Categoria,
+                    Tipo = vm.Tipo             
                 };
                 _produtoService.CadastrarProduto(produto); // Service continua recebendo Produto
                 // Redireciona pra tela de variação passando o ID do produto recém criado
@@ -124,53 +161,28 @@ namespace NeaStyleOficial.Controllers
                 return View(vm);
             }
         }
-
-        public IActionResult EditarProduto(long produtoId)
-        {
-            var produto = _produtoService.BuscarPorId(produtoId);
-            if (produto == null)
-                return NotFound();
-            return View(produto);
-        }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditarProduto(Produto produto)
         {
+            if (!ModelState.IsValid)
+                return View(produto);
+
             _produtoService.Atualizar(produto);
             return RedirectToAction("ListarProdutos");
         }
-
-        public IActionResult DeletarProduto(long produtoId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletarProdutoConfirmado(long produtoId)
         {
-            var produto = _produtoService.BuscarPorId(produtoId);
-            if (produto == null)
-                return NotFound();
             _produtoService.Deletar(produtoId);
-            return RedirectToAction("Index");
+            return RedirectToAction("ListarProdutos");
         }
-        /* Read Pedidos */
-        public IActionResult GerenciarPedidos()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletarClienteConfirmado(long usuarioId)
         {
-            var pedidos = _pedidoService.VerTodosPedidos();
-            return View(pedidos);
-        }
-        // Relatório de vendas
-        public IActionResult Relatorio()
-        {
-            var pedidos = _pedidoService.VerTodosPedidos();
-            return View(pedidos);
-        }
-        /* Read, Delete Clientes */
-        public IActionResult GerenciarClientes()
-        {
-            var clientes = _clienteService.BuscarTodos();
-            return View(clientes);
-        }
-        public IActionResult DeletarCliente(long UsuarioId)
-        {
-            var cliente = _clienteService.BuscarPorId(UsuarioId);
-            if (cliente == null)
-                return NotFound();
-            _clienteService.Deletar(UsuarioId);
+            _clienteService.Deletar(usuarioId);
             return RedirectToAction("GerenciarClientes");
         }
     }

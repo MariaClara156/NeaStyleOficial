@@ -1,13 +1,11 @@
 ﻿using NeaStyleOficial.Data;
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Repositories;
-
 namespace NeaStyleOficial.Services
 {
     public class ProdutoService
     {
         private readonly ProdutoRepository _repo;
-
         public ProdutoService(ProdutoRepository repo)
         {
             _repo = repo;
@@ -15,18 +13,10 @@ namespace NeaStyleOficial.Services
 
         public void CadastrarProduto(Produto produto)
         {
-            // Regra: preço não pode ser zero ou negativo
-            if (produto.Preco <= 0)
-                throw new Exception("Preço deve ser maior que zero!");
-
             _repo.Criar(produto);
         }
         public void CadastrarVariacao(ProdutoVariacao variacao)
         {
-            // Regra: estoque não pode ser negativo
-            if (variacao.Estoque < 0)
-                throw new Exception("Estoque não pode ser negativo!");
-
             _repo.CriarVariacao(variacao);
         }
         // -------------------BUSCAS-------------------//
@@ -56,7 +46,6 @@ namespace NeaStyleOficial.Services
         }
         // -------------------FILTRAR-------------------//
         public List<Produto> Filtrar(string? nome, TamanhoProduto? tamanho, CorProduto? cor, TipoProduto? tipo, CategoriaProduto? categoria) => _repo.Filtrar(nome, tamanho, cor, tipo, categoria);
-
         public void Atualizar(Produto produto) => _repo.Atualizar(produto);
         public void Deletar(long produtoId) => _repo.Deletar(produtoId);
     }

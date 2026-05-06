@@ -1,4 +1,4 @@
-// Models/Catalog/Enums.cs
+// Enums para padronizar as categorias, tipos, tamanhos e cores dos produtos
 namespace NeaStyleOficial.Models.Catalog
 {
     public enum CategoriaProduto

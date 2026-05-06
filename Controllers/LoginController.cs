@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using NeaStyleOficial.Models.Users;
-using NeaStyleOficial.Services;
 using NeaStyleOficial.Data;
 
 namespace NeaStyleOficial.Controllers
@@ -26,48 +25,41 @@ namespace NeaStyleOficial.Controllers
     {
         try
         {
-            // 1. Tenta buscar no banco se existe um Administrador com esse email e senha
             var adm = _context.Administradores
                 .FirstOrDefault(a => a.Email == email);
-        if (adm != null)
-        {
-            await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
-            return RedirectToAction("Index", "Administrador");
-            var resultado = hasher.VerifyHashedPassword(adm, adm.Senha, senha);
-            if (resultado == PasswordVerificationResult.Success)
+
+            if (adm != null)
             {
-                return RedirectToAction("Index", "Administrador");
+                var resultado = hasher.VerifyHashedPassword(adm, adm.Senha, senha);
+
+                if (resultado == PasswordVerificationResult.Success)
+                {
+                    await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
+                    return RedirectToAction("Index", "Administrador");
+                }
+            }
+            var cliente = _context.Clientes
+                .FirstOrDefault(c => c.Email == email);
+
+            if (cliente != null)
+            {
+                var resultado = hasher.VerifyHashedPassword(cliente, cliente.Senha, senha);
+
+                if (resultado == PasswordVerificationResult.Success)
+                {
+                    await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
+                    return RedirectToAction("Index", "Produto");
+                }
             }
 
-        }
-        // 2. Se não achou adm, tenta buscar um Cliente
-        var cliente = _context.Clientes
-            .FirstOrDefault(c => c.Email == email);
-        if (cliente != null)
-        {
-        await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
-        return RedirectToAction("Index", "Produto");
-        
-        // 3. Verifica se a senha digitada gera o mesmo código que está no banco
-        var resultado = hasher.VerifyHashedPassword(cliente, cliente.Senha, senha);
-
-        if (resultado == PasswordVerificationResult.Success)
-        {
-            // SENHA CORRETA! 
-            // Aqui você cria a Session ou o Cookie de autenticação
-            return RedirectToAction("Index", "Produto");
-        }
-        }
-        }
-        
-        catch (Exception ex)
-        {
-            ModelState.AddModelError("", "Ocorreu um erro ao tentar fazer login.");
+            ModelState.AddModelError("", "E-mail ou senha incorretos.");
             return View();
         }
-        // 3. Se chegou aqui, nada bateu
-        ModelState.AddModelError("", "E-mail ou senha incorretos.");
-        return View();
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View();
+        }
     }
 
     private async Task CriarSessao(string id, string nome, string perfil)

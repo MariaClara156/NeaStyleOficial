@@ -13,13 +13,12 @@ namespace NeaStyleOficial.Repositories
             _context = context;
         }
 
-        // CREATE
+        // CREATE - Produto e variação são criados separadamente, já que um produto pode ter várias variações (tamanho, cor, etc.)
         public void Criar(Produto produto)
         {
             _context.Produtos.Add(produto);
             _context.SaveChanges();
         }
-
         public void CriarVariacao(ProdutoVariacao variacao)
         {
             _context.ProdutoVariacoes.Add(variacao);
@@ -30,57 +29,54 @@ namespace NeaStyleOficial.Repositories
         public List<Produto> BuscarTodos()
         {
             return _context.Produtos
-                .Include(p => p.Variacoes) // ← aqui também!
+            //Include é necessário pra carregar as variações junto com o produto, já que são entidades relacionadas
+                .Include(p => p.Variacoes)
                 .ToList();
         }
         // READ - busca por ID da variação
-        public ProdutoVariacao BuscarVariacaoPorId(long ProdutoVariacaoId)
+        public ProdutoVariacao? BuscarVariacaoPorId(long produtoVariacaoId)
         {
             return _context.ProdutoVariacoes
                 .Include(v => v.Produto)
-                .FirstOrDefault(v => v.ProdutoVariacaoId == ProdutoVariacaoId);
+                .FirstOrDefault(v => v.ProdutoVariacaoId == produtoVariacaoId);
         }
         // READ - busca por ID do produto
-        public Produto BuscarPorId(long produtoId) 
+        public Produto? BuscarPorId(long produtoId) 
         {
             return _context.Produtos
-                // 1. Você inclui a PROPRIEDADE DE NAVEGAÇÃO (a lista), não o ID!
                 .Include(p => p.Variacoes) 
-                // 2. Você busca pelo ID do Produto
                 .FirstOrDefault(p => p.ProdutoId == produtoId);
         }
         // READ - busca por nome
         public List<Produto> BuscarPorNome(string nome)
         {
             return _context.Produtos
-                .Include(p => p.Variacoes) // Inclui as variações para buscar por nome
-                .Where(p => p.Nome.Contains(nome)) // Busca produtos cujo nome contenha a string fornecida
+                .Include(p => p.Variacoes)
+                .Where(p => p.Nome.Contains(nome))
                 .ToList();
         }
         //READ - Calcular estoque total do produto
         public int CalcularEstoqueTotal(long produtoId)
         {
             var produto = _context.Produtos
-                .Include(p => p.Variacoes) // Inclui as variações para calcular o estoque total
+                .Include(p => p.Variacoes)
                 .FirstOrDefault(p => p.ProdutoId == produtoId);
-
+            // Se o produto não for encontrado, retorna 0 como estoque total
             if (produto == null)
-                return 0; // Produto não encontrado, retorna 0
-
-            return produto.Variacoes.Sum(v => v.Estoque); // Soma o estoque de todas as variações
+                return 0;
+            return produto.Variacoes.Sum(v => v.Estoque);
         }
         //------------------------FILTROS------------------------//
         public List<Produto> Filtrar(string? nome, TamanhoProduto? tamanho, CorProduto? cor, TipoProduto? tipo, CategoriaProduto? categoria)
         {
+            // Começa com a consulta base, incluindo as variações pra poder filtrar por atributos delas
             var query = _context.Produtos
                 .Include(p => p.Variacoes)
+                // AsQueryable() é importante pra permitir construir a consulta dinamicamente com os filtros opcionais
                 .AsQueryable();
-
+            // Aplica cada filtro somente se ele tiver sido fornecido (não for nulo ou vazio)
             if (!string.IsNullOrEmpty(nome))
-            {
-                var nomeFiltro = nome.ToLower();
                 query = query.Where(p => p.Nome.ToLower().Contains(nomeFiltro));
-            }
             if (tamanho.HasValue)
                 query = query.Where(p => p.Variacoes.Any(v => v.Tamanho == tamanho.Value));
             if (cor.HasValue)
@@ -89,7 +85,7 @@ namespace NeaStyleOficial.Repositories
                 query = query.Where(p => p.Tipo == tipo.Value);
             if (categoria.HasValue)
                 query = query.Where(p => p.Categoria == categoria.Value);
-
+            // Executa a consulta e retorna os resultados como uma lista
             return query.ToList();
         }
         // UPDATE
@@ -99,17 +95,15 @@ namespace NeaStyleOficial.Repositories
             _context.SaveChanges();
         }
         // DELETE
-        public void Deletar(long ProdutoId)
+        public void Deletar(long produtoId)
         {
             var produto = _context.Produtos
             .Include(p => p.Variacoes)
-            .FirstOrDefault(p => p.ProdutoId == ProdutoId);
+            .FirstOrDefault(p => p.ProdutoId == produtoId);
 
             if (produto != null)
             {
-                _context.ProdutoVariacoes.RemoveRange(produto.Variacoes);
                 _context.Produtos.Remove(produto);
-                _context.SaveChanges();
             }
         }
     }

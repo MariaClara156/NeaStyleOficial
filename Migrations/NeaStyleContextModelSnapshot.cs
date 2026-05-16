@@ -118,25 +118,13 @@ namespace NeaStyleOficial.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ItemConjuntoId"));
 
-                    b.Property<long>("ConjuntoProdutoId")
+                    b.Property<long?>("CarrinhoId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PedidoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProdutoId")
+                    b.Property<long?>("FavoritoId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProdutoVariacaoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProdutoVariacaoId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProdutoVariacaoId2")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProdutoVariacaoId3")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Quantidade")
@@ -144,35 +132,31 @@ namespace NeaStyleOficial.Migrations
 
                     b.HasKey("ItemConjuntoId");
 
-                    b.HasIndex("ConjuntoProdutoId");
+                    b.HasIndex("CarrinhoId");
 
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProdutoId");
+                    b.HasIndex("FavoritoId");
 
                     b.HasIndex("ProdutoVariacaoId");
-
-                    b.HasIndex("ProdutoVariacaoId1");
-
-                    b.HasIndex("ProdutoVariacaoId2");
-
-                    b.HasIndex("ProdutoVariacaoId3");
 
                     b.ToTable("ItensConjunto", (string)null);
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Sales.ItemPedido", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long>("ItemPedidoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ItemPedidoId"));
+
+                    b.Property<string>("ImagemUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomeProduto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("PedidoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("PedidoId1")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("PrecoUnitario")
@@ -184,13 +168,9 @@ namespace NeaStyleOficial.Migrations
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemPedidoId");
 
                     b.HasIndex("PedidoId");
-
-                    b.HasIndex("PedidoId1");
-
-                    b.HasIndex("ProdutoVariacaoId");
 
                     b.ToTable("ItensPedido", (string)null);
                 });
@@ -236,6 +216,9 @@ namespace NeaStyleOficial.Migrations
                     b.Property<long>("ClienteId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("ClienteUsuarioId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("DataPedido")
                         .HasColumnType("datetime2");
 
@@ -251,6 +234,8 @@ namespace NeaStyleOficial.Migrations
                     b.HasKey("PedidoId");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("ClienteUsuarioId");
 
                     b.HasIndex("ProdutoId");
 
@@ -346,16 +331,6 @@ namespace NeaStyleOficial.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Administradores", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UsuarioId = 1L,
-                            Email = "mariaclara4290@gmail.com",
-                            Nome = "Admin Master",
-                            Senha = "admin123",
-                            Cargo = "Gerente"
-                        });
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Users.Cliente", b =>
@@ -393,43 +368,23 @@ namespace NeaStyleOficial.Migrations
 
             modelBuilder.Entity("NeaStyleOficial.Models.Collections.ItemConjunto", b =>
                 {
-                    b.HasOne("NeaStyleOficial.Models.Collections.ConjuntoProduto", "Conjunto")
+                    b.HasOne("NeaStyleOficial.Models.Collections.Carrinho", "Carrinho")
                         .WithMany("Itens")
-                        .HasForeignKey("ConjuntoProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarrinhoId");
 
-                    b.HasOne("NeaStyleOficial.Models.Sales.Pedido", null)
+                    b.HasOne("NeaStyleOficial.Models.Collections.Favorito", "Favorito")
                         .WithMany("Itens")
-                        .HasForeignKey("PedidoId");
-
-                    b.HasOne("NeaStyleOficial.Models.Catalog.Produto", "Produto")
-                        .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FavoritoId");
 
                     b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", "ProdutoVariacao")
-                        .WithMany()
+                        .WithMany("Itens")
                         .HasForeignKey("ProdutoVariacaoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", null)
-                        .WithMany("ItensCarrinho")
-                        .HasForeignKey("ProdutoVariacaoId1");
+                    b.Navigation("Carrinho");
 
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", null)
-                        .WithMany("ItensConjunto")
-                        .HasForeignKey("ProdutoVariacaoId2");
-
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", null)
-                        .WithMany("ItensFavorito")
-                        .HasForeignKey("ProdutoVariacaoId3");
-
-                    b.Navigation("Conjunto");
-
-                    b.Navigation("Produto");
+                    b.Navigation("Favorito");
 
                     b.Navigation("ProdutoVariacao");
                 });
@@ -437,24 +392,12 @@ namespace NeaStyleOficial.Migrations
             modelBuilder.Entity("NeaStyleOficial.Models.Sales.ItemPedido", b =>
                 {
                     b.HasOne("NeaStyleOficial.Models.Sales.Pedido", "Pedido")
-                        .WithMany()
+                        .WithMany("Itens")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("NeaStyleOficial.Models.Sales.Pedido", null)
-                        .WithMany("ItensPedido")
-                        .HasForeignKey("PedidoId1");
-
-                    b.HasOne("NeaStyleOficial.Models.Catalog.ProdutoVariacao", "ProdutoVariacao")
-                        .WithMany()
-                        .HasForeignKey("ProdutoVariacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pedido");
-
-                    b.Navigation("ProdutoVariacao");
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Sales.Pagamento", b =>
@@ -471,10 +414,14 @@ namespace NeaStyleOficial.Migrations
             modelBuilder.Entity("NeaStyleOficial.Models.Sales.Pedido", b =>
                 {
                     b.HasOne("NeaStyleOficial.Models.Users.Cliente", "Cliente")
-                        .WithMany("Pedidos")
+                        .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("NeaStyleOficial.Models.Users.Cliente", null)
+                        .WithMany("Pedidos")
+                        .HasForeignKey("ClienteUsuarioId");
 
                     b.HasOne("NeaStyleOficial.Models.Catalog.Produto", null)
                         .WithMany("Pedidos")
@@ -525,15 +472,6 @@ namespace NeaStyleOficial.Migrations
 
             modelBuilder.Entity("NeaStyleOficial.Models.Catalog.ProdutoVariacao", b =>
                 {
-                    b.Navigation("ItensCarrinho");
-
-                    b.Navigation("ItensConjunto");
-
-                    b.Navigation("ItensFavorito");
-                });
-
-            modelBuilder.Entity("NeaStyleOficial.Models.Collections.ConjuntoProduto", b =>
-                {
                     b.Navigation("Itens");
                 });
 
@@ -541,11 +479,19 @@ namespace NeaStyleOficial.Migrations
                 {
                     b.Navigation("Itens");
 
-                    b.Navigation("ItensPedido");
-
                     b.Navigation("Pagamentos");
 
                     b.Navigation("Reembolsos");
+                });
+
+            modelBuilder.Entity("NeaStyleOficial.Models.Collections.Carrinho", b =>
+                {
+                    b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("NeaStyleOficial.Models.Collections.Favorito", b =>
+                {
+                    b.Navigation("Itens");
                 });
 
             modelBuilder.Entity("NeaStyleOficial.Models.Users.Cliente", b =>

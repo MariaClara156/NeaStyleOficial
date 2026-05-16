@@ -6,12 +6,12 @@ namespace NeaStyleOficial.Models.Users
     {
         public string Cargo { get; set; }
 
-        protected Administrador() { }
+        public Administrador() { }
+
         public Administrador(string nome, string email, string senha, string cargo)
             : base(nome, email, senha)
         {
             Cargo = cargo;
         }
-        
     }
 }

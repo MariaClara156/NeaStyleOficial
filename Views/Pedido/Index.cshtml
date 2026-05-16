@@ -1,0 +1,10 @@
+@model IEnumerable<NeaStyleOficial.Models.Sales.Pedido>
+
+@{
+    ViewData["Title"] = "Lista de Pedidos";
+}
+
+@foreach (var c in Model)
+{
+    <p>@c.DataPedido - @c.ValorTotal - @c.Status</p>
+}

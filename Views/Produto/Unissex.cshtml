@@ -1,0 +1,109 @@
+@model List<NeaStyleOficial.ViewModels.Catalog.CatalogoProdutoViewModel>
+@{
+    ViewData["Title"] = "Unissex";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/catalogo.css" asp-append-version="true" />
+}
+
+<div class="catalogo-wrapper">
+
+    <aside class="catalogo-sidebar">
+        <h5 class="sidebar-titulo">Filtros</h5>
+
+        <div class="filtro-grupo">
+            <h6>Faixa de Preço</h6>
+            <div class="d-flex gap-2">
+                <input type="number" class="form-control form-control-sm" placeholder="Min" value="0">
+                <input type="number" class="form-control form-control-sm" placeholder="Max" value="500">
+            </div>
+        </div>
+
+        <div class="filtro-grupo">
+            <h6>Tipo</h6>
+            @foreach (var tipo in new[] { "Camisetas","Blusas","Jaquetas","Casacos","Calças","Shorts","Conjuntos" })
+            {
+                <label class="filtro-check">
+                    <input type="checkbox"> @tipo
+                </label>
+            }
+        </div>
+
+        <div class="filtro-grupo">
+            <h6>Disponibilidade</h6>
+            <label class="filtro-check"><input type="checkbox" checked> Em estoque</label>
+            <label class="filtro-check"><input type="checkbox"> Todos</label>
+        </div>
+
+        <button class="btn-nea w-100 mt-3">Aplicar Filtros</button>
+    </aside>
+
+    <section class="catalogo-produtos">
+
+        <div class="catalogo-header">
+            <h2>Unissex</h2>
+            <select class="form-select form-select-sm catalogo-ordem">
+                <option>Ordenar por</option>
+                <option>Preço: Menor para Maior</option>
+                <option>Preço: Maior para Menor</option>
+                <option>Novidades</option>
+            </select>
+        </div>
+
+        <div class="produtos-grid">
+            @foreach (var produto in Model)
+            {
+                <div class="produto-card">
+                    <div class="produto-imagem">
+                        <img src="~/images/produtos/@produto.ImagemUrl" alt="@produto.Nome" />
+                        <button class="btn-favoritar btn-favoritar@(produto.ProdutoId)"
+                                data-id="@produto.ProdutoId"
+                                title="Favoritar">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                    </div>
+                    <div class="produto-info">
+                        <h6 class="produto-nome">@produto.Nome</h6>
+                        <p class="produto-desc">@produto.Descricao</p>
+                        <div class="produto-rodape">
+                            <span class="produto-preco">R$ @produto.MenorPreco.ToString("F2")</span>
+                            <a asp-controller="Produto"
+                               asp-action="DetalheProduto"
+                               asp-route-produtoId="@produto.ProdutoId"
+                               class="btn-nea-outline">
+                                Ver e Comprar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="catalogo-paginacao">
+            <button class="pag-btn active">1</button>
+            <button class="pag-btn">2</button>
+            <button class="pag-btn">3</button>
+            <button class="pag-btn">→</button>
+        </div>
+
+    </section>
+</div>
+
+@section Scripts {
+<script>
+document.querySelectorAll('.btn-favoritar').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const id = this.dataset.id;
+        fetch(`/Favorito/AdicionarFavorito?produtoId=${id}`)
+            .then(r => r.json())
+            .then(data => {
+                if (data.sucesso) {
+                    this.querySelector('i').classList.replace('bi-heart', 'bi-heart-fill');
+                    this.style.color = '#c0392b';
+                }
+            });
+    });
+});
+</script>
+}

@@ -3,6 +3,7 @@ using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Models.Sales;
 using NeaStyleOficial.Models.Collections;
 using NeaStyleOficial.Services;
+using NeaStyleOficial.ViewModels.Sales;
 
 namespace NeaStyleOficial.Controllers
 {
@@ -17,38 +18,46 @@ namespace NeaStyleOficial.Controllers
             _pedidoService = pedidoService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(long pedidoId)
         {
-            return View();
+            var pedido = _pedidoService.VerDetalhesPedido(pedidoId);
+
+            var viewModel = new PagamentoViewModel
+            {
+                PedidoId = pedido.PedidoId,
+                ValorTotal = pedido.ValorTotal,
+                ItensPedido = pedido.Itens ?? new List<ItemPedido>() 
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult ProcessarPagamento(Pagamento pagamento)
+        public IActionResult ProcessarPagamento(PagamentoViewModel vm)
         {
             try
             {
-                _pagamentoService.ProcessarPagamento(pagamento);
-                return RedirectToAction("Confirmacao", new { PedidoId = pagamento.PedidoId });
+                _pagamentoService.RealizarPagamento(vm.PedidoId, vm.MetodoPagamento, vm.Parcelas, vm.ValorTotal);
+                return RedirectToAction("Confirmacao", new { pedidoId = vm.PedidoId });
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
-                return View("Index");
+                TempData["Erro"] = ex.Message;
+                return RedirectToAction("Index", "Pedido");
             }
         }
 
-        public IActionResult Confirmacao(long PedidoId)
+        public IActionResult Confirmacao(long pedidoId)
         {
             try
             {
-                _pagamentoService.ConfirmarPagamento(PedidoId);
-                var pedido = _pedidoService.VerDetalhesPedido(PedidoId);
+                var pedido = _pedidoService.VerDetalhesPedido(pedidoId);
                 return View(pedido);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
-                return View("Index");
+                TempData["Erro"] = ex.Message;
+                return RedirectToAction("Index", "Pedido");
             }
         }
     }

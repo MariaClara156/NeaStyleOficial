@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Models.Sales;
+using NeaStyleOficial.ViewModels.Sales;
+using System.Security.Claims;
 using NeaStyleOficial.Services;
 
 namespace NeaStyleOficial.Controllers
@@ -22,24 +24,38 @@ namespace NeaStyleOficial.Controllers
 
         /* CRUD Pedido */
         /* GET */
-        public IActionResult GerenciarPedidos(long clienteId)
+        public IActionResult GerenciarPedidos()
         {
+            var clienteId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var pedidos = _pedidoService.VerPedidos(clienteId);
-            return View(pedidos);
+
+            var viewModel = pedidos.Select(p => new GerenciarPedidosViewModel
+            {
+                PedidoId = p.PedidoId,
+                ClienteId = p.ClienteId,
+                NomeCliente = p.Cliente?.Nome ?? "Cliente não encontrado",
+                DataPedido = p.DataPedido,
+                ValorTotal = p.ValorTotal,
+                Status = p.Status,
+                Itens = p.Itens
+            }).ToList();
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult CriarPedido(long clienteId)
+        public IActionResult CriarPedido()
         {
             try
             {
-                _pedidoService.RealizarPedido(clienteId);
-                return RedirectToAction("GerenciarPedidos", new { clienteId });
+                var clienteId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var pedidoId = _pedidoService.RealizarPedido(clienteId);
+        return RedirectToAction("Index", "Pagamento", new { pedidoId });
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return RedirectToAction("GerenciarCarrinho", new { clienteId });
+                TempData["Erro"] = ex.Message;
+                return RedirectToAction("Index", "Carrinho");
             }
         }
 

@@ -1,0 +1,100 @@
+@model IEnumerable<NeaStyleOficial.ViewModels.Sales.GerenciarPedidosViewModel>
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "Meus Pedidos";
+    // pega o nome direto das claims, sem precisar do objeto Cliente
+    var nomeCliente = User.FindFirstValue(ClaimTypes.Name);
+    var inicial = nomeCliente?[0].ToString() ?? "?";
+}
+
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger">@TempData["Erro"]</div>
+}
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-3 mb-4">
+            <div class="card text-center p-3">
+                <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                     style="width: 80px; height: 80px; font-size: 2rem;">
+                    @inicial
+                </div>
+                <h5 class="card-title">@nomeCliente</h5>
+
+                <div class="list-group mt-3">
+                    <a asp-controller="Cliente" asp-action="Perfil"
+                       class="list-group-item list-group-item-action">
+                        Perfil
+                    </a>
+                    <a asp-controller="Pedido" asp-action="GerenciarPedidos"
+                       class="list-group-item list-group-item-action active">
+                        Meus Pedidos
+                    </a>
+                    <a asp-controller="Login" asp-action="Logout"
+                       class="list-group-item list-group-item-action text-danger">
+                        Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PEDIDOS -->
+        <div class="col-12 col-md-9">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Meus Pedidos</h5>
+                </div>
+                <div class="card-body">
+
+                    @if (!Model.Any())
+                    {
+                        <p class="text-muted">Você ainda não fez nenhum pedido.</p>
+                    }
+
+                    @foreach (var pedido in Model)
+                    {
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">Pedido #@pedido.PedidoId</h6>
+                                    
+                                    @if (pedido.Status == NeaStyleOficial.Models.Sales.StatusPedido.Pendente)
+                                    {
+                                        <span class="badge bg-warning text-dark">Pendente</span>
+                                    }
+                                    else if (pedido.Status == NeaStyleOficial.Models.Sales.StatusPedido.Confirmado)
+                                    {
+                                        <span class="badge bg-success">Confirmado</span>
+                                    }
+                                    else if (pedido.Status == NeaStyleOficial.Models.Sales.StatusPedido.Cancelado)
+                                    {
+                                        <span class="badge bg-danger">Cancelado</span>
+                                    }
+                                </div>
+                                <p class="text-muted small mt-1 mb-1">@pedido.DataPedido.ToString("dd/MM/yyyy")</p>
+                                <p class="fw-bold">R$ @pedido.ValorTotal.ToString("F2")</p>
+
+                                @if (pedido.Status == NeaStyleOficial.Models.Sales.StatusPedido.Pendente)
+                                {
+                                    <a asp-controller="Pagamento"
+                                       asp-action="Index"
+                                       asp-route-pedidoId="@pedido.PedidoId"
+                                       class="btn btn-success btn-sm">Pagar</a>
+
+                                    <form asp-controller="Pedido" asp-action="CancelarPedido" method="post" style="display:inline">
+                                        <input type="hidden" name="PedidoId" value="@pedido.PedidoId" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Cancelar</button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

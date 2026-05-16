@@ -1,32 +1,222 @@
-html {
-  font-size: 14px;
+/* =============================================
+   VARIÁVEIS — paleta NeaStyle
+   ============================================= */
+:root {
+    --preto: #1C1C1C;
+    --branco: #FFFFFF;
+    --bege: #E8D8C3;
+    --verde: #A3B18A;
+    --cinza: #F2F2F2;
+    --fonte-titulo: 'Cormorant Garamond', serif;
+    --fonte-texto: 'Lato', sans-serif;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #A3b18A;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* =============================================
+   BASE
+   ============================================= */
 body {
-  margin-bottom: 60px;
+    background-color: var(--cinza);
+    color: var(--preto);
+    font-family: var(--fonte-texto);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+h1, h2, h3, h4, h5 {
+    font-family: var(--fonte-titulo);
+    font-weight: 600;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+a {
+    color: var(--verde);
+    text-decoration: none;
 }
 
+a:hover {
+    color: var(--preto);
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+.nea-navbar {
+    background-color: var(--branco);
+    border-bottom: 1px solid var(--bege);
+    padding: 1rem 0;
+}
+
+.nea-brand {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--preto) !important;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nea-brand span {
+    color: var(--verde);
+}
+
+.nea-brand small {
+    font-size: 0.55rem;
+    letter-spacing: 4px;
+    color: #999;
+    font-family: var(--fonte-texto);
+}
+
+.nea-link {
+    color: var(--preto) !important;
+    font-family: var(--fonte-texto);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem !important;
+}
+
+.nea-link:hover {
+    color: var(--verde) !important;
+}
+
+.nea-icon {
+    color: var(--preto) !important;
+    font-size: 1.2rem;
+    padding: 0.5rem !important;
+}
+
+.nea-icon:hover {
+    color: var(--verde) !important;
+}
+
+.nea-dropdown {
+    border: 1px solid var(--bege);
+    border-radius: 0;
+    padding: 0.5rem 0;
+}
+
+.nea-dropdown .dropdown-item:hover {
+    background-color: var(--bege);
+    color: var(--preto);
+}
+
+/* =============================================
+   BOTÕES
+   ============================================= */
+.btn-nea {
+    background-color: var(--preto);
+    color: var(--branco);
+    border: none;
+    border-radius: 0;
+    padding: 0.6rem 1.5rem;
+    font-family: var(--fonte-texto);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+}
+
+.btn-nea:hover {
+    background-color: var(--verde);
+    color: var(--branco);
+}
+
+.btn-nea-outline {
+    background-color: transparent;
+    color: var(--preto);
+    border: 1px solid var(--preto);
+    border-radius: 0;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn-nea-outline:hover {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.nea-footer {
+    background-color: var(--preto);
+    color: var(--bege);
+}
+
+.nea-footer-title {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    color: var(--branco);
+}
+
+.nea-footer-title span {
+    color: var(--verde);
+}
+
+.nea-footer-subtitle {
+    color: var(--branco);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.nea-footer-text {
+    color: #aaa;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.nea-footer-hr {
+    border-color: #333;
+}
+
+.nea-footer-copy {
+    color: #666;
+    font-size: 0.8rem;
+    padding: 1rem 0;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: #aaa;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--verde);
+}
+
+.social-icons {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.social-icons a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #333;
+    color: var(--bege);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.social-icons a:hover {
+    background-color: var(--verde);
+    color: var(--branco);
+}

@@ -1,30 +1,123 @@
-@model NeaStyleOficial.ViewModels.DetalheProdutoViewModel
+@model NeaStyleOficial.ViewModels.Catalog.DetalheProdutoViewModel
+@{
+    ViewData["Title"] = Model.Produto.Nome;
+    Layout = "_Layout";
+}
 
-@* Exibe info do produto *@
-<h1>@Model.Produto.Nome</h1>
-<h3>R$ @Model.Produto.Variacoes.FirstOrDefault()?.Preco.ToString("F2")</h3>
+<div class="container mt-5 mb-5">
+    <div class="row g-5">
 
-<form asp-controller="Carrinho" asp-action="AdicionarAoCarrinho" method="post">
-    
-    @* Select de variações *@
-    <div class="mb-3">
-        <label class="form-label">Escolha a variação</label>
-        <select name="produtoVariacaoId" class="form-select">
-            @foreach (var variacao in Model.Variacoes)
-            {
-                <option value="@variacao.ProdutoVariacaoId">
-                    @variacao.Tamanho — @variacao.Cor (@variacao.Estoque disponíveis)
-                </option>
+        <!-- IMAGEM -->
+        <div class="col-12 col-md-6">
+            @{
+                var primeiraImagem = Model.Variacoes.FirstOrDefault()?.ImagemUrl;
             }
-        </select>
-    </div>
+            @if (!string.IsNullOrEmpty(primeiraImagem))
+            {
+                <img id="imgPrincipal"
+                     src="~/images/produtos/@primeiraImagem"
+                     alt="@Model.Produto.Nome"
+                     class="img-fluid rounded shadow w-100"
+                     style="object-fit: cover; max-height: 500px;" />
+            }
+            else
+            {
+                <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                     style="height: 400px;">
+                    <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                </div>
+            }
 
-    <div class="mb-3">
-        <label class="form-label">Quantidade</label>
-        <input type="number" name="quantidade" value="1" min="1" max="10" class="form-control" />
-    </div>
+            <!-- MINIATURAS -->
+            @if (Model.Variacoes.Count > 1)
+            {
+                <div class="d-flex gap-2 mt-3 flex-wrap">
+                    @foreach (var v in Model.Variacoes)
+                    {
+                        @if (!string.IsNullOrEmpty(v.ImagemUrl))
+                        {
+                            <img src="~/images/produtos/@v.ImagemUrl"
+                                 alt="@v.Cor"
+                                 class="rounded border"
+                                 style="width: 70px; height: 70px; object-fit: cover; cursor: pointer;"
+                                 onclick="document.getElementById('imgPrincipal').src = this.src" />
+                        }
+                    }
+                </div>
+            }
+        </div>
 
-    <button type="submit" class="btn btn-success btn-lg w-100">
-        Adicionar ao Carrinho
-    </button>
-</form>
+        <!-- DETALHES -->
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
+
+            <p class="text-muted mb-1">@Model.Produto.Categoria — @Model.Produto.Tipo</p>
+            <h1 class="mb-2">@Model.Produto.Nome</h1>
+            <h3 class="mb-3" id="precoExibido">
+                R$ @Model.Variacoes.FirstOrDefault()?.Preco.ToString("F2")
+            </h3>
+
+            @if (!string.IsNullOrEmpty(Model.Produto.Descricao))
+            {
+                <p class="text-muted mb-4">@Model.Produto.Descricao</p>
+            }
+
+            <form asp-controller="Carrinho" asp-action="AdicionarAoCarrinho" method="post">
+
+                <!-- SELECT VARIAÇÃO -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Variação</label>
+                    <select name="produtoVariacaoId" class="form-select" id="selectVariacao"
+                            onchange="atualizarVariacao(this)">
+                        @foreach (var v in Model.Variacoes)
+                        {
+                            <option value="@v.ProdutoVariacaoId"
+                                    data-preco="@v.Preco.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)"
+                                    data-imagem="@v.ImagemUrl"
+                                    data-estoque="@v.Estoque">
+                                @v.Tamanho — @v.Cor (@v.Estoque disponíveis)
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- QUANTIDADE -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Quantidade</label>
+                    <input type="number" name="quantidade" value="1" min="1" max="10"
+                           class="form-control" style="max-width: 120px;" />
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-dark btn-lg flex-grow-1">
+                        <i class="bi bi-bag-plus"></i> Adicionar ao Carrinho
+                    </button>
+                    <a asp-controller="Favorito" asp-action="Adicionar"
+                       asp-route-produtoId="@Model.Produto.ProdutoId"
+                       class="btn btn-outline-dark btn-lg" title="Favoritar">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function atualizarVariacao(select) {
+            const opt = select.options[select.selectedIndex];
+
+            // Atualiza preço
+            const preco = opt.getAttribute("data-preco");
+            document.getElementById("precoExibido").textContent = "R$ " + parseFloat(preco).toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+
+            // Atualiza imagem
+            const imagem = opt.getAttribute("data-imagem");
+            const imgEl  = document.getElementById("imgPrincipal");
+            if (imgEl && imagem) {
+                imgEl.src = "/images/produtos/" + imagem;
+            }
+        }
+    </script>
+}

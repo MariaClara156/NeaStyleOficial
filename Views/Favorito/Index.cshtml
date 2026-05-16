@@ -1,0 +1,89 @@
+@model IEnumerable<NeaStyleOficial.ViewModels.Collections.FavoritoViewModel>
+@{
+    ViewData["Title"] = "Favoritos";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">
+        Meus Favoritos
+    </h2>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-heart text-muted" style="font-size: 4rem;"></i>
+            <p class="mt-3 text-muted">Você ainda não favoritou nenhum produto.</p>
+            <a asp-controller="Produto" asp-action="Index" class="btn btn-dark mt-2">
+                Ver Produtos
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-3 item-favorito" data-id="@item.VariacaoId">
+                    <div class="card border-0 h-100">
+
+                        <div class="position-relative">
+                            @if (!string.IsNullOrEmpty(item.ImagemUrl))
+                            {
+                                <img src="~/images/produtos/@item.ImagemUrl"
+                                     alt="@item.NomeProduto"
+                                     class="card-img-top rounded"
+                                     style="height: 280px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                     style="height: 280px;">
+                                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+
+                            <button class="btn-desfavoritar position-absolute top-0 end-0 m-2 btn btn-sm btn-light"
+                                    data-id="@item.VariacaoId" title="Remover dos favoritos">
+                                <i class="bi bi-heart-fill text-danger"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-body px-1 pt-2">
+                            <p class="fw-semibold mb-1">@item.NomeProduto</p>
+                            <p class="text-muted small mb-2">R$ @item.Preco.ToString("N2")</p>
+                            <a asp-controller="Produto"
+                               asp-action="DetalheProduto"
+                               asp-route-produtoId="@item.ProdutoId"
+                               class="btn btn-dark btn-sm w-100">
+                                Ver e Comprar
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+document.querySelectorAll('.btn-desfavoritar').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const variacaoId = this.dataset.id;
+        fetch('/Favorito/RemoverFavorito', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ produtoVariacaoId: parseInt(variacaoId) })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.sucesso) {
+                this.closest('.item-favorito').remove();
+            }
+        });
+    });
+});
+</script>
+}

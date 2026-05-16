@@ -1,6 +1,18 @@
 @{
     ViewData["Title"] = "Login";
+    // Define o layout como nulo para não carregar header/footer padrão
+    Layout = null; 
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"] - NeaStyle</title>
+    <!-- Você precisará importar o Bootstrap aqui manualmente, já que não tem layout -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 shadow" style="width: 400px;">
             
@@ -27,5 +39,8 @@
             <p class="text-center">
                 Não tem conta? <a href="/Cliente/CadastrarCliente">Cadastre-se</a>
             </p>
+
         </div>
     </div>
+</body>
+</html>

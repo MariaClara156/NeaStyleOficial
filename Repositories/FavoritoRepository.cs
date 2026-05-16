@@ -2,11 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using NeaStyleOficial.Data;
 using NeaStyleOficial.Models.Collections;
 
+// ALTERADO: removido 'using NeaStyleOficial.Models.Catalog' — não utilizado diretamente nesta classe
 namespace NeaStyleOficial.Repositories
 {
     public class FavoritoRepository
     {
         private readonly NeaStyleContext _context;
+
         public FavoritoRepository(NeaStyleContext context)
         {
             _context = context;
@@ -22,27 +24,30 @@ namespace NeaStyleOficial.Repositories
         {
             return _context.Favoritos
                 .Include(f => f.Itens)
-                    .ThenInclude(i => i.Produto)
-                    .ThenInclude(p => p.Variacoes)
+                    .ThenInclude(i => i.ProdutoVariacao)
+                        .ThenInclude(v => v.Produto)
                 .FirstOrDefault(f => f.ClienteId == clienteId);
         }
 
-        public void RemoverItem(long favoritoId, long produtoId)
+        public void AdicionarItem(ItemConjunto item)
         {
-            // Buscamos o conjunto de favoritos
+            _context.ItensConjunto.Add(item);
+            _context.SaveChanges();
+        }
+
+        public void RemoverItem(long clienteId, long produtoVariacaoId)
+        {
             var favorito = _context.Favoritos
                 .Include(f => f.Itens)
-                .FirstOrDefault(f => f.ConjuntoProdutoId == favoritoId);
+                .FirstOrDefault(f => f.ClienteId == clienteId);
 
             if (favorito != null)
             {
-                // Procuramos o item específico dentro da lista
-                var itemToRemove = favorito.Itens.FirstOrDefault(i => i.ProdutoId == produtoId);
-                
-                if (itemToRemove != null)
+                var item = favorito.Itens.FirstOrDefault(i => i.ProdutoVariacaoId == produtoVariacaoId);
+
+                if (item != null)
                 {
-                    // Remove da tabela de ligação
-                    _context.ItensConjunto.Remove(itemToRemove);
+                    _context.ItensConjunto.Remove(item);
                     _context.SaveChanges();
                 }
             }

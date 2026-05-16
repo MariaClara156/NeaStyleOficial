@@ -7,6 +7,7 @@ namespace NeaStyleOficial.Services
     public class FavoritoService
     {
         private readonly FavoritoRepository _favoritoRepo;
+
         public FavoritoService(FavoritoRepository favoritoRepo)
         {
             _favoritoRepo = favoritoRepo;
@@ -15,34 +16,36 @@ namespace NeaStyleOficial.Services
         public void AdicionarFavorito(long clienteId, ProdutoVariacao produtoVariacao)
         {
             if (produtoVariacao == null)
-                throw new Exception("Variação inválido!");
+                throw new Exception("Variação inválida!");
 
-            // Busca o conjunto de favoritos do cliente para validar
+            // Busca os favoritos do cliente; se não existirem, cria uma nova lista
             var favoritos = _favoritoRepo.BuscarPorClienteId(clienteId);
             if (favoritos == null)
             {
                 favoritos = new Favorito(clienteId);
                 _favoritoRepo.Criar(favoritos);
+                favoritos = _favoritoRepo.BuscarPorClienteId(clienteId);
             }
-            // Regra de Negócio: Limite de 100 favoritos
+
             if (favoritos.Itens.Count >= 100)
                 throw new Exception("Limite de 100 produtos nos favoritos atingido!");
 
-            // Verifica se já está favoritado para não duplicar
+            // Evita duplicatas
             if (favoritos.Itens.Any(i => i.ProdutoVariacaoId == produtoVariacao.ProdutoVariacaoId))
                 return;
 
-            favoritos.Itens.Add(new ItemConjunto { 
-                ProdutoVariacaoId = produtoVariacao.ProdutoVariacaoId, 
-                // Sempre 1 para favoritos
-                Quantidade = 1 
+            _favoritoRepo.AdicionarItem(new ItemConjunto
+            {
+                ProdutoVariacaoId = produtoVariacao.ProdutoVariacaoId,
+                Quantidade        = 1,
+                FavoritoId        = favoritos.ConjuntoProdutoId
             });
-            _favoritoRepo.Atualizar(favoritos);
         }
 
         public List<ItemConjunto> VerFavoritos(long clienteId)
         {
             var favoritos = _favoritoRepo.BuscarPorClienteId(clienteId);
+            if (favoritos == null) return new List<ItemConjunto>();
             return favoritos.Itens;
         }
 

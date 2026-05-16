@@ -1,4 +1,4 @@
-namespace NeaStyleOficial.ViewModels
+namespace NeaStyleOficial.ViewModels.Collections
 {
 public class CarrinhoViewModel
 {

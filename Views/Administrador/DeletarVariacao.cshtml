@@ -1,0 +1,10 @@
+@model NeaStyleOficial.Models.Catalog.ProdutoVariacao
+
+<h2>Confirmar exclusão</h2>
+<p>Tem certeza que deseja excluir a variação <strong>@Model.Tamanho - @Model.Cor</strong>?</p>
+
+<form asp-action="DeletarVariacaoConfirmado" method="post">
+    <input type="hidden" name="variacaoId" value="@Model.ProdutoVariacaoId" />
+    <button type="submit" class="btn btn-danger">Sim, excluir</button>
+    <a asp-action="ListarProdutos" class="btn btn-secondary">Cancelar</a>
+</form>

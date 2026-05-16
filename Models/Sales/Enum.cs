@@ -1,13 +1,14 @@
-//Enum para padronizar status de pedido, pagamento, reembolso e metodos de pagamento
+// Enums para padronizar status de pedido, pagamento, reembolso e métodos de pagamento
 namespace NeaStyleOficial.Models.Sales
 {
     public enum MetodoPagamento
     {
-            CartaoCredito,
-            CartaoDebito,
-            Boleto,
-            Pix
+        CartaoCredito,
+        CartaoDebito,
+        Boleto,
+        Pix
     }
+
     public enum StatusPagamento
     {
         Pendente,
@@ -16,15 +17,18 @@ namespace NeaStyleOficial.Models.Sales
         Recusado,
         Estornado
     }
+
     public enum StatusPedido
     {
         Pendente,
         Processando,
+        Confirmado,
         Enviado,
         Entregue,
         Cancelado,
         Estornado
     }
+
     public enum StatusReembolso
     {
         Solicitado,

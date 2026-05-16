@@ -1,20 +1,141 @@
-@model IEnumerable<NeaStyleOficial.ViewModels.DetalheProdutoViewModel>
+@model IEnumerable<NeaStyleOficial.ViewModels.Catalog.DetalheProdutoViewModel>
 
-@foreach (var item in Model)
-{
-    <p>@item.Produto.Nome</p>
-    <p>Estoque: @item.EstoqueTotal</p>
-    
-    @foreach (var variacao in item.Variacoes)
-    {
-        <p>Tamanho: @variacao.Tamanho — Cor: @variacao.Cor — Estoque: @variacao.Estoque</p>
-    }
-        <a asp-controller="ProdutoVariacao" 
-        asp-action="Criar" 
-        asp-route-produtoId="@item.Produto.ProdutoId"
-        class="btn btn-primary">
-            Adicionar Variação
+@{
+    ViewData["Title"] = "Controle de Estoque";
+    Layout = "_LayoutAdmin";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/estoque.css" asp-append-version="true" />
+}
+
+<div class="estoque-wrapper">
+
+    <!-- HEADER -->
+    <div class="estoque-header">
+        <div>
+            <h2>Controle de Estoque</h2>
+            <p class="text-muted">Gerencie produtos e acompanhe as quantidades disponíveis.</p>
+        </div>
+        <a asp-controller="Administrador" asp-action="CadastrarProdutos" class="btn-nea">
+            + Adicionar Produto
         </a>
-        <button class="btn btn-sm btn-primary" onclick="">Editar</button>
-        <button class="btn btn-sm btn-danger" onclick="">Excluir</button>
+    </div>
+
+    <!-- TABELA -->
+    <div class="estoque-tabela">
+        @foreach (var item in Model)
+        {
+
+            <div class="produto-row" data-produto-id="@item.Produto.ProdutoId">
+                <div class="produto-row-info">
+
+                    <img src="~/images/produtos/@item.Variacoes.FirstOrDefault()?.ImagemUrl"
+                         alt="@item.Produto.Nome"
+                         class="produto-thumb" />
+
+                    <div>
+                        <strong class="produto-nome">@item.Produto.Nome</strong>
+                        <span class="produto-meta">
+                            @item.QuantidadeVariacao variação(ões) —
+                            @if (item.EstoqueTotal == 0)
+                            {
+                                <span class="badge-estoque fora">Fora de estoque</span>
+                            }
+                            else if (item.EstoqueTotal <= 10)
+                            {
+                                <span class="badge-estoque baixo">Baixo estoque (@item.EstoqueTotal un)</span>
+                            }
+                            else
+                            {
+                                <span class="badge-estoque ok">Em estoque (@item.EstoqueTotal un)</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+
+                <div class="produto-row-acoes">
+                    <button class="btn-expandir" onclick="toggleVariacoes(@item.Produto.ProdutoId)">
+                        <i class="bi bi-chevron-down" id="icon-@item.Produto.ProdutoId"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn-menu" data-bs-toggle="dropdown">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end nea-dropdown">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Administrador"
+                                   asp-action="CadastrarVariacao"
+                                   asp-route-produtoId="@item.Produto.ProdutoId">
+                                    + Adicionar Variação
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" asp-controller="Administrador"
+                                   asp-action="DeletarProduto"
+                                   asp-route-produtoId="@item.Produto.ProdutoId">
+                                    Excluir Produto
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="variacoes-wrapper" id="variacoes-@item.Produto.ProdutoId" style="display:none">
+                @foreach (var variacao in item.Variacoes)
+                {
+                    <div class="variacao-row">
+    @if (!string.IsNullOrEmpty(variacao.ImagemUrl))
+    {
+        <img src="~/images/produtos/@variacao.ImagemUrl"
+             alt="@variacao.Cor"
+             style="width: 45px; height: 55px; object-fit: cover; border-radius: 4px;" />
+    }
+    else
+    {
+        <div style="width: 45px; height: 55px; background: #f0f0f0; border-radius: 4px;
+                    display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-image text-muted small"></i>
+        </div>
+    }
+
+    <span class="variacao-info">
+        <i class="bi bi-arrow-return-right text-muted me-2"></i>
+        @variacao.Tamanho — @variacao.Cor
+    </span>
+    <span class="variacao-estoque">@variacao.Estoque un</span>
+    <span class="variacao-preco">R$ @variacao.Preco.ToString("F2")</span>
+    <div class="variacao-acoes">
+        <a asp-controller="Administrador"
+           asp-action="AtualizarVariacao"
+           asp-route-variacaoId="@variacao.ProdutoVariacaoId"
+           class="btn-icone" title="Editar">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <a asp-controller="Administrador"
+           asp-action="DeletarVariacao"
+           asp-route-variacaoId="@variacao.ProdutoVariacaoId"
+           class="btn-icone text-danger" title="Excluir">
+            <i class="bi bi-trash"></i>
+        </a>
+    </div>
+</div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<script>
+function toggleVariacoes(produtoId) {
+    const el = document.getElementById('variacoes-' + produtoId);
+    const icon = document.getElementById('icon-' + produtoId);
+    const visivel = el.style.display !== 'none';
+    el.style.display = visivel ? 'none' : 'block';
+    icon.className = visivel ? 'bi bi-chevron-down' : 'bi bi-chevron-up';
+}
+</script>
 }

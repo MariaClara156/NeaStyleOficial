@@ -1,0 +1,10 @@
+@model NeaStyleOficial.Models.Catalog.Produto
+
+<h2>Confirmar exclusão</h2>
+<p>Tem certeza que deseja excluir esse produto <strong>@Model.Nome - @Model.Categoria - @Model.Tipo</strong>?</p>
+
+<form asp-action="DeletarProdutoConfirmado" method="post">
+    <input type="hidden" name="produtoId" value="@Model.ProdutoId" />
+    <button type="submit" class="btn btn-danger">Sim, excluir</button>
+    <a asp-action="ListarProdutos" class="btn btn-secondary">Cancelar</a>
+</form>

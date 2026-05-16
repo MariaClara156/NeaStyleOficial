@@ -1,0 +1,25 @@
+@model NeaStyleOficial.Models.Sales.Pedido
+
+<h2>Pedido Confirmado! ✅</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Pedido #@Model.PedidoId</h5>
+        <p>Data: @Model.DataPedido.ToString("dd/MM/yyyy")</p>
+        <p>Total: R$ @Model.ValorTotal.ToString("F2")</p>
+        <p>Status: @Model.Status</p>
+
+        <h6>Itens:</h6>
+        @foreach (var item in Model.Itens)
+        {
+            <p>@item.NomeProduto — @item.Quantidade x R$ @item.PrecoUnitario.ToString("F2")</p>
+        }
+    </div>
+</div>
+
+<a asp-controller="Pedido" asp-action="GerenciarPedidos" class="btn btn-primary">
+    Ver Meus Pedidos
+</a>
+<a asp-controller="Produto" asp-action="Index" class="btn btn-secondary">
+    Continuar Comprando
+</a>

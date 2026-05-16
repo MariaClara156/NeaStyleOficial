@@ -1,0 +1,88 @@
+@model NeaStyleOficial.Models.Users.Cliente
+
+@{
+    ViewData["Title"] = "Meu Perfil";
+}
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- SIDEBAR ESQUERDA — use col- do Bootstrap pra definir largura -->
+        <!-- col-md-3 = 25% da tela em telas médias, col-12 = 100% em mobile -->
+        <div class="col-12 col-md-3 mb-4">
+            <div class="card text-center p-3">
+                <!-- Foto de perfil — se não tiver imagem real, usa inicial do nome -->
+                <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                     style="width: 80px; height: 80px; font-size: 2rem;">
+                    @Model.Nome[0] <!-- pega a primeira letra do nome -->
+                </div>
+
+                <h5 class="card-title">@Model.Nome</h5>
+                <p class="text-muted small">@Model.Email</p>
+
+                <!-- Menu lateral — use list-group do Bootstrap em vez de ul manual -->
+                <div class="list-group mt-3">
+                    <a href="#perfil" class="list-group-item list-group-item-action active">
+                        Perfil
+                    </a>
+                    <a asp-controller="Pedido" asp-action="GerenciarPedidos" 
+                       class="list-group-item list-group-item-action">
+                        Meus Pedidos
+                    </a>
+                    <a asp-controller="Login" asp-action="Logout" 
+                       class="list-group-item list-group-item-action text-danger">
+                        Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL — col-md-9 = 75% da tela -->
+        <div class="col-12 col-md-9">
+
+            <!-- CARD DE INFORMAÇÕES -->
+            <!-- Use card do Bootstrap sempre que quiser agrupar informações visualmente -->
+            <div class="card mb-4" id="perfil">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Informações Pessoais</h5>
+                    <!-- Botão editar — asp-action aponta pro método de edição -->
+                    <a asp-controller="Cliente" asp-action="EditarPerfil" asp-route-usuarioId="@Model.UsuarioId"
+                       class="btn btn-outline-dark btn-sm">
+                        ✏️
+                    </a>
+                </div>
+                <div class="card-body">
+                    <!-- Use row + col pra dividir informações em colunas -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="text-muted small mb-0">Nome</p>
+                            <p class="fw-bold">@Model.Nome</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted small mb-0">Email</p>
+                            <p class="fw-bold">@Model.Email</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="text-muted small mb-0">Telefone</p>
+                            <!-- operador ?? exibe mensagem padrão se o campo for nulo -->
+                            <p class="fw-bold">@(Model.Telefone ?? "Não informado")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted small mb-0">CPF</p>
+                            <p class="fw-bold">@(Model.CPF ?? "Não informado")</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="text-muted small mb-0">Endereço</p>
+                            <p class="fw-bold">@(Model.Endereco ?? "Não informado")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

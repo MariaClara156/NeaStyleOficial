@@ -1,19 +1,106 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using NeaStyleOficial.ViewModels.Catalog
+@using NeaStyleOficial.Models.Catalog
+
+@model List<CatalogoProdutoViewModel>
+@{
+    var masculinos = Model.Where(p => p.Categoria == CategoriaProduto.Masculino).Take(4).ToList();
+    var femininos  = Model.Where(p => p.Categoria == CategoriaProduto.Feminino).Take(4).ToList();
+    var destaques  = Model.Take(8).ToList();
 }
-<!DOCTYPE>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NeaStyleOficial</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    </head>
-    <body>
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<!-- BANNER -->
+<section class="nea-banner d-flex align-items-center justify-content-center text-center"
+         style="min-height: 80vh; background: #1a1a1a; color: white;">
+    <div>
+        <p class="text-uppercase letter-spacing-wide mb-2" style="letter-spacing: 6px; font-size: 0.85rem;">Nova Coleção</p>
+        <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300;">
+            Nea<span style="font-style: italic;">Style</span>
+        </h1>
+        <p class="mt-2 mb-4" style="font-weight: 300; opacity: 0.8;">Moda com autenticidade e estilo</p>
+        <a asp-controller="Produto" asp-action="Index" class="btn btn-outline-light btn-lg px-5">
+            Ver Coleção
+        </a>
     </div>
-    </body>
-</html>
+</section>
+
+<!-- CATEGORIAS -->
+<section class="container my-5">
+    <h2 class="text-center mb-4" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">
+        Categorias
+    </h2>
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <a asp-controller="Produto" asp-action="Feminino" class="text-decoration-none">
+                <div class="position-relative overflow-hidden rounded"
+                     style="height: 350px; background: #f5f0eb;">
+                    <div class="position-absolute bottom-0 start-0 p-4">
+                        <h3 style="font-family: 'Cormorant Garamond', serif; color: #1a1a1a;">Feminino</h3>
+                        <span style="font-size: 0.85rem; color: #555;">Ver coleção →</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6">
+            <a asp-controller="Produto" asp-action="Masculino" class="text-decoration-none">
+                <div class="position-relative overflow-hidden rounded"
+                     style="height: 350px; background: #e8e4df;">
+                    <div class="position-absolute bottom-0 start-0 p-4">
+                        <h3 style="font-family: 'Cormorant Garamond', serif; color: #1a1a1a;">Masculino</h3>
+                        <span style="font-size: 0.85rem; color: #555;">Ver coleção →</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUTOS EM DESTAQUE -->
+<section class="container my-5">
+    <h2 class="text-center mb-4" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">
+        Destaques
+    </h2>
+    <div class="row g-4">
+        @foreach (var p in destaques)
+        {
+            <div class="col-6 col-md-3">
+                <a asp-controller="Produto" asp-action="DetalheProduto"
+                   asp-route-id="@p.ProdutoId" class="text-decoration-none text-dark">
+                    <div class="card border-0 h-100">
+                        @if (!string.IsNullOrEmpty(p.ImagemUrl))
+                        {
+                            <img src="~/images/produtos/@p.ImagemUrl"
+                                 class="card-img-top rounded"
+                                 style="height: 280px; object-fit: cover;"
+                                 alt="@p.Nome" />
+                        }
+                        else
+                        {
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                 style="height: 280px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                        }
+                        <div class="card-body px-1">
+                            <p class="mb-1 fw-semibold">@p.Nome</p>
+                            <p class="text-muted small">
+                                @if (p.MenorPreco > 0)
+                                {
+                                    <span>R$ @p.MenorPreco.ToString("N2")</span>
+                                }
+                                else
+                                {
+                                    <span>Indisponível</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+    <div class="text-center mt-4">
+        <a asp-controller="Produto" asp-action="Index" class="btn btn-dark px-5">
+            Ver Todos os Produtos
+        </a>
+    </div>
+</section>

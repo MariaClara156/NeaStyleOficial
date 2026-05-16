@@ -1,65 +1,80 @@
 using Microsoft.AspNetCore.Mvc;
-using NeaStyleOficial.Models.Users;
-using NeaStyleOficial.Models.Catalog;
-using NeaStyleOficial.Models.Sales;
-using NeaStyleOficial.Models.Collections;
+using System.Security.Claims;
 using NeaStyleOficial.Services;
+using NeaStyleOficial.ViewModels.Collections;
 
 namespace NeaStyleOficial.Controllers
 {
     public class FavoritoController : Controller
     {
         private readonly FavoritoService _favoritoService;
-        private readonly ProdutoService _produtoService;
+        private readonly ProdutoService  _produtoService;
 
         public FavoritoController(FavoritoService favoritoService, ProdutoService produtoService)
         {
             _favoritoService = favoritoService;
-            _produtoService = produtoService;
+            _produtoService  = produtoService;
         }
+
+        // GET — lista de favoritos do cliente
         public IActionResult Index()
         {
-            return View();
-        }
-        /* CRUD Favorito */
-        /* GET */
-        public IActionResult GerenciarFavoritos(long clienteId)
-        {
-            var favoritos = _favoritoService.VerFavoritos(clienteId);
-            return View(favoritos);
+            var clienteId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var itens     = _favoritoService.VerFavoritos(clienteId);
+
+            var viewModel = itens.Select(i => new FavoritoViewModel
+            {
+                ProdutoId   = i.ProdutoVariacao.ProdutoId,
+                VariacaoId  = i.ProdutoVariacaoId,
+                NomeProduto = i.ProdutoVariacao.Produto.Nome,
+                ImagemUrl   = i.ProdutoVariacao.ImagemUrl,
+                Preco       = i.ProdutoVariacao.Preco
+            }).ToList();
+
+            return View(viewModel);
         }
 
-        /* POST */
-        [HttpPost]
-        public IActionResult AdicionarFavorito(Produto produto)
+        // GET — adiciona primeira variação com estoque aos favoritos
+        public IActionResult AdicionarFavorito(long produtoId)
         {
             try
             {
-                // TODO: substituir pelo clienteId do usuário logado após implementar autenticação
-                long clienteId = 1; 
-                _favoritoService.AdicionarFavorito(clienteId, produto);
-                return RedirectToAction("GerenciarFavoritos", new { clienteId });
+                var clienteId       = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var produto         = _produtoService.BuscarPorId(produtoId);
+                var primeiraVariacao = produto.Variacoes.FirstOrDefault(v => v.Estoque > 0);
+
+                if (primeiraVariacao == null)
+                    throw new Exception("Produto sem estoque disponível!");
+
+                _favoritoService.AdicionarFavorito(clienteId, primeiraVariacao);
+                return Json(new { sucesso = true });
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View(produto);
+                return Json(new { sucesso = false, mensagem = ex.Message });
             }
         }
 
+        // POST — remove item dos favoritos
         [HttpPost]
-        public IActionResult RemoverFavorito(long clienteId, long produtoId)
+        public IActionResult RemoverFavorito([FromBody] RemoverFavoritoRequest request)
         {
             try
             {
-                _favoritoService.RemoverFavorito(clienteId, produtoId);
-                return RedirectToAction("GerenciarFavoritos", new { clienteId });
+                var clienteId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                _favoritoService.RemoverFavorito(clienteId, request.ProdutoVariacaoId);
+                return Json(new { sucesso = true });
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return RedirectToAction("GerenciarFavoritos", new { clienteId });
+                return Json(new { sucesso = false, mensagem = ex.Message });
             }
         }
+    }
+
+    // DTO para deserialização do body da requisição de remoção
+    public class RemoverFavoritoRequest
+    {
+        public long ProdutoVariacaoId { get; set; }
     }
 }

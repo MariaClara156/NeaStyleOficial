@@ -2,15 +2,18 @@
 
 namespace NeaStyleOficial.Models.Users
 {
+    // class abstract pois é uma classe Pai que não pode ser diretamente acessada
     public abstract class Usuario
     {
-        // Propriedades : set privado para evitar alterações externas, garantindo integridade dos dados
-        public long UsuarioId { get; set; }
-        public string Nome { get; set; }
-        public string Email { get; set; }
-        public string Senha { get; set; }
+        // TODO: Propriedades - SET privado para evitar alterações externas, garantindo integridade dos dados
+        public long   UsuarioId { get; set; }
+        public string Nome      { get; set; }
+        public string Email     { get; set; }
+        public string Senha     { get; set; }
+
         // Construtor protegido para uso do EF Core
-        protected Usuario() { }
+        public Usuario() { }
+
         // Construtor público para criação de novos usuários, com validação básica
         public Usuario(string nome, string email, string senha)
         {
@@ -23,7 +26,7 @@ namespace NeaStyleOficial.Models.Users
             if (string.IsNullOrWhiteSpace(senha) || senha.Length < 6)
                 throw new ArgumentException("Senha deve ter mínimo 6 caracteres!");
 
-            Nome = nome;
+            Nome  = nome;
             Email = email;
             Senha = senha;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Services;
 
@@ -6,79 +7,82 @@ namespace NeaStyleOficial.Controllers
 {
     public class ClienteController : Controller
     {
-        // Controller conversa só com o Service
         private readonly ClienteService _service;
 
-        // ASP.NET injeta o service automaticamente
         public ClienteController(ClienteService service)
         {
             _service = service;
         }
 
-        // READ - exibe lista de clientes
-        // Rota: /Cliente/Index
+        // READ — lista de clientes
         public async Task<IActionResult> Index()
         {
             var clientes = _service.BuscarTodos();
-            return View(clientes); // manda os dados pra View exibir
+            return View(clientes);
         }
 
-        // READ - exibe formulário de cadastro
-        // Rota: /Cliente/CadastrarCliente
-        public IActionResult CadastrarCliente()
-        {
-            return View(); // só abre a página vazia
-        }
+        // GET — formulário de cadastro
+        public IActionResult CadastrarCliente() => View();
 
-        // CREATE - recebe os dados do formulário e salva
-        // Rota: POST /Cliente/CadastrarCliente
+        // POST — salva novo cliente
         [HttpPost]
         public IActionResult CadastrarCliente(Cliente cliente)
         {
             try
             {
                 _service.CadastrarCliente(cliente);
-                // redireciona pra lista após salvar
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Login");
             }
             catch (Exception ex)
             {
-                // se der erro no Service, mostra na tela
                 ModelState.AddModelError("", ex.Message);
                 return View(cliente);
             }
         }
 
-        // UPDATE - exibe formulário preenchido pra editar
-        // Rota: /Cliente/Editar/1
-        public IActionResult Editar(long UsuarioId)
+        // READ — perfil do cliente logado
+        public IActionResult Perfil()
         {
-            var cliente = _service.BuscarPorId(UsuarioId);
+            var clienteId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var cliente   = _service.BuscarPorId(clienteId);
+            if (cliente == null) return NotFound();
             return View(cliente);
         }
 
-        // UPDATE - recebe os dados editados e atualiza
-        // Rota: POST /Cliente/Editar
-        [HttpPost]
-        public IActionResult Editar(Cliente cliente)
+        // GET — formulário de edição preenchido
+        public IActionResult EditarPerfil(long usuarioId)
         {
+            var cliente = _service.BuscarPorId(usuarioId);
+            if (cliente == null) return NotFound();
+            return View(cliente);
+        }
+
+        // POST — salva edição
+        [HttpPost]
+        public IActionResult EditarPerfil(Cliente clienteAtualizado)
+        {
+            // Verifica se os dados são válidos (DataAnnotations)
+            if (!ModelState.IsValid)
+            {
+                return View(clienteAtualizado);
+            }
+
             try
             {
-                _service.Atualizar(cliente);
-                return RedirectToAction("Index");
+                // Passa o objeto que veio da tela para o service salvar
+                _service.Atualizar(clienteAtualizado);
+                return RedirectToAction("Perfil");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View(cliente);
+                ModelState.AddModelError("", "Erro ao atualizar: " + ex.Message);
+                return View(clienteAtualizado);
             }
         }
-
-        // DELETE - remove cliente
-        // Rota: /Cliente/Deletar/1
-        public IActionResult Deletar(long UsuarioId)
+        // DELETE — remove cliente e redireciona
+        public IActionResult Deletar(long usuarioId)
         {
-            _service.Deletar(UsuarioId);
+            _service.Deletar(usuarioId);
             return RedirectToAction("Index");
         }
     }

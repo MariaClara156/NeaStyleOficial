@@ -3,82 +3,92 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Data;
+using NeaStyleOficial.Models.Users;
 
 namespace NeaStyleOficial.Controllers
 {
     public class LoginController : Controller
     {
-    private readonly NeaStyleContext _context;
-    private readonly PasswordHasher<Usuario> hasher = new PasswordHasher<Usuario>();
+        private readonly NeaStyleContext _context;
 
-    public LoginController(NeaStyleContext context)
-    {
-        _context = context;
-    }
-
-    public IActionResult Index() => View();
-
-    [HttpPost]
-    public async Task<IActionResult> Index(string email, string senha)
-    {
-        try
+        public LoginController(NeaStyleContext context)
         {
-            var adm = _context.Administradores
-                .FirstOrDefault(a => a.Email == email);
+            _context = context;
+        }
 
-            if (adm != null)
-            {
-                var resultado = hasher.VerifyHashedPassword(adm, adm.Senha, senha);
-
-                if (resultado == PasswordVerificationResult.Success)
-                {
-                    await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
-                    return RedirectToAction("Index", "Administrador");
-                }
-            }
-            var cliente = _context.Clientes
-                .FirstOrDefault(c => c.Email == email);
-
-            if (cliente != null)
-            {
-                var resultado = hasher.VerifyHashedPassword(cliente, cliente.Senha, senha);
-
-                if (resultado == PasswordVerificationResult.Success)
-                {
-                    await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
-                    return RedirectToAction("Index", "Produto");
-                }
-            }
-
-            ModelState.AddModelError("", "E-mail ou senha incorretos.");
+        // GET
+        public IActionResult Index()
+        {
             return View();
         }
-        catch (Exception ex)
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(string email, string senha)
         {
-            ModelState.AddModelError("", ex.Message);
-            return View();
+            try
+            {
+                // Administrador
+                var adm = _context.Administradores
+                    .FirstOrDefault(a => a.Email == email);
+
+                if (adm != null)
+                {
+                    var hasherAdm = new PasswordHasher<Administrador>();
+                    if (hasherAdm.VerifyHashedPassword(adm, adm.Senha, senha) != PasswordVerificationResult.Failed)
+                    {
+                        await CriarSessao(adm.UsuarioId.ToString(), adm.Nome, "Administrador");
+                        return RedirectToAction("Index", "Administrador");
+                    }
+                }
+
+                // Cliente
+                var cliente = _context.Clientes
+                    .FirstOrDefault(c => c.Email == email);
+
+                if (cliente != null)
+                {
+                    var hasherCliente = new PasswordHasher<Cliente>();
+                    if (hasherCliente.VerifyHashedPassword(cliente, cliente.Senha, senha) != PasswordVerificationResult.Failed)
+                    {
+                        await CriarSessao(cliente.UsuarioId.ToString(), cliente.Nome, "Cliente");
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                ModelState.AddModelError("", "E-mail ou senha incorretos.");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
         }
-    }
 
-    private async Task CriarSessao(string id, string nome, string perfil)
-    {
-        var claims = new List<Claim>
+        // Logout
+        public async Task<IActionResult> Logout()
         {
-            new Claim(ClaimTypes.NameIdentifier, id),
-            new Claim(ClaimTypes.Name, nome),
-            new Claim(ClaimTypes.Role, perfil) 
-        };
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Login");
+        }
 
-        var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidade));
-    }
+        // Cria a sessão com claims de identidade, nome e perfil
+        private async Task CriarSessao(string id, string nome, string perfil)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, id),
+                new Claim(ClaimTypes.Name,           nome),
+                new Claim(ClaimTypes.Role,           perfil)
+            };
 
-    public async Task<IActionResult> Logout()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Index", "Login");
-    }
+            var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal  = new ClaimsPrincipal(identidade);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        }
     }
 }

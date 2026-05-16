@@ -1,0 +1,212 @@
+/* =============================================
+   LAYOUT GERAL
+   ============================================= */
+.catalogo-wrapper {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* =============================================
+   SIDEBAR
+   ============================================= */
+.catalogo-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+}
+
+.sidebar-titulo {
+    font-family: var(--fonte-titulo);
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--bege);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.filtro-grupo {
+    margin-bottom: 1.5rem;
+}
+
+.filtro-grupo h6 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 0.75rem;
+}
+
+.filtro-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 0.4rem;
+    color: var(--preto);
+}
+
+.filtro-check input {
+    accent-color: var(--verde);
+}
+
+/* =============================================
+   HEADER DO CATÁLOGO
+   ============================================= */
+.catalogo-produtos {
+    flex: 1;
+}
+
+.catalogo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--bege);
+    padding-bottom: 1rem;
+}
+
+.catalogo-header h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.catalogo-ordem {
+    width: auto;
+    border-color: var(--bege);
+    font-size: 0.85rem;
+}
+
+/* =============================================
+   GRID DE PRODUTOS
+   ============================================= */
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.produto-card {
+    background: var(--branco);
+    border: 1px solid #eee;
+    transition: box-shadow 0.2s;
+}
+
+.produto-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* IMAGEM */
+.produto-imagem {
+    position: relative;
+    overflow: hidden;
+}
+
+.produto-imagem img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.produto-card:hover .produto-imagem img {
+    transform: scale(1.03);
+}
+
+/* BOTÃO FAVORITAR — fica no canto da imagem */
+.btn-favoritar {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--branco);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--preto);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.btn-favoritar:hover {
+    background: var(--bege);
+}
+
+/* INFO */
+.produto-info {
+    padding: 1rem;
+}
+
+.produto-nome {
+    font-family: var(--fonte-titulo);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.produto-desc {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.produto-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.produto-preco {
+    font-family: var(--fonte-titulo);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--preto);
+}
+
+/* =============================================
+   PAGINAÇÃO
+   ============================================= */
+.catalogo-paginacao {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.pag-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--bege);
+    background: var(--branco);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.pag-btn:hover, .pag-btn.active {
+    background: var(--preto);
+    color: var(--branco);
+    border-color: var(--preto);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .catalogo-wrapper {
+        flex-direction: column;
+    }
+    .catalogo-sidebar {
+        width: 100%;
+    }
+}

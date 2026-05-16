@@ -1,107 +1,138 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NeaStyleOficial</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - NeaStyle Modas</title>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Font Awesome (redes sociais) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <!-- CSS Global -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NeaStyleOficial.styles.css" asp-append-version="true" />
+    <!-- CSS por página (opcional) -->
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Produto" asp-action="Index">NeaStyleOficial</a>
-                <!-- Botão para colapsar o menu em telas pequenas -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg nea-navbar">
+            <div class="container">
+
+                <!-- LOGO -->
+                <a class="navbar-brand nea-brand" asp-controller="Home" asp-action="Index">
+                    Nea<span>Style</span>
+                    <small>MODAS</small>
+                </a>
+
+                <!-- BOTÃO MOBILE -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
 
+                <div class="collapse navbar-collapse" id="navbarMain">
+
+                    <!-- LINKS CENTRAIS -->
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link nea-link" asp-controller="Home" asp-action="Index">Início</a>
+                        </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link nea-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                 Produtos
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu nea-dropdown">
                                 <li><a class="dropdown-item" asp-controller="Produto" asp-action="Index">Todos os Produtos</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-controller="Produto" asp-action="Masculino">Masculino</a></li>
                                 <li><a class="dropdown-item" asp-controller="Produto" asp-action="Feminino">Feminino</a></li>
+                                <li><a class="dropdown-item" asp-controller="Produto" asp-action="Unissex">Unissex</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedido" asp-action="Index">Pedidos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <div class="header-actions">
-                            <button class="cart-button">
-                            Cart (3)
-                            </button>
-                        </div>
                     </ul>
+
+                    <!-- ÍCONES DIREITA -->
+                    <ul class="navbar-nav ms-auto align-items-center gap-2">
+                        <li class="nav-item">
+                            <a class="nav-link nea-icon" asp-controller="Favorito" asp-action="Index" title="Favoritos">
+                                <i class="bi bi-heart"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nea-icon" asp-controller="Carrinho" asp-action="Index" title="Carrinho">
+                                <i class="bi bi-bag"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nea-icon" asp-controller="Cliente" asp-action="Perfil" title="Perfil">
+                                <i class="bi bi-person"></i>
+                            </a>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-<footer class="border-top footer text-muted">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <h6>Sobre</h6>
-            <p class="text-justify">
-                NeaStyle é uma marca de moda que se dedica a oferecer roupas e acessórios de alta qualidade para homens, mulheres. Com um compromisso com a sustentabilidade e o estilo, a NeaStyle busca inspirar seus clientes a expressarem sua individualidade através da moda, promovendo a confiança e a autenticidade em cada peça que criamos.
-            </p>
-          </div>
+    <!-- CONTEÚDO -->
+    <main>
+        @RenderBody()
+    </main>
 
-          <div class="col-6 col-md-3">
-            <h6>Quick Links</h6>
-            <ul class="footer-links">
-              <li><a href="index.htmlcs">Inicio</a></li>
-              <li><a href="todosProdutos.htmlcs">Mais Vendidos</a></li>
-              <li><a href="inspiracaof.htmlcs">Produtos Femininos</a></li>
-              <li><a href="inspiracaom.htmlcs">Produtos Masculino</a></li>
-              <li><a href="carrinho.htmlcs">Carrinho</a></li>
-              <li><a href="contato.htmlcs">Contato</a></li>
-            </ul>
-          </div>
+    <!-- FOOTER -->
+    <footer class="nea-footer mt-5">
+        <div class="container">
+            <div class="row py-5">
+
+                <!-- SOBRE -->
+                <div class="col-12 col-md-5 mb-4">
+                    <h5 class="nea-footer-title">Nea<span>Style</span></h5>
+                    <p class="nea-footer-text">
+                        Uma marca dedicada a oferecer moda de qualidade com estilo e autenticidade. 
+                        Inspire-se e expresse sua individualidade.
+                    </p>
+                    <!-- REDES SOCIAIS -->
+                    <ul class="social-icons mt-3">
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://github.com/MariaClara156"><i class="fab fa-github"></i></a></li>
+                        <li><a href="https://www.linkedin.com/in/maria-clara-torres-de-ara%C3%BAjo-370546315/"><i class="fab fa-linkedin-in"></i></a></li>
+                    </ul>
+                </div>
+
+                <!-- LINKS -->
+                <div class="col-6 col-md-3 mb-4">
+                    <h6 class="nea-footer-subtitle">Navegação</h6>
+                    <ul class="footer-links">
+                        <li><a asp-controller="Home" asp-action="Index">Início</a></li>
+                        <li><a asp-controller="Produto" asp-action="Index">Produtos</a></li>
+                        <li><a asp-controller="Carrinho" asp-action="Index">Carrinho</a></li>
+                        <li><a asp-controller="Favorito" asp-action="Index">Favoritos</a></li>
+                    </ul>
+                </div>
+
+                <!-- CONTA -->
+                <div class="col-6 col-md-3 mb-4">
+                    <h6 class="nea-footer-subtitle">Minha Conta</h6>
+                    <ul class="footer-links">
+                        <li><a asp-controller="Cliente" asp-action="Perfil">Perfil</a></li>
+                        <li><a asp-controller="Pedido" asp-action="GerenciarPedidos">Meus Pedidos</a></li>
+                        <li><a asp-controller="Login" asp-action="Logout">Sair</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr class="nea-footer-hr">
+            <p class="text-center nea-footer-copy">© 2026 NeaStyle Modas. Todos os direitos reservados.</p>
         </div>
-        <hr>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-6 col-12">
-            <p class="copyright-text">Copyright &copy; 2026 All Rights Reserved by 
-         <a href="#">NeaStyle</a>.
-            </p>
-          </div>
+    </footer>
 
-          <div class="col-md-4 col-6 col-12">
-            <ul class="social-icons">
-
-              <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></i></a></li>
-              <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
-              <li><a class="github" href="https://github.com/MariaClara156"><i class="fab fa-github"></i></a></li>
-              <li><a class="linkedin" href="https://www.linkedin.com/in/maria-clara-torres-de-ara%C3%BAjo-370546315/"><i class="fab fa-linkedin-in"></i></a></li>   
-            </ul>
-          </div>
-        </div>
-      </div>
-</footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

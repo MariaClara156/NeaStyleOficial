@@ -1,0 +1,148 @@
+@model IEnumerable<NeaStyleOficial.ViewModels.Sales.GerenciarPedidosViewModel>
+@using NeaStyleOficial.Models.Sales
+@{
+    ViewData["Title"] = "Pedidos";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">Pedidos</h2>
+        <span class="text-muted small">@Model.Count() pedido(s) no total</span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-receipt text-muted" style="font-size: 4rem;"></i>
+            <p class="mt-3 text-muted">Nenhum pedido encontrado.</p>
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Itens</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pedido in Model)
+                        {
+                            <tr>
+                                <td class="text-muted small">@pedido.PedidoId</td>
+                                <td class="fw-semibold">@pedido.NomeCliente</td>
+                                <td class="text-muted small">@pedido.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            onclick="toggleItens(@pedido.PedidoId)">
+                                        <i class="bi bi-list-ul"></i> @pedido.Itens?.Count item(s)
+                                    </button>
+                                </td>
+                                <td class="fw-semibold">R$ @pedido.ValorTotal.ToString("N2")</td>
+                                <td>
+                                    @{
+                                        var (badgeClass, badgeLabel) = pedido.Status switch
+                                        {
+                                            StatusPedido.Pendente     => ("bg-warning text-dark", "Pendente"),
+                                            StatusPedido.Processando  => ("bg-info text-dark",    "Processando"),
+                                            StatusPedido.Confirmado   => ("bg-primary",           "Confirmado"),
+                                            StatusPedido.Enviado      => ("bg-secondary",         "Enviado"),
+                                            StatusPedido.Entregue     => ("bg-success",           "Entregue"),
+                                            StatusPedido.Cancelado    => ("bg-danger",            "Cancelado"),
+                                            StatusPedido.Estornado    => ("bg-dark",              "Estornado"),
+                                            _                         => ("bg-secondary",         "Desconhecido")
+                                        };
+                                    }
+                                    <span class="badge @badgeClass">@badgeLabel</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                            Alterar Status
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            @foreach (StatusPedido status in Enum.GetValues(typeof(StatusPedido)))
+                                            {
+                                                <li>
+                                                    <form asp-controller="Administrador"
+                                                          asp-action="AlterarStatusPedido"
+                                                          method="post">
+                                                        <input type="hidden" name="pedidoId" value="@pedido.PedidoId" />
+                                                        <input type="hidden" name="status" value="@((int)status)" />
+                                                        <button type="submit" class="dropdown-item
+                                                            @(status == StatusPedido.Cancelado || status == StatusPedido.Estornado ? "text-danger" : "")">
+                                                            @status
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr id="itens-@pedido.PedidoId" style="display:none">
+                                <td colspan="7" class="p-0">
+                                    <div class="bg-light px-4 py-3">
+                                        <p class="fw-semibold small mb-2">Itens do Pedido #@pedido.PedidoId</p>
+                                        <div class="row g-2">
+                                            @foreach (var item in pedido.Itens ?? new())
+                                            {
+                                                <div class="col-12 col-md-6">
+                                                    <div class="d-flex align-items-center gap-3 bg-white rounded p-2 border">
+                                                        @if (!string.IsNullOrEmpty(item.ImagemUrl))
+                                                        {
+                                                            <img src="~/images/produtos/@item.ImagemUrl"
+                                                                 style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px;" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="bg-light d-flex align-items-center justify-content-center rounded"
+                                                                 style="width: 50px; height: 60px;">
+                                                                <i class="bi bi-image text-muted"></i>
+                                                            </div>
+                                                        }
+                                                        <div>
+                                                            <p class="mb-0 fw-semibold small">@item.NomeProduto</p>
+                                                            <p class="mb-0 text-muted small">
+                                                                @item.Quantidade x R$ @item.PrecoUnitario.ToString("N2")
+                                                            </p>
+                                                            <p class="mb-0 small">
+                                                                Total: R$ @((item.Quantidade * item.PrecoUnitario).ToString("N2"))
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+<script>
+function toggleItens(pedidoId) {
+    const row = document.getElementById('itens-' + pedidoId);
+    row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+</script>
+}

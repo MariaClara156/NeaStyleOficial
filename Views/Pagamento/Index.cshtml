@@ -1,0 +1,135 @@
+@using NeaStyleOficial.Models.Sales
+@model NeaStyleOficial.ViewModels.Sales.PagamentoViewModel
+@{
+    ViewData["Title"] = "Pagamento";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4" style="font-family: 'Cormorant Garamond', serif; font-weight: 300;">
+        Pagamento
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- FORMULÁRIO -->
+        <div class="col-12 col-md-7">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="mb-4">Método de Pagamento</h5>
+
+                <form asp-controller="Pagamento" asp-action="ProcessarPagamento" method="post">
+                    <input type="hidden" asp-for="PedidoId" />
+                    <input type="hidden" asp-for="ValorTotal" />
+
+                    <!-- MÉTODOS -->
+                    <div class="row g-3 mb-4">
+                        @foreach (MetodoPagamento metodo in Enum.GetValues(typeof(MetodoPagamento)))
+                        {
+                            <div class="col-6">
+                                <input type="radio" class="btn-check" name="MetodoPagamento"
+                                       id="metodo_@metodo" value="@((int)metodo)"
+                                       @(metodo == Model.MetodoPagamento ? "checked" : "") />
+                                <label class="btn btn-outline-dark w-100 py-3" for="metodo_@metodo">
+                                    @switch (metodo)
+                                    {
+                                        case MetodoPagamento.CartaoCredito:
+                                            <i class="bi bi-credit-card d-block fs-4 mb-1"></i>
+                                            <span>Cartão de Crédito</span>
+                                            break;
+                                        case MetodoPagamento.CartaoDebito:
+                                            <i class="bi bi-credit-card-2-front d-block fs-4 mb-1"></i>
+                                            <span>Cartão de Débito</span>
+                                            break;
+                                        case MetodoPagamento.Boleto:
+                                            <i class="bi bi-upc d-block fs-4 mb-1"></i>
+                                            <span>Boleto</span>
+                                            break;
+                                        case MetodoPagamento.Pix:
+                                            <i class="bi bi-qr-code d-block fs-4 mb-1"></i>
+                                            <span>Pix</span>
+                                            break;
+                                    }
+                                </label>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- PARCELAS (só aparece no cartão de crédito) -->
+                    <div class="mb-4" id="divParcelas">
+                        <label class="form-label fw-semibold">Parcelas</label>
+                        <select asp-for="Parcelas" class="form-select" id="selectParcelas">
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                var valorParcela = Model.ValorTotal / i;
+                                <option value="@i">
+                                    @i x de R$ @valorParcela.ToString("N2")
+                                    @(i == 1 ? " (sem juros)" : "")
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100 btn-lg">
+                        <i class="bi bi-lock"></i> Confirmar Pagamento
+                    </button>
+                    <a asp-controller="Carrinho" asp-action="Index"
+                       class="btn btn-outline-dark w-100 mt-2">
+                        Voltar ao Carrinho
+                    </a>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- RESUMO DO PEDIDO -->
+        <div class="col-12 col-md-5">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="mb-4">Resumo do Pedido <span class="text-muted small">#@Model.PedidoId</span></h5>
+
+                @foreach (var item in Model.ItensPedido)
+                {
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <p class="mb-0 fw-semibold small">@item.NomeProduto</p>
+                            <p class="mb-0 text-muted small">@item.Quantidade x R$ @item.PrecoUnitario.ToString("N2")</p>
+                        </div>
+                        <span class="small">R$ @((item.Quantidade * item.PrecoUnitario).ToString("N2"))</span>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between mt-3">
+                    <span class="text-muted">Frete</span>
+                    <span class="text-success">Grátis</span>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between fw-semibold">
+                    <span>Total</span>
+                    <span>R$ @Model.ValorTotal.ToString("N2")</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    const radios = document.querySelectorAll('input[name="MetodoPagamento"]');
+    const divParcelas = document.getElementById('divParcelas');
+
+    function toggleParcelas() {
+    const selecionado = document.querySelector('input[name="MetodoPagamento"]:checked');
+    const ehCartaoCredito = selecionado?.value === '0';
+
+    divParcelas.style.display = ehCartaoCredito ? 'block' : 'none';
+
+    // ← ADICIONA: reseta para 1 parcela quando não é cartão de crédito
+    if (!ehCartaoCredito) {
+        document.getElementById('selectParcelas').value = '1';
+    }
+}
+
+    radios.forEach(r => r.addEventListener('change', toggleParcelas));
+    toggleParcelas(); // executa ao carregar
+</script>
+}

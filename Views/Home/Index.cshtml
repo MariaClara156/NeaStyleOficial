@@ -60,44 +60,43 @@
         Destaques
     </h2>
     <div class="row g-4">
-        @foreach (var p in destaques)
-        {
-            <div class="col-6 col-md-3">
-                <a asp-controller="Produto" asp-action="DetalheProduto"
-                   asp-route-id="@p.ProdutoId" class="text-decoration-none text-dark">
-                    <div class="card border-0 h-100">
-                        @if (!string.IsNullOrEmpty(p.ImagemUrl))
-                        {
-                            <img src="~/images/produtos/@p.ImagemUrl"
-                                 class="card-img-top rounded"
-                                 style="height: 280px; object-fit: cover;"
-                                 alt="@p.Nome" />
-                        }
-                        else
-                        {
-                            <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                                 style="height: 280px;">
-                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
-                            </div>
-                        }
-                        <div class="card-body px-1">
-                            <p class="mb-1 fw-semibold">@p.Nome</p>
-                            <p class="text-muted small">
-                                @if (p.MenorPreco > 0)
-                                {
-                                    <span>R$ @p.MenorPreco.ToString("N2")</span>
-                                }
-                                else
-                                {
-                                    <span>Indisponível</span>
-                                }
-                            </p>
+    @foreach (var p in destaques)
+    {
+        <div class="col-6 col-md-3">
+            <a href="@Url.Action("DetalheProduto", "Produto", new { produtoId = p.ProdutoId })" class="text-decoration-none text-dark d-block h-100">
+                <div class="card border-0 h-100">
+                    @if (!string.IsNullOrEmpty(p.ImagemUrl))
+                    {
+                        <img src="~/images/produtos/@p.ImagemUrl"
+                             class="card-img-top rounded"
+                             style="height: 280px; object-fit: cover;"
+                             alt="@p.Nome" />
+                    }
+                    else
+                    {
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                             style="height: 280px;">
+                            <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
                         </div>
+                    }
+                    <div class="card-body px-1">
+                        <p class="mb-1 fw-semibold">@p.Nome</p>
+                        <p class="text-muted small">
+                            @if (p.MenorPreco > 0)
+                            {
+                                <span>R$ @p.MenorPreco.ToString("N2")</span>
+                            }
+                            else
+                            {
+                                <span>Indisponível</span>
+                            }
+                        </p>
                     </div>
-                </a>
-            </div>
-        }
-    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
     <div class="text-center mt-4">
         <a asp-controller="Produto" asp-action="Index" class="btn btn-dark px-5">
             Ver Todos os Produtos

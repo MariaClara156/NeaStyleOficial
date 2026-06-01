@@ -83,22 +83,5 @@ namespace NeaStyleOficial.Controllers
 
             return View(viewModel);
         }
-        public IActionResult Unissex()
-        {
-            var produtos = _service.Filtrar(null, null, null, null, CategoriaProduto.Unissex);
-            var viewModel = produtos.Select(p => new CatalogoProdutoViewModel
-            {
-                ProdutoId  = p.ProdutoId,
-                Nome       = p.Nome,
-                Descricao  = p.Descricao,
-                Categoria  = p.Categoria,
-                MenorPreco = p.Variacoes.Where(v => v.Estoque > 0).OrderBy(v => v.Preco).FirstOrDefault()?.Preco ?? 0,
-                ImagemUrl  = p.Variacoes.FirstOrDefault(v => !string.IsNullOrEmpty(v.ImagemUrl))?.ImagemUrl
-                            ?? p.Variacoes.FirstOrDefault()?.ImagemUrl,
-                Variacoes  = p.Variacoes.ToList()
-            }).ToList();
-
-            return View(viewModel);
-        }
     }
 }

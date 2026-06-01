@@ -107,6 +107,16 @@ namespace NeaStyleOficial.Repositories
 
             if (produto != null)
             {
+                // Para cada variação, remove os itens de carrinho primeiro
+                var variacaoIds = produto.Variacoes.Select(v => v.ProdutoVariacaoId).ToList();
+
+                var itensCarrinho = _context.ItensConjunto
+                    .Where(i => variacaoIds.Contains(i.ProdutoVariacaoId))
+                    .ToList();
+
+                if (itensCarrinho.Any())
+                    _context.ItensConjunto.RemoveRange(itensCarrinho);
+
                 _context.Produtos.Remove(produto);
                 _context.SaveChanges();
             }
@@ -119,6 +129,14 @@ namespace NeaStyleOficial.Repositories
 
             if (variacao != null)
             {
+                // Remove itens de carrinho que referenciam essa variação
+                var itensCarrinho = _context.ItensConjunto
+                    .Where(i => i.ProdutoVariacaoId == produtoVariacaoId)
+                    .ToList();
+
+                if (itensCarrinho.Any())
+                    _context.ItensConjunto.RemoveRange(itensCarrinho);
+
                 _context.ProdutoVariacoes.Remove(variacao);
                 _context.SaveChanges();
             }

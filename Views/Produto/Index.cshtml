@@ -60,18 +60,15 @@
             @foreach (var produto in Model)
             {
                 <div class="produto-card">
-                    <!-- IMAGEM -->
                     <div class="produto-imagem">
                         <img src="~/images/produtos/@produto.ImagemUrl"
                              alt="@produto.Nome" />
-                        <!-- BOTÃO FAVORITAR sobre a imagem -->
                         <button class="btn-favoritar btn-favoritar@(produto.ProdutoId)"
                                 data-id="@produto.ProdutoId"
                                 title="Favoritar">
                             <i class="bi bi-heart"></i>
                         </button>
                     </div>
-                    <!-- INFO -->
                     <div class="produto-info">
                         <h6 class="produto-nome">@produto.Nome</h6>
                         <p class="produto-desc">@produto.Descricao</p>

@@ -4,14 +4,14 @@ namespace NeaStyleOficial.Models.Catalog
     public enum CategoriaProduto
     {
         Masculino,
-        Feminino,
-        Unissex
+        Feminino
     }
 
     public enum TipoProduto
     {
         Camiseta,
         Calca,
+        Bermuda,
         Vestido,
         Saia,
         Blusa,

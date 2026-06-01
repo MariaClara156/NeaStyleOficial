@@ -2,9 +2,11 @@
 using System.Security.Claims;
 using NeaStyleOficial.Models.Users;
 using NeaStyleOficial.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NeaStyleOficial.Controllers
 {
+    [Authorize(Roles = "Cliente")]
     public class ClienteController : Controller
     {
         private readonly ClienteService _service;
@@ -21,9 +23,10 @@ namespace NeaStyleOficial.Controllers
             return View(clientes);
         }
 
+        [AllowAnonymous]
         // GET — formulário de cadastro
         public IActionResult CadastrarCliente() => View();
-
+        [AllowAnonymous]
         // POST — salva novo cliente
         [HttpPost]
         public IActionResult CadastrarCliente(Cliente cliente)

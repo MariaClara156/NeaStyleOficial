@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NeaStyleOficial.Models.Catalog;
 using NeaStyleOficial.Services;
@@ -8,6 +9,7 @@ using NeaStyleOficial.ViewModels.Users;
 
 namespace NeaStyleOficial.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class AdministradorController : Controller
     {
         private readonly ProdutoService  _produtoService;

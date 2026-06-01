@@ -74,7 +74,7 @@
                                     data-preco="@v.Preco.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)"
                                     data-imagem="@v.ImagemUrl"
                                     data-estoque="@v.Estoque">
-                                @v.Tamanho — @v.Cor (@v.Estoque disponíveis)
+                                @v.Tamanho — @v.Cor
                             </option>
                         }
                     </select>
@@ -83,19 +83,15 @@
                 <!-- QUANTIDADE -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Quantidade</label>
-                    <input type="number" name="quantidade" value="1" min="1" max="10"
-                           class="form-control" style="max-width: 120px;" />
+                    <input type="number" name="quantidade" value="1" min="1" 
+                    max="@Model.Variacoes.FirstOrDefault()?.Estoque" 
+                    class="form-control" id="inputQuantidade" />
                 </div>
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-dark btn-lg flex-grow-1">
                         <i class="bi bi-bag-plus"></i> Adicionar ao Carrinho
                     </button>
-                    <a asp-controller="Favorito" asp-action="Adicionar"
-                       asp-route-produtoId="@Model.Produto.ProdutoId"
-                       class="btn btn-outline-dark btn-lg" title="Favoritar">
-                        <i class="bi bi-heart"></i>
-                    </a>
                 </div>
 
             </form>
@@ -106,18 +102,18 @@
 @section Scripts {
     <script>
         function atualizarVariacao(select) {
-            const opt = select.options[select.selectedIndex];
+        const opt = select.options[select.selectedIndex];
 
-            // Atualiza preço
-            const preco = opt.getAttribute("data-preco");
-            document.getElementById("precoExibido").textContent = "R$ " + parseFloat(preco).toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+        const preco = opt.getAttribute("data-preco");
+        document.getElementById("precoExibido").textContent = "R$ " + parseFloat(preco).toLocaleString("pt-BR", { minimumFractionDigits: 2 });
 
-            // Atualiza imagem
-            const imagem = opt.getAttribute("data-imagem");
-            const imgEl  = document.getElementById("imgPrincipal");
-            if (imgEl && imagem) {
-                imgEl.src = "/images/produtos/" + imagem;
-            }
-        }
+        const imagem = opt.getAttribute("data-imagem");
+        const imgEl  = document.getElementById("imgPrincipal");
+        if (imgEl && imagem) imgEl.src = "/images/produtos/" + imagem;
+
+        // ← ADICIONA: atualiza o max de quantidade com o estoque da variação
+        const estoque = opt.getAttribute("data-estoque");
+        document.getElementById("inputQuantidade").max = estoque;
+    }
     </script>
 }

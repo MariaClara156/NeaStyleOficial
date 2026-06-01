@@ -5,24 +5,114 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - NeaStyle</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #111111;
+            --accent-color: #222222;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --card-border-radius: 16px;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: #333333;
+            min-height: 100vh;
+        }
+
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-card {
+            background: #ffffff;
+            border: none;
+            border-radius: var(--card-border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+            width: 450px;
+            transition: transform 0.3s ease;
+        }
+
+
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555555;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .form-control:focus {
+            color: #212529;
+            background-color: #fff;
+            border-color: var(--primary-dark);
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(17, 17, 17, 0.15);
+        }
+
+        .btn-submit {
+            background-color: var(--primary-dark);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-color);
+        }
+
+        .login-link {
+            color: #666666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .login-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .alert-custom {
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4 shadow" style="width: 400px;">
 
-            <h2 class="text-center mb-4">NeaStyle</h2>
+    <div class="register-container py-5">
+        <div class="card register-card p-4 shadow-sm">
+
+            <h2 class="text-center brand-title mb-4">NeaStyle</h2>
 
             @if (!ViewData.ModelState.IsValid)
             {
-                <div class="alert alert-danger">
+                <div class="alert alert-danger alert-custom">
                     @foreach (var erro in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                     {
-                        <p>@erro.ErrorMessage</p>
+                        <p class="mb-1"><i class="bi bi-exclamation-triangle-fill me-2"></i>@erro.ErrorMessage</p>
                     }
                 </div>
             }
@@ -31,60 +121,56 @@
 
                 <div class="mb-3">
                     <label class="form-label">Nome Completo</label>
-                    <input type="text" name="nome" asp-for="Nome"
-                           class="form-control" required />
+                    <input type="text" name="nome" asp-for="Nome" class="form-control" required />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">CPF</label>
-                    <input type="text" name="cpf" asp-for="CPF"
-                           class="form-control" id="cpf"
-                           placeholder="000.000.000-00" required />
+                    <input type="text" name="cpf" asp-for="CPF" class="form-control" id="cpf" placeholder="000.000.000-00" required />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" name="email" asp-for="Email"
-                           class="form-control" required />
+                    <input type="email" name="email" asp-for="Email" class="form-control" required />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Endereço</label>
-                    <input type="text" name="endereco" asp-for="Endereco"
-                           class="form-control" required />
+                    <input type="text" name="endereco" asp-for="Endereco" class="form-control" required />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Telefone</label>
-                    <input type="text" name="telefone" asp-for="Telefone"
-                           class="form-control" id="telefone"
-                           placeholder="(00) 00000-0000" required />
+                    <input type="text" name="telefone" asp-for="Telefone" class="form-control" id="telefone" placeholder="(00) 00000-0000" required />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Data de Nascimento</label>
-                    <input type="date" name="dataNascimento" asp-for="DataNascimento"
-                           class="form-control" required />
+                    <input type="date" name="dataNascimento" asp-for="DataNascimento" class="form-control" required />
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Senha</label>
-                    <input type="password" name="senha" asp-for="Senha"
-                           class="form-control" required />
+                    <input type="password" name="senha" asp-for="Senha" class="form-control" required />
                 </div>
 
-                <button type="submit" class="btn btn-dark w-100">Cadastrar</button>
+                <button type="submit" class="btn btn-dark btn-submit w-100 mt-2">Cadastrar</button>
+
+                <div class="text-center mt-3">
+                    <a asp-action="Index" asp-controller="Login" class="login-link">Já tem uma conta? Faça login</a>
+                </div>
 
             </form>
         </div>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <!-- Biblioteca de máscaras -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
-        $('#cpf').mask('000.000.000-00');
-        $('#telefone').mask('(00) 00000-0000');
+        $(document).ready(function() {
+            $('#cpf').mask('000.000.000-00');
+            $('#telefone').mask('(00) 00000-0000');
+        });
     </script>
 </body>
 </html>

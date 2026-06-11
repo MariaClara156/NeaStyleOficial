@@ -1,7 +1,7 @@
 # NeaStyle | E-Commerce
 
 <p align="center">
-  <img src="assets/images/logo.png" alt="NeaStyle Logo" width="200"/>
+  <img src="images/logo.png" alt="NeaStyle Logo" width="200"/>
 </p>
 
 ---
@@ -107,13 +107,13 @@ Main entities:
 ### Entity-Relationship Diagram (ERD)
 
 <p align="center">
-  <img src="assets/images/der.png" alt="Entity-Relationship Diagram" width="800"/>
+  <img src="images/der.png" alt="Entity-Relationship Diagram" width="800"/>
 </p>
 
 ### Relational Model (MER)
 
 <p align="center">
-  <img src="assets/images/mer.png" alt="Relational Model" width="800"/>
+  <img src="images/mer.png" alt="Relational Model" width="800"/>
 </p>
 
 ---
@@ -123,31 +123,31 @@ Main entities:
 ### Admin Login
 
 <p align="center">
-  <img src="assets/images/telaloginadm.png" alt="Admin Login Screen" width="800"/>
+  <img src="images/telaloginadm.png" alt="Admin Login Screen" width="800"/>
 </p>
 
 ### Customer Login
 
 <p align="center">
-  <img src="assets/images/telalogincliente.png" alt="Customer Login Screen" width="800"/>
+  <img src="images/telalogincliente.png" alt="Customer Login Screen" width="800"/>
 </p>
 
 ### Product Catalog
 
 <p align="center">
-  <img src="assets/images/catalogoproduto.png" alt="Product Catalog" width="800"/>
+  <img src="images/catalogoproduto.png" alt="Product Catalog" width="800"/>
 </p>
 
 ### Admin Dashboard
 
 <p align="center">
-  <img src="assets/images/dashboard.png" alt="Admin Dashboard" width="800"/>
+  <img src="images/dashboard.png" alt="Admin Dashboard" width="800"/>
 </p>
 
 ### User Profile — Mobile Responsive
 
 <p align="center">
-  <img src="assets/images/telaperfilresponsiva.png" alt="User Profile on Mobile" width="350"/>
+  <img src="images/telaperfilresponsiva.png" alt="User Profile on Mobile" width="350"/>
 </p>
 
 ---

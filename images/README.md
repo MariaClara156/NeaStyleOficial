@@ -1,4 +1,4 @@
-# Teen Fashion E-Commerce
+# NeaStyle | E-Commerce
 
 <p align="center">
   <img src="assets/images/logo.png" alt="Teen Fashion Logo" width="200"/>

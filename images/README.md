@@ -1,7 +1,7 @@
 # NeaStyle | E-Commerce
 
 <p align="center">
-  <img src="assets/images/logo.png" alt="Teen Fashion Logo" width="200"/>
+  <img src="assets/images/logo.png" alt="NeaStyle Logo" width="200"/>
 </p>
 
 ---
@@ -123,7 +123,7 @@ Main entities:
 ### Admin Login
 
 <p align="center">
-  <img src="assets/images/telaloginadmin.png" alt="Admin Login Screen" width="800"/>
+  <img src="assets/images/telaloginadm.png" alt="Admin Login Screen" width="800"/>
 </p>
 
 ### Customer Login
@@ -135,7 +135,7 @@ Main entities:
 ### Product Catalog
 
 <p align="center">
-  <img src="assets/images/catalogo.png" alt="Product Catalog" width="800"/>
+  <img src="assets/images/catalogoproduto.png" alt="Product Catalog" width="800"/>
 </p>
 
 ### Admin Dashboard
@@ -147,7 +147,7 @@ Main entities:
 ### User Profile — Mobile Responsive
 
 <p align="center">
-  <img src="assets/images/telaperfil.png" alt="User Profile on Mobile" width="350"/>
+  <img src="assets/images/telaperfilresponsiva.png" alt="User Profile on Mobile" width="350"/>
 </p>
 
 ---
